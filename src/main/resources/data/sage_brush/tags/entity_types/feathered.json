@@ -1,0 +1,9 @@
+{
+  "values": [
+    "minecraft:chicken",
+    {
+      "required": false,
+      "id": "alexsmobs:emu"
+    }
+  ]
+}

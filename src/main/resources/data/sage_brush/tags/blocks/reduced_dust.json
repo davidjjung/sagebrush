@@ -1,0 +1,8 @@
+{
+  "replace": false,
+  "values": [
+    "#minecraft:flowers",
+    "#sage_brush:gleaming",
+    "minecraft:spore_blossom"
+  ]
+}

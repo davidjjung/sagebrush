@@ -1,0 +1,39 @@
+modLoader = "javafml"
+loaderVersion = "[47,)"
+issueTrackerURL = "https://github.com/davidjjung/sagebrush/issues"
+license = "MIT License"
+
+[[mods]]
+modId = "sage_brush"
+version = "${file.jarVersion}"
+logoFile = "logo.png"
+itemIcon = "minecraft:dirt"
+configBackground = "minecraft:textures/block/dirt.png"
+authors = "DavigJ"
+credits = "DavigJ"
+displayURL = "https://modrinth.com/mod/sage-brush"
+displayName = "Sage Brush"
+description = '''
+    Wisens up brushes a bit.
+    '''
+
+[[dependencies.sage_brush]]
+modId = "minecraft"
+mandatory = true
+versionRange = "[1.20.1,1.21)"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.sage_brush]]
+modId = "forge"
+mandatory = true
+versionRange = "[47.1.3,)"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.sage_brush]]
+modId = "blueprint"
+mandatory = true
+versionRange = "[7.1.0,)"
+ordering = "AFTER"
+side = "BOTH"

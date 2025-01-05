@@ -1,0 +1,53 @@
+{
+  "replace": false,
+  "values": [
+    "minecraft:beacon",
+    "minecraft:raw_gold_block",
+    "minecraft:raw_iron_block",
+    "minecraft:ancient_debris",
+    "minecraft:raw_copper_block",
+    "minecraft:budding_amethyst",
+    "minecraft:amethyst_block",
+    "minecraft:amethyst_cluster",
+    "minecraft:obsidian",
+    "minecraft:crying_obsidian",
+    "minecraft:lantern",
+    "minecraft:soul_lantern",
+    "minecraft:bone_block",
+    "minecraft:bell",
+    "minecraft:lodestone",
+    "minecraft:respawn_anchor",
+    "#minecraft:beacon_base_blocks",
+    "#forge:glass",
+    "#forge:glass_panes",
+    "#forge:ores",
+    {
+      "required": false,
+      "id": "supplementaries:jar"
+    },
+    {
+      "required": false,
+      "id": "supplementaries:goblet"
+    },
+    {
+      "required": false,
+      "id": "supplementaries:statue"
+    },
+    {
+      "required": false,
+      "id": "species:cruncher_pellet"
+    },
+    {
+      "required": false,
+      "id": "species:bone_bark"
+    },
+    {
+      "required": false,
+      "id": "species:bone_vertebra"
+    },
+    {
+      "required": false,
+      "id": "species:bone_spike"
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "values": [
+    {
+      "required": false,
+      "id": "alexsmobs:toucan"
+    },
+    {
+      "required": false,
+      "id": "alexsmobs:crow"
+    },
+    {
+      "required": false,
+      "id": "alexsmobs:soul_vulture"
+    },
+    {
+      "required": false,
+      "id": "ecologics:penguin"
+    }
+  ]
+}
