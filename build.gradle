@@ -84,12 +84,12 @@ dependencies {
     compileOnly fg.deobf("maven.modrinth:supplementaries:XmG1PSb2")
     compileOnly fg.deobf("maven.modrinth:moonlight:KY2JXZYq")
 
-//    runtimeOnly fg.deobf("maven.modrinth:citadel:ssXkoBKk")
-//    runtimeOnly fg.deobf("maven.modrinth:alexs-mobs:oaRqJ7uM")
-//    runtimeOnly fg.deobf("maven.modrinth:artsandcrafts:aYBUh5gU")
+    runtimeOnly fg.deobf("maven.modrinth:citadel:ssXkoBKk")
+    runtimeOnly fg.deobf("maven.modrinth:alexs-mobs:oaRqJ7uM")
+    runtimeOnly fg.deobf("maven.modrinth:artsandcrafts:aYBUh5gU")
 
-//    implementation fg.deobf("maven.modrinth:visuality-forge:MyhpSYT4")
-//    implementation fg.deobf("maven.modrinth:species:6ZvnLcTh")
+    implementation fg.deobf("maven.modrinth:visuality-forge:MyhpSYT4")
+    implementation fg.deobf("maven.modrinth:species:6ZvnLcTh")
 
     compileOnly(annotationProcessor("io.github.llamalad7:mixinextras-common:0.4.0"))
     implementation(jarJar("io.github.llamalad7:mixinextras-forge:0.4.0")) {

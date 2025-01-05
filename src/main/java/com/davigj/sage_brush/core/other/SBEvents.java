@@ -6,6 +6,7 @@ import com.teamabnormals.blueprint.common.world.storage.tracking.TrackedDataMana
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.TamableAnimal;
+import net.minecraft.world.entity.animal.Turtle;
 import net.minecraft.world.item.Items;
 import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
@@ -35,6 +36,9 @@ public class SBEvents {
             countDown(manager, target, SageBrush.FEATHER_TIMER);
         } else if (target.getType().is(WORSE_FEATHERED)) {
             countDown(manager, target, SageBrush.WORSE_FEATHER_TIMER);
+        }
+        if (target instanceof Turtle) {
+            countDown(manager, target, SageBrush.SCUTE_TIMER);
         }
     }
 

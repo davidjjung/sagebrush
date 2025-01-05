@@ -179,7 +179,7 @@ public class SBBrushUtil {
         } else if (state.is(Blocks.END_ROD)) {
             blockParticleFX(level, hitResult, velocity, arm, ParticleTypes.END_ROD, 2, 5);
             return;
-        } else if (SBConstants.isFeatherBlock(state)) {
+        } else if (ModList.get().isLoaded("supplementaries") && SBConstants.isFeatherBlock(state)) {
             blockParticleFX(level, hitResult, velocity, arm, SBParticleTypes.FEATHER.get(), 2, 5);
             return;
         }

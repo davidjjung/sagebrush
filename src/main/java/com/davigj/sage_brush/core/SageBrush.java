@@ -18,6 +18,10 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 
 @Mod(SageBrush.MOD_ID)
 public class SageBrush {
+    // TODO: docile tags, gleaming entities, IW sand, horsies and donkeys, offended animals
+    // TODO later: arts and crafts paintbrushes, domestication innovation pets, example mixin
+    // TODO huge stretch goal: block particle jsons, entity particle jsons, entity resource jsons
+    // TODO uncertain: brushes getting "gummed up" by things like cobwebs?...
     public static final String MOD_ID = "sage_brush";
     public static final RegistryHelper REGISTRY_HELPER = new RegistryHelper(MOD_ID);
 

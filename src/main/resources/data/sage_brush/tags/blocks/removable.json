@@ -3,6 +3,7 @@
   "values": [
     "minecraft:cobweb",
     "minecraft:hanging_roots",
+    "minecraft:powder_snow",
     "minecraft:fire",
     {
       "required": false,
