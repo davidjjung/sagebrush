@@ -9,7 +9,6 @@ import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.fml.ModList;
 
@@ -21,17 +20,8 @@ public class SBConstants {
     public static boolean isEmu(Entity entity) {
         return entity instanceof EntityEmu;
     }
-    public static boolean isHummingbird(Entity entity) {
-        return entity instanceof EntityHummingbird;
-    }
-    public static boolean isSunbird(Entity entity) {
-        return entity instanceof EntitySunbird;
-    }
     public static boolean isRoadrunner(Entity entity) {
         return entity instanceof EntityRoadrunner;
-    }
-    public static boolean isShoebill(Entity entity) {
-        return entity instanceof EntityShoebill;
     }
 
     public static boolean isFeatherBlock(BlockState state) {

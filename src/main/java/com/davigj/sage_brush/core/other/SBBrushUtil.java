@@ -40,8 +40,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Predicate;
 
-import static com.davigj.sage_brush.core.other.tags.SBEntityTypeTags.COSMETIC_BLACK_FEATHERS;
-import static com.davigj.sage_brush.core.other.tags.SBEntityTypeTags.COSMETIC_FEATHERED;
+import static com.davigj.sage_brush.core.other.tags.SBEntityTypeTags.*;
 import static net.minecraft.world.entity.projectile.ProjectileUtil.getEntityHitResult;
 import static net.minecraft.world.level.block.state.properties.BlockStateProperties.LAYERS;
 
@@ -109,15 +108,15 @@ public class SBBrushUtil {
             particle = SBParticleTypes.PARROT_FEATHER.get();
         } else if (victim.getType().is(COSMETIC_BLACK_FEATHERS)) {
             particle = SBParticleTypes.BLACK_FEATHER.get();
-        } else if (SBConstants.isHummingbird(victim)) {
+        } else if (victim.getType().is(COSMETIC_HUMMINGBIRD_FEATHERS)) {
             particle = SBParticleTypes.HUMMINGBIRD_FEATHER.get();
-        } else if (SBConstants.isRoadrunner(victim)) {
+        } else if (victim.getType().is(COSMETIC_ROADRUNNER_FEATHERS)) {
             particle = SBParticleTypes.ROADRUNNER_FEATHER.get();
-        } else if (SBConstants.isEmu(victim)) {
+        } else if (victim.getType().is(COSMETIC_EMU_FEATHERS)) {
             particle = SBParticleTypes.EMU_FEATHER.get();
-        } else if (SBConstants.isShoebill(victim)) {
+        } else if (victim.getType().is(COSMETIC_SHOEBILL_FEATHERS)) {
             particle = SBParticleTypes.SHOEBILL_FEATHER.get();
-        } else if (SBConstants.isSunbird(victim)) {
+        } else if (victim.getType().is(COSMETIC_SUNBIRD_FEATHERS)) {
             particle = SBConstants.sunbirdParticle;
         }
         entityParticleFX(level, victim, velocity, arm, particle, 1, 3);
