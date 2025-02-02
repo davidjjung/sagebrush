@@ -61,6 +61,7 @@ public class SBConfig {
         public final ForgeConfigSpec.ConfigValue<Boolean> petHearts;
         public final ForgeConfigSpec.ConfigValue<Boolean> molt;
         public final ForgeConfigSpec.ConfigValue<Boolean> gleam;
+        public final ForgeConfigSpec.ConfigValue<Boolean> specializedParticles;
 
         public Client(ForgeConfigSpec.Builder builder) {
             builder.push("client");
@@ -73,6 +74,7 @@ public class SBConfig {
             reducedParticles = builder.comment("Certain blocks emit fewer particles when brushed").define("Reduced dust", true);
             gleamingParticles = builder.comment("Certain blocks emit gleam particles when brushed").define("Gleaming blocks", true);
             purePolish = builder.comment("Gleaming blocks do not emit dust particles when brushed").define("Pure polish", false);
+            specializedParticles = builder.comment("Certain blocks emit specific particles when brushed").define("Specialized particles", true);
             builder.pop();
             builder.pop();
         }

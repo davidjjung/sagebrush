@@ -82,7 +82,11 @@ public abstract class BrushItemMixin extends Item {
     private void blocks(BrushItem instance, Level level, BlockHitResult hitResult, BlockState state, Vec3 vec3, HumanoidArm arm,
                         Operation<Void> original, Level p_273467_, LivingEntity p_273619_, ItemStack p_273316_,
                         @Local BlockPos blockPos) {
-        SBBrushUtil.onBlockBrushTick(level, hitResult, state, vec3, arm, blockPos, original, instance, p_273619_, p_273316_);
+        if (SBConfig.CLIENT.specializedParticles.get()) {
+            SBBrushUtil.onBlockBrushTick(level, hitResult, state, vec3, arm, blockPos, original, instance, p_273619_, p_273316_);
+        } else {
+            original.call(instance, level, hitResult, state, vec3, arm);
+        }
     }
 
 
