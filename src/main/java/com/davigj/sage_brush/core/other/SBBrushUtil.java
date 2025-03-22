@@ -173,13 +173,19 @@ public class SBBrushUtil {
             return;
         }
         if (state.is(Blocks.SPORE_BLOSSOM)) {
-            blockParticleFX(level, hitResult, velocity, arm, ParticleTypes.SPORE_BLOSSOM_AIR, 2, 5);
+            blockParticleFX(level, hitResult, velocity, arm, SBParticleTypes.SPORE_BLOSSOM.get(), 2, 5);
             return;
         } else if (state.is(Blocks.END_ROD)) {
             blockParticleFX(level, hitResult, velocity, arm, ParticleTypes.END_ROD, 2, 5);
             return;
+        } else if (state.is(Blocks.CHERRY_LEAVES)) {
+            blockParticleFX(level, hitResult, velocity, arm, SBParticleTypes.CHERRY_BLOSSOM.get(), 2, 5);
+            return;
         } else if (ModList.get().isLoaded("supplementaries") && SBConstants.isFeatherBlock(state)) {
             blockParticleFX(level, hitResult, velocity, arm, SBParticleTypes.FEATHER.get(), 2, 5);
+            return;
+        } else if (ModList.get().isLoaded("atmospheric") && SBConstants.isYellowBlossom(state)) {
+            blockParticleFX(level, hitResult, velocity, arm, SBParticleTypes.YELLOW_BLOSSOM.get(), 2, 3);
             return;
         }
         if (SBConfig.COMMON.removable.get() && state.is(SBBlockTags.REMOVABLE)) {

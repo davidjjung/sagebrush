@@ -71,10 +71,10 @@ public class SBConfig {
             gleam = builder.comment("Overbrushed animals gleam. A more domestic alternative to brush snags").define("Gleaming mobs", true);
             builder.pop();
             builder.push("block_interactions");
+            specializedParticles = builder.comment("Dust particle behaviors for brushes are altered at all").define("Specialized particles", true);
             reducedParticles = builder.comment("Certain blocks emit fewer particles when brushed").define("Reduced dust", true);
             gleamingParticles = builder.comment("Certain blocks emit gleam particles when brushed").define("Gleaming blocks", true);
             purePolish = builder.comment("Gleaming blocks do not emit dust particles when brushed").define("Pure polish", false);
-            specializedParticles = builder.comment("Certain blocks emit specific particles when brushed").define("Specialized particles", true);
             builder.pop();
             builder.pop();
         }
