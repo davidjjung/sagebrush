@@ -88,13 +88,13 @@ dependencies {
     compileOnly fg.deobf("maven.modrinth:autumnity:dNSKgdoR")
     compileOnly fg.deobf("maven.modrinth:environmental:k7F41lm3")
 
-    runtimeOnly fg.deobf("maven.modrinth:citadel:ssXkoBKk")
+//    runtimeOnly fg.deobf("maven.modrinth:citadel:ssXkoBKk")
 //    runtimeOnly fg.deobf("maven.modrinth:alexs-mobs:oaRqJ7uM")
     runtimeOnly fg.deobf("maven.modrinth:artsandcrafts:aYBUh5gU")
-    runtimeOnly fg.deobf("maven.modrinth:atmospheric:wFKEIHk8")
-    runtimeOnly fg.deobf("maven.modrinth:autumnity:dNSKgdoR")
-    runtimeOnly fg.deobf("maven.modrinth:environmental:k7F41lm3")
-    runtimeOnly fg.deobf("maven.modrinth:sullysmod:B9yOFBhf")
+//    runtimeOnly fg.deobf("maven.modrinth:atmospheric:wFKEIHk8")
+//    runtimeOnly fg.deobf("maven.modrinth:autumnity:dNSKgdoR")
+//    runtimeOnly fg.deobf("maven.modrinth:environmental:k7F41lm3")
+//    runtimeOnly fg.deobf("maven.modrinth:sullysmod:B9yOFBhf")
 
     implementation fg.deobf("maven.modrinth:visuality-forge:MyhpSYT4")
     implementation fg.deobf("maven.modrinth:species:6ZvnLcTh")
