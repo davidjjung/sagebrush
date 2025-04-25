@@ -1,16 +1,20 @@
 package com.davigj.sage_brush.core.other;
 
+import com.davigj.sage_brush.core.SBConfig;
 import com.davigj.sage_brush.core.SageBrush;
 import com.teamabnormals.blueprint.common.world.storage.tracking.TrackedData;
 import com.teamabnormals.blueprint.common.world.storage.tracking.TrackedDataManager;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.TamableAnimal;
 import net.minecraft.world.entity.animal.Turtle;
 import net.minecraft.world.item.Items;
+import net.minecraftforge.event.entity.EntityJoinLevelEvent;
 import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.common.Mod;
 
 import static com.davigj.sage_brush.core.other.tags.SBEntityTypeTags.FEATHERED;
@@ -28,6 +32,17 @@ public class SBEvents {
     }
 
     @SubscribeEvent
+    public static void spawnTurts(EntityJoinLevelEvent event) {
+        Entity entity = event.getEntity();
+        if (entity instanceof LivingEntity living) {
+            if ((living instanceof Turtle && SBConfig.COMMON.scute.get()) ||
+                    (SBConfig.COMMON.torScute.get() && (ModList.get().isLoaded("sullysmod") && SBConstants.isTortoise(living)))) {
+                TrackedDataManager.INSTANCE.setValue(entity, SageBrush.SCUTE_TIMER, living.getRandom().nextInt(SBConfig.COMMON.scuteTimer.get()));
+            }
+        }
+    }
+
+    @SubscribeEvent
     public static void entityTick(LivingEvent.LivingTickEvent event) {
         TrackedDataManager manager = TrackedDataManager.INSTANCE;
         LivingEntity target = event.getEntity();
@@ -37,7 +52,8 @@ public class SBEvents {
         } else if (target.getType().is(WORSE_FEATHERED)) {
             countDown(manager, target, SageBrush.WORSE_FEATHER_TIMER);
         }
-        if (target instanceof Turtle) {
+        if ((target instanceof Turtle && SBConfig.COMMON.scute.get()) ||
+                (ModList.get().isLoaded("sullysmod") && SBConstants.isTortoise(target) && SBConfig.COMMON.torScute.get())) {
             countDown(manager, target, SageBrush.SCUTE_TIMER);
         }
     }
@@ -48,6 +64,4 @@ public class SBEvents {
             manager.setValue(entity, timerData, timer - 1);
         }
     }
-
-
 }

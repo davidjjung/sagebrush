@@ -2,9 +2,12 @@ package com.davigj.sage_brush.core.other;
 
 import com.davigj.sage_brush.core.registry.SBParticleTypes;
 import com.github.alexthe666.alexsmobs.client.particle.AMParticleRegistry;
-import com.github.alexthe666.alexsmobs.entity.*;
+import com.github.alexthe666.alexsmobs.entity.EntityEmu;
+import com.github.alexthe666.alexsmobs.entity.EntityRoadrunner;
 import com.github.alexthe666.alexsmobs.item.AMItemRegistry;
 import com.teamabnormals.atmospheric.core.registry.AtmosphericBlocks;
+import com.uraneptus.sullysmod.common.entities.Tortoise;
+import com.uraneptus.sullysmod.core.registry.SMItems;
 import net.mehvahdjukaar.supplementaries.reg.ModRegistry;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.world.entity.Entity;
@@ -20,6 +23,7 @@ import static com.teamabnormals.atmospheric.common.block.AloeVeraTallBlock.AGE;
 public class SBConstants {
     public static final Item emuFeather;
     public static final Item roadrunnerFeather;
+    public static final Item tortoiseScute;
     public static final ParticleOptions sunbirdParticle;
 
     public static boolean isEmu(Entity entity) {
@@ -27,6 +31,9 @@ public class SBConstants {
     }
     public static boolean isRoadrunner(Entity entity) {
         return entity instanceof EntityRoadrunner;
+    }
+    public static boolean isTortoise(Entity entity) {
+        return entity instanceof Tortoise;
     }
 
     public static boolean isFeatherBlock(BlockState state) {
@@ -41,6 +48,7 @@ public class SBConstants {
     static {
         emuFeather = ModList.get().isLoaded("alexsmobs") ? AMItemRegistry.EMU_FEATHER.get() : Items.FEATHER;
         roadrunnerFeather = ModList.get().isLoaded("alexsmobs") ? AMItemRegistry.ROADRUNNER_FEATHER.get() : Items.FEATHER;
+        tortoiseScute = ModList.get().isLoaded("sullysmod") ? SMItems.TORTOISE_SCUTE.get() : Items.SCUTE;
         sunbirdParticle = ModList.get().isLoaded("alexsmobs") ? AMParticleRegistry.SUNBIRD_FEATHER.get() : SBParticleTypes.FEATHER.get();
     }
 }

@@ -99,6 +99,19 @@ public class SBBrushUtil {
                     manager.setValue(turtle, SageBrush.SCUTE_TIMER, SBConfig.COMMON.scuteTimer.get());
                 }
             }
+            return;
+        }
+        if (SBConfig.COMMON.torScute.get() && (ModList.get().isLoaded("sullysmod") && SBConstants.isTortoise(victim))) {
+            if (level.isClientSide) {
+                entityParticleFX(level, victim, velocity, arm, new BlockParticleOption(ParticleTypes.BLOCK, Blocks.BROWN_CONCRETE.defaultBlockState()), 2, 4);
+            } else {
+                int timer = manager.getValue(victim, SageBrush.SCUTE_TIMER);
+                if (timer == 0) {
+                    victim.spawnAtLocation(SBConstants.tortoiseScute);
+                    damageItem(stack, player);
+                    manager.setValue(victim, SageBrush.SCUTE_TIMER, SBConfig.COMMON.torScuteTimer.get());
+                }
+            }
         }
     }
 

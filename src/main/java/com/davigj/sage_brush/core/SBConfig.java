@@ -17,9 +17,13 @@ public class SBConfig {
         public final ForgeConfigSpec.ConfigValue<Integer> moltTimer;
         public final ForgeConfigSpec.ConfigValue<Integer> worseMoltTimer;
         public final ForgeConfigSpec.ConfigValue<Boolean> removable;
+        public final ForgeConfigSpec.ConfigValue<Boolean> scutesSpawnSet;
         public final ForgeConfigSpec.ConfigValue<Boolean> scute;
         public final ForgeConfigSpec.ConfigValue<Integer> scuteTimer;
         public final ForgeConfigSpec.ConfigValue<Integer> scuteBabyDrops;
+        public final ForgeConfigSpec.ConfigValue<Boolean> torScute;
+        public final ForgeConfigSpec.ConfigValue<Integer> torScuteTimer;
+        public final ForgeConfigSpec.ConfigValue<Integer> torScuteBabyDrops;
 
         Common (ForgeConfigSpec.Builder builder) {
             builder.push("common");
@@ -36,9 +40,13 @@ public class SBConfig {
             worseMoltTimer = builder.comment("Feather molt cooldown for worse_feathered mobs, in ticks. Defaults to ~2 feathers a day").define("Molt timer", 12000);
             builder.pop();
             builder.push("scute_drops");
+            scutesSpawnSet = builder.comment("Scute shedders spawn with scute timers that are still ticking down").define("Scute timer spawn set", true);
             scute = builder.comment("Adult turtles periodically drop scutes when brushed").define("Turtles shed scutes", true);
             scuteTimer = builder.comment("Scute shed cooldown, in ticks. Defaults to ~1 scute every two days.").define("Scute timer", 48000);
             scuteBabyDrops = builder.comment("Number of scutes dropped by baby turtles when grown, to compensate for brushing adults").define("Baby turtle scute drops", 3);
+            torScute = builder.comment("Adult tortoises from Sully's Mod periodically drop tortoise scutes when brushed").define("Tortoises shed scutes", true);
+            torScuteTimer = builder.comment("Tortoise scute shed cooldown, in ticks. Defaults to ~1 scute every two days.").define("Tortoise scute timer", 48000);
+            torScuteBabyDrops = builder.comment("Number of scutes dropped by baby tortoises when grown, to compensate for brushing adults").define("Baby tortoise scute drops", 3);
             builder.pop();
             builder.push("brush_snags");
             brushSnag = builder.comment("Brushes occasionally provoke mobs that have no resources to shed, causing them to attack or panic").define("Brushes snag", false);
