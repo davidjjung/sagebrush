@@ -75,12 +75,9 @@ public class PaintbrushMixin extends Item {
                     InteractionHand hand = player.getUsedItemHand();
                     BlockEntity blockEntity = level.getBlockEntity(pos);
                     HumanoidArm humanoidarm = player.getUsedItemHand() == InteractionHand.MAIN_HAND ? player.getMainArm() : player.getMainArm().getOpposite();
-                    this.spawnDustParticles(level, blockhitresult, blockState, player.getViewVector(0.0F), humanoidarm);
+//                    this.spawnDustParticles(level, blockhitresult, blockState, player.getViewVector(0.0F), humanoidarm);
                     Block finalBlock = PaintbrushUtils.getFinalBlock(level.registryAccess(), blockState, itemStack);
                     if (finalBlock != null && finalBlock != blockState.getBlock()) {
-                        if (!finalBlock.isEnabled(finalBlock.requiredFeatures())) {
-                        }
-
                         DecoratedPotBlockEntity.Decorations oldDecorations;
                         if (blockEntity instanceof DyedDecoratedPotBlockEntity) {
                             DyedDecoratedPotBlockEntity dyedDecoratedPotBlockEntity = (DyedDecoratedPotBlockEntity) blockEntity;
