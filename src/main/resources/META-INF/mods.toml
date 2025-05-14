@@ -7,7 +7,7 @@ license = "MIT License"
 modId = "sage_brush"
 version = "${file.jarVersion}"
 logoFile = "logo.png"
-itemIcon = "minecraft:dirt"
+itemIcon = "minecraft:brush"
 configBackground = "minecraft:textures/block/dirt.png"
 authors = "DavigJ"
 credits = "DavigJ"
@@ -20,20 +20,20 @@ description = '''
 [[dependencies.sage_brush]]
 modId = "minecraft"
 mandatory = true
-versionRange = "[1.20.1,1.21)"
+versionRange = "[1.19.2,1.19.3)"
 ordering = "NONE"
 side = "BOTH"
 
 [[dependencies.sage_brush]]
 modId = "forge"
 mandatory = true
-versionRange = "[47.1.3,)"
+versionRange = "[43.3.0,)"
 ordering = "NONE"
 side = "BOTH"
 
 [[dependencies.sage_brush]]
 modId = "blueprint"
 mandatory = true
-versionRange = "[7.1.0,)"
+versionRange = "[6.2.0,)"
 ordering = "AFTER"
 side = "BOTH"

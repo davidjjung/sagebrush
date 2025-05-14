@@ -1,11 +1,11 @@
 package com.davigj.sage_brush.core.other;
 
+import com.davigj.sage_brush.common.item.BrushItem;
 import com.davigj.sage_brush.core.SBConfig;
 import com.davigj.sage_brush.core.SageBrush;
 import com.davigj.sage_brush.core.other.tags.SBBlockTags;
 import com.davigj.sage_brush.core.other.tags.SBEntityTypeTags;
 import com.davigj.sage_brush.core.registry.SBParticleTypes;
-import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.teamabnormals.blueprint.common.world.storage.tracking.TrackedData;
 import com.teamabnormals.blueprint.common.world.storage.tracking.TrackedDataManager;
 import net.minecraft.core.BlockPos;
@@ -15,13 +15,13 @@ import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.animal.Panda;
 import net.minecraft.world.entity.animal.Parrot;
 import net.minecraft.world.entity.animal.Turtle;
-import net.minecraft.world.item.BrushItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.ClipContext;
@@ -157,7 +157,7 @@ public class SBBrushUtil {
         if (SBConfig.COMMON.brushSnag.get() && snag < snagConfig) {
             victim.playSound(SoundEvents.PLAYER_HURT_SWEET_BERRY_BUSH, 0.3F, 1.8F);
             if (SBConfig.COMMON.brushSnagMockDamage.get()) {
-                victim.hurt(victim.level().damageSources().generic(), 0.0F);
+                victim.hurt(DamageSource.GENERIC, 0.0F);
             }
             victim.setLastHurtByMob(perp);
         }
@@ -178,8 +178,7 @@ public class SBBrushUtil {
 
 
     public static void onBlockBrushTick(Level level, BlockHitResult hitResult, BlockState state, Vec3 velocity,
-                                        HumanoidArm arm, BlockPos blockPos, Operation<Void> original, BrushItem instance,
-                                        LivingEntity living, ItemStack stack) {
+                                        HumanoidArm arm, BlockPos blockPos, LivingEntity living, ItemStack stack) {
         if (letItShnope(level, state, blockPos)) {
             blockParticleFX(level, hitResult, velocity, arm, ParticleTypes.SNOWFLAKE, 10, 14);
             damageItem(stack, living);
@@ -190,9 +189,6 @@ public class SBBrushUtil {
             return;
         } else if (state.is(Blocks.END_ROD)) {
             blockParticleFX(level, hitResult, velocity, arm, ParticleTypes.END_ROD, 2, 5);
-            return;
-        } else if (state.is(Blocks.CHERRY_LEAVES)) {
-            blockParticleFX(level, hitResult, velocity, arm, SBParticleTypes.CHERRY_BLOSSOM.get(), 2, 5);
             return;
         } else if (ModList.get().isLoaded("supplementaries") && SBConstants.isFeatherBlock(state)) {
             blockParticleFX(level, hitResult, velocity, arm, SBParticleTypes.FEATHER.get(), 2, 5);
@@ -209,7 +205,7 @@ public class SBBrushUtil {
             }
             return;
         }
-        original.call(instance, level, hitResult, state, velocity, arm);
+        BrushItem.spawnStaticDust(level, hitResult, state, velocity, arm);
     }
 
     private static boolean letItShnope(Level level, BlockState state, BlockPos blockPos) {

@@ -2,6 +2,7 @@ package com.davigj.sage_brush.core.other;
 
 import com.davigj.sage_brush.core.SBConfig;
 import com.davigj.sage_brush.core.SageBrush;
+import com.davigj.sage_brush.core.registry.SBItems;
 import com.teamabnormals.blueprint.common.world.storage.tracking.TrackedData;
 import com.teamabnormals.blueprint.common.world.storage.tracking.TrackedDataManager;
 import net.minecraft.world.InteractionResult;
@@ -24,7 +25,7 @@ import static com.davigj.sage_brush.core.other.tags.SBEntityTypeTags.WORSE_FEATH
 public class SBEvents {
     @SubscribeEvent
     public static void brushPets(PlayerInteractEvent.EntityInteract event) {
-        if (event.getEntity().getItemInHand(event.getHand()).is(Items.BRUSH) && event.getTarget() instanceof TamableAnimal tamable && tamable.isOwnedBy(event.getEntity())) {
+        if (event.getEntity().getItemInHand(event.getHand()).is(SBItems.BRUSH.get()) && event.getTarget() instanceof TamableAnimal tamable && tamable.isOwnedBy(event.getEntity())) {
             event.setCanceled(true);
             event.setCancellationResult(InteractionResult.CONSUME);
             event.getEntity().startUsingItem(event.getHand());

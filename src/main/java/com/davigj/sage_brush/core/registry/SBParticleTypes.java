@@ -31,16 +31,16 @@ public class SBParticleTypes {
 
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public static void registerParticleFactories(RegisterParticleProvidersEvent event) {
-        event.registerSpriteSet(SBParticleTypes.GLEAM.get(), GleamParticle.Provider::new);
-        event.registerSpriteSet(SBParticleTypes.FEATHER.get(), FeatherParticle.Provider::new);
-        event.registerSpriteSet(SBParticleTypes.PARROT_FEATHER.get(), FeatherParticle.Provider::new);
-        event.registerSpriteSet(SBParticleTypes.BLACK_FEATHER.get(), FeatherParticle.Provider::new);
-        event.registerSpriteSet(SBParticleTypes.HUMMINGBIRD_FEATHER.get(), FeatherParticle.Provider::new);
-        event.registerSpriteSet(SBParticleTypes.ROADRUNNER_FEATHER.get(), FeatherParticle.Provider::new);
-        event.registerSpriteSet(SBParticleTypes.EMU_FEATHER.get(), FeatherParticle.Provider::new);
-        event.registerSpriteSet(SBParticleTypes.SHOEBILL_FEATHER.get(), FeatherParticle.Provider::new);
-        event.registerSpriteSet(SBParticleTypes.CHERRY_BLOSSOM.get(), ShrunkBlossomParticle.Provider::new);
-        event.registerSpriteSet(SBParticleTypes.SPORE_BLOSSOM.get(), BlossomParticle.Provider::new);
-        event.registerSpriteSet(SBParticleTypes.YELLOW_BLOSSOM.get(), EnlargedBlossomParticle.Provider::new);
+        event.register(SBParticleTypes.GLEAM.get(), GleamParticle.Provider::new);
+        event.register(SBParticleTypes.FEATHER.get(), FeatherParticle.Provider::new);
+        event.register(SBParticleTypes.PARROT_FEATHER.get(), FeatherParticle.Provider::new);
+        event.register(SBParticleTypes.BLACK_FEATHER.get(), FeatherParticle.Provider::new);
+        event.register(SBParticleTypes.HUMMINGBIRD_FEATHER.get(), FeatherParticle.Provider::new);
+        event.register(SBParticleTypes.ROADRUNNER_FEATHER.get(), FeatherParticle.Provider::new);
+        event.register(SBParticleTypes.EMU_FEATHER.get(), FeatherParticle.Provider::new);
+        event.register(SBParticleTypes.SHOEBILL_FEATHER.get(), FeatherParticle.Provider::new);
+        event.register(SBParticleTypes.CHERRY_BLOSSOM.get(), ShrunkBlossomParticle.Provider::new);
+        event.register(SBParticleTypes.SPORE_BLOSSOM.get(), BlossomParticle.Provider::new);
+        event.register(SBParticleTypes.YELLOW_BLOSSOM.get(), EnlargedBlossomParticle.Provider::new);
     }
 }

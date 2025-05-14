@@ -72,44 +72,37 @@ minecraft {
 }
 
 sourceSets.main.resources {
-    srcDir "src/generated/resources"
+    srcDirs "src/generated/resources"
 }
 
 dependencies {
     minecraft "net.minecraftforge:forge:${project.minecraft}-${project.forge}"
     implementation fg.deobf("com.teamabnormals:blueprint:${project.minecraft}-${project.blueprint}")
-    compileOnly fg.deobf("maven.modrinth:citadel:ssXkoBKk")
-    compileOnly fg.deobf("maven.modrinth:alexs-mobs:oaRqJ7uM")
-    compileOnly fg.deobf("maven.modrinth:artsandcrafts:aYBUh5gU")
-    compileOnly fg.deobf("maven.modrinth:supplementaries:8fif4M3b")
-    compileOnly fg.deobf("maven.modrinth:moonlight:BPcfgWEU")
-    compileOnly fg.deobf("maven.modrinth:sullysmod:B9yOFBhf")
-    compileOnly fg.deobf("maven.modrinth:atmospheric:wFKEIHk8")
-    compileOnly fg.deobf("maven.modrinth:autumnity:dNSKgdoR")
-    compileOnly fg.deobf("maven.modrinth:environmental:k7F41lm3")
+    compileOnly fg.deobf("maven.modrinth:alexs-mobs:BgeYEhGG")
+    compileOnly fg.deobf("maven.modrinth:supplementaries:UQu29fD5")
+    compileOnly fg.deobf("maven.modrinth:sullysmod:CGETuhxH")
+    compileOnly fg.deobf("maven.modrinth:atmospheric:txvefAuz")
+    compileOnly fg.deobf("maven.modrinth:geckolib:lxzmD9V4")
 
-//    runtimeOnly fg.deobf("maven.modrinth:citadel:ssXkoBKk")
-//    runtimeOnly fg.deobf("maven.modrinth:alexs-mobs:oaRqJ7uM")
-    runtimeOnly fg.deobf("maven.modrinth:artsandcrafts:aYBUh5gU")
 //    runtimeOnly fg.deobf("maven.modrinth:atmospheric:wFKEIHk8")
 //    runtimeOnly fg.deobf("maven.modrinth:autumnity:dNSKgdoR")
 //    runtimeOnly fg.deobf("maven.modrinth:environmental:k7F41lm3")
 //    runtimeOnly fg.deobf("maven.modrinth:sullysmod:B9yOFBhf")
 
-    implementation fg.deobf("maven.modrinth:visuality-forge:MyhpSYT4")
-    implementation fg.deobf("maven.modrinth:species:6ZvnLcTh")
+    implementation fg.deobf("maven.modrinth:visuality-forge:H3rcn5c0")
+    implementation fg.deobf("maven.modrinth:species:lWHLuPSH")
 
-    compileOnly(annotationProcessor("io.github.llamalad7:mixinextras-common:0.4.0"))
-    implementation(jarJar("io.github.llamalad7:mixinextras-forge:0.4.0")) {
-        jarJar.ranged(it, "[0.4.0,)")
+    compileOnly(annotationProcessor("io.github.llamalad7:mixinextras-common:0.4.1"))
+    implementation(jarJar("io.github.llamalad7:mixinextras-forge:0.4.1")) {
+        jarJar.ranged(it, "[0.4.1,)")
     }
 
     compileOnly fg.deobf("mezz.jei:jei-${project.minecraft}-common-api:${project.jei}")
     compileOnly fg.deobf("mezz.jei:jei-${project.minecraft}-forge-api:${project.jei}")
     runtimeOnly fg.deobf("mezz.jei:jei-${project.minecraft}-forge:${project.jei}")
 
-    runtimeOnly fg.deobf("maven.modrinth:ferrite-core:6.0.1")
-    runtimeOnly fg.deobf("maven.modrinth:modernfix:m83ZRQdk")
+//    runtimeOnly fg.deobf("maven.modrinth:ferrite-core:6.0.1")
+//    runtimeOnly fg.deobf("maven.modrinth:modernfix:m83ZRQdk")
 
     annotationProcessor "org.spongepowered:mixin:0.8.5:processor"
 }
@@ -143,7 +136,7 @@ jar {
                 "Implementation-Version"  : project.modVersion,
                 "Implementation-Vendor"   : "DavigJ",
                 "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ"),
-                "MixinConfigs"            : project.modId + ".mixins.json"
+                "MixinConfigs"            : "sage_brush.mixins.json"
         ])
     }
 }
