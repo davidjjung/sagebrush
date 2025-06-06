@@ -1,0 +1,25 @@
+{
+  "values": [
+    "minecraft:frog",
+    "minecraft:slime",
+    "minecraft:cod",
+    "minecraft:salmon",
+    "minecraft:tropical_fish",
+    "minecraft:axolotl",
+    "minecraft:pufferfish",
+    "minecraft:squid",
+    "minecraft:glow_squid",
+    {
+      "required": false,
+      "id": "environmental:koi"
+    },
+    {
+      "required": false,
+      "id": "upgrade_aquatic:perch"
+    },
+    {
+      "required": false,
+      "id": "upgrade_aquatic:pike"
+    }
+  ]
+}

@@ -32,6 +32,10 @@
     {
       "required": false,
       "id": "alexsmobs:shoebill"
+    },
+    {
+      "required": false,
+      "id": "ecologics:penguin"
     }
   ]
 }

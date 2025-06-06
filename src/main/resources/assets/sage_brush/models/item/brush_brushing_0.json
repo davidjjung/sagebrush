@@ -1,7 +1,7 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "item/brush"
+    "layer0": "sage_brush:item/brush"
   },
   "display": {
     "firstperson_lefthand": {

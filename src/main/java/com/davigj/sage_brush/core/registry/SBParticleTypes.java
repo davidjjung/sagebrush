@@ -1,7 +1,11 @@
 package com.davigj.sage_brush.core.registry;
 
+import com.davigj.sage_brush.client.BrushDustParticleOptions;
 import com.davigj.sage_brush.client.particle.*;
 import com.davigj.sage_brush.core.SageBrush;
+import com.mojang.serialization.Codec;
+import net.minecraft.client.particle.ExplodeParticle;
+import net.minecraft.core.particles.DustParticleOptions;
 import net.minecraft.core.particles.ParticleType;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraftforge.api.distmarker.Dist;
@@ -25,9 +29,16 @@ public class SBParticleTypes {
     public static final RegistryObject<SimpleParticleType> ROADRUNNER_FEATHER = PARTICLE_TYPES.register("roadrunner_feather", () -> new SimpleParticleType(true));
     public static final RegistryObject<SimpleParticleType> EMU_FEATHER = PARTICLE_TYPES.register("emu_feather", () -> new SimpleParticleType(true));
     public static final RegistryObject<SimpleParticleType> SHOEBILL_FEATHER = PARTICLE_TYPES.register("shoebill_feather", () -> new SimpleParticleType(true));
-    public static final RegistryObject<SimpleParticleType> CHERRY_BLOSSOM = PARTICLE_TYPES.register("cherry_blossom", () -> new SimpleParticleType(true));
+//    public static final RegistryObject<SimpleParticleType> CHERRY_BLOSSOM = PARTICLE_TYPES.register("cherry_blossom", () -> new SimpleParticleType(true));
     public static final RegistryObject<SimpleParticleType> SPORE_BLOSSOM = PARTICLE_TYPES.register("spore_blossom", () -> new SimpleParticleType(true));
     public static final RegistryObject<SimpleParticleType> YELLOW_BLOSSOM = PARTICLE_TYPES.register("yellow_blossom", () -> new SimpleParticleType(true));
+    public static final RegistryObject<ParticleType<BrushDustParticleOptions>> DUST = PARTICLE_TYPES.register("dust", () ->
+            new ParticleType<BrushDustParticleOptions>(false, BrushDustParticleOptions.DESERIALIZER) {
+                @Override
+                public Codec<BrushDustParticleOptions> codec() {
+                    return BrushDustParticleOptions.CODEC;
+                }
+            });
 
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public static void registerParticleFactories(RegisterParticleProvidersEvent event) {
@@ -39,8 +50,9 @@ public class SBParticleTypes {
         event.register(SBParticleTypes.ROADRUNNER_FEATHER.get(), FeatherParticle.Provider::new);
         event.register(SBParticleTypes.EMU_FEATHER.get(), FeatherParticle.Provider::new);
         event.register(SBParticleTypes.SHOEBILL_FEATHER.get(), FeatherParticle.Provider::new);
-        event.register(SBParticleTypes.CHERRY_BLOSSOM.get(), ShrunkBlossomParticle.Provider::new);
+//        event.register(SBParticleTypes.CHERRY_BLOSSOM.get(), ShrunkBlossomParticle.Provider::new);
         event.register(SBParticleTypes.SPORE_BLOSSOM.get(), BlossomParticle.Provider::new);
         event.register(SBParticleTypes.YELLOW_BLOSSOM.get(), EnlargedBlossomParticle.Provider::new);
+        event.register(SBParticleTypes.DUST.get(), BrushDustParticle.Provider::new);
     }
 }

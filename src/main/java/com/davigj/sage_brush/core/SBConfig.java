@@ -6,6 +6,7 @@ import org.apache.commons.lang3.tuple.Pair;
 public class SBConfig {
     public static class Common {
         public final ForgeConfigSpec.ConfigValue<Boolean> regen;
+        public final ForgeConfigSpec.ConfigValue<Integer> stringTimer;
         public final ForgeConfigSpec.ConfigValue<Boolean> brushSnag;
         public final ForgeConfigSpec.ConfigValue<Boolean> brushSnagMockDamage;
         public final ForgeConfigSpec.ConfigValue<Boolean> pandaSneeze;
@@ -24,11 +25,18 @@ public class SBConfig {
         public final ForgeConfigSpec.ConfigValue<Boolean> torScute;
         public final ForgeConfigSpec.ConfigValue<Integer> torScuteTimer;
         public final ForgeConfigSpec.ConfigValue<Integer> torScuteBabyDrops;
+        public final ForgeConfigSpec.ConfigValue<Boolean> yakHair;
+        public final ForgeConfigSpec.ConfigValue<Double> yakShearChance;
+        public final ForgeConfigSpec.ConfigValue<Boolean> yakBrushGentle;
+        public final ForgeConfigSpec.ConfigValue<Integer> yakBrushHairCount;
+        public final ForgeConfigSpec.ConfigValue<Integer> yakShearDropsBase;
+        public final ForgeConfigSpec.ConfigValue<Integer> yakShearDropsExtra;
 
         Common (ForgeConfigSpec.Builder builder) {
             builder.push("common");
             builder.push("entity_interactions");
             regen = builder.comment("Pets periodically get Regeneration when brushed").define("Pet regen", false);
+            stringTimer = builder.comment("String brush cooldown, in ticks. For mobs like sheep and goats").define("Stringable timer", 6000);
             builder.push("pandas");
             pandaSneeze = builder.comment("Pandas periodically sneeze when brushed").define("Pandas sneeze", true);
             weakAndSick = builder.comment("Only weak or baby pandas sneeze when brushed").define("Weak or babies sneeze", true);
@@ -47,6 +55,14 @@ public class SBConfig {
             torScute = builder.comment("Adult tortoises from Sully's Mod periodically drop tortoise scutes when brushed").define("Tortoises shed scutes", true);
             torScuteTimer = builder.comment("Tortoise scute shed cooldown, in ticks. Defaults to ~1 scute every two days.").define("Tortoise scute timer", 48000);
             torScuteBabyDrops = builder.comment("Number of scutes dropped by baby tortoises when grown, to compensate for brushing adults").define("Baby tortoise scute drops", 3);
+            builder.pop();
+            builder.push("yak_hair_drops");
+            yakHair = builder.comment("Can yaks be brushed for hair instead").define("Yaks are brushed for hair", true);
+            yakShearChance = builder.comment("Chance of yak becoming sheared when successfully brushed").define("Yak loses fur coat from brushing chance", 0.2);
+            yakBrushGentle = builder.comment("Whether yaks remain unprovoked by brushing").define("Brushing yaks always gentle", false);
+            yakBrushHairCount = builder.comment("How many hairs drop each time when brushed").define("Yak brush hair count", 1);
+            yakShearDropsBase = builder.comment("Minimum dropped hair when yaks are sheared, not brushed").define("Yak shear drops base", 4);
+            yakShearDropsExtra = builder.comment("Extra hair that drops by random chance, 0 to this number").define("Yak shear drops additional", 12);
             builder.pop();
             builder.push("brush_snags");
             brushSnag = builder.comment("Brushes occasionally provoke mobs that have no resources to shed, causing them to attack or panic").define("Brushes snag", false);
@@ -68,6 +84,7 @@ public class SBConfig {
         public final ForgeConfigSpec.ConfigValue<Boolean> purePolish;
         public final ForgeConfigSpec.ConfigValue<Boolean> petHearts;
         public final ForgeConfigSpec.ConfigValue<Boolean> molt;
+        public final ForgeConfigSpec.ConfigValue<Boolean> allFeathersNoDust;
         public final ForgeConfigSpec.ConfigValue<Boolean> gleam;
         public final ForgeConfigSpec.ConfigValue<Boolean> specializedParticles;
 
@@ -76,6 +93,7 @@ public class SBConfig {
             builder.push("entity_interactions");
             petHearts = builder.comment("Pets periodically emit hearts when brushed").define("Pet hearts", true);
             molt = builder.comment("Feathered mobs periodically molt feathers when brushed").define("Molting", true);
+            allFeathersNoDust = builder.comment("Feathered mobs don't emit poof particles when brushed").define("Just feathers", true);
             gleam = builder.comment("Overbrushed animals gleam. A more domestic alternative to brush snags").define("Gleaming mobs", true);
             builder.pop();
             builder.push("block_interactions");

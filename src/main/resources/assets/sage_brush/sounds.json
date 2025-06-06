@@ -1,0 +1,27 @@
+{
+  "item.brush.brushing.generic": {
+    "sounds": [
+      {
+        "name": "sage_brush:item/brush/brushing_generic1",
+        "pitch": 0.8,
+        "volume": 0.4
+      },
+      {
+        "name": "sage_brush:item/brush/brushing_generic2",
+        "pitch": 0.8,
+        "volume": 0.4
+      },
+      {
+        "name": "sage_brush:item/brush/brushing_generic3",
+        "pitch": 0.8,
+        "volume": 0.4
+      },
+      {
+        "name": "sage_brush:item/brush/brushing_generic4",
+        "pitch": 0.8,
+        "volume": 0.4
+      }
+    ],
+    "subtitle": "subtitles.sage_brush.item.brush.brushing.generic"
+  }
+}

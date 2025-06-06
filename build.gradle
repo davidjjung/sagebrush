@@ -72,7 +72,7 @@ minecraft {
 }
 
 sourceSets.main.resources {
-    srcDirs "src/generated/resources"
+    srcDir "src/generated/resources"
 }
 
 dependencies {
@@ -84,13 +84,14 @@ dependencies {
     compileOnly fg.deobf("maven.modrinth:atmospheric:txvefAuz")
     compileOnly fg.deobf("maven.modrinth:geckolib:lxzmD9V4")
 
-//    runtimeOnly fg.deobf("maven.modrinth:atmospheric:wFKEIHk8")
-//    runtimeOnly fg.deobf("maven.modrinth:autumnity:dNSKgdoR")
-//    runtimeOnly fg.deobf("maven.modrinth:environmental:k7F41lm3")
-//    runtimeOnly fg.deobf("maven.modrinth:sullysmod:B9yOFBhf")
-
     implementation fg.deobf("maven.modrinth:visuality-forge:H3rcn5c0")
     implementation fg.deobf("maven.modrinth:species:lWHLuPSH")
+    implementation fg.deobf("maven.modrinth:raspberry-core:IAoeTY5K")
+    implementation fg.deobf("maven.modrinth:farmers-delight:rFTKVUtq")
+    implementation fg.deobf("maven.modrinth:supplementaries:UQu29fD5")
+    implementation fg.deobf("maven.modrinth:moonlight:4R7I44b3")
+    implementation fg.deobf("maven.modrinth:cofh-core:ssRHxD6e")
+    implementation fg.deobf("maven.modrinth:environmental:Yuxp2AA2")
 
     compileOnly(annotationProcessor("io.github.llamalad7:mixinextras-common:0.4.1"))
     implementation(jarJar("io.github.llamalad7:mixinextras-forge:0.4.1")) {
@@ -100,9 +101,6 @@ dependencies {
     compileOnly fg.deobf("mezz.jei:jei-${project.minecraft}-common-api:${project.jei}")
     compileOnly fg.deobf("mezz.jei:jei-${project.minecraft}-forge-api:${project.jei}")
     runtimeOnly fg.deobf("mezz.jei:jei-${project.minecraft}-forge:${project.jei}")
-
-//    runtimeOnly fg.deobf("maven.modrinth:ferrite-core:6.0.1")
-//    runtimeOnly fg.deobf("maven.modrinth:modernfix:m83ZRQdk")
 
     annotationProcessor "org.spongepowered:mixin:0.8.5:processor"
 }
@@ -136,7 +134,7 @@ jar {
                 "Implementation-Version"  : project.modVersion,
                 "Implementation-Vendor"   : "DavigJ",
                 "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ"),
-                "MixinConfigs"            : "sage_brush.mixins.json"
+                "MixinConfigs"            : project.modId + ".mixins.json"
         ])
     }
 }

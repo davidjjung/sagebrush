@@ -6,7 +6,8 @@
   "refmap": "sage_brush.refmap.json",
   "mixins": [
     "TortoiseMixin",
-    "TurtleMixin"
+    "TurtleMixin",
+    "YakMixin"
   ],
   "client": [
     "ItemInHandRendererMixin",

@@ -29,13 +29,13 @@ public class ItemInHandRendererMixin {
     private void armPoseStuff(AbstractClientPlayer player, float partialTicks, float pitch, InteractionHand hand, float swingProgress, ItemStack stack, float equippedProgress, PoseStack matrixStack, MultiBufferSource buffer, int combinedLight, CallbackInfo ci,
                               @Local HumanoidArm arm){
         if (stack.getUseAnimation() == UseAnim.CUSTOM && stack.getItem() instanceof BrushItem) {
-            this.raspberryCore$applyBrushTransform(matrixStack, partialTicks, arm, stack, equippedProgress);
+            this.sageBrush$applyBrushTransform(matrixStack, partialTicks, arm, stack, equippedProgress);
         }
     }
 
     @Unique
-    private void raspberryCore$applyBrushTransform(PoseStack p_273513_, float p_273245_, HumanoidArm p_273726_, ItemStack p_272809_, float p_273333_) {
-        this.applyItemArmTransform(p_273513_, p_273726_, p_273333_);
+    private void sageBrush$applyBrushTransform(PoseStack p_273513_, float p_273245_, HumanoidArm p_273726_, ItemStack p_272809_, float p_273333_) {
+        this.sageBrush$applyItemArmTransform(p_273513_, p_273726_, p_273333_);
         assert this.minecraft.player != null;
         float f = (float)(this.minecraft.player.getUseItemRemainingTicks() % 10);
         float f1 = f - p_273245_ + 1.0F;
@@ -56,7 +56,8 @@ public class ItemInHandRendererMixin {
         }
     }
 
-    private void applyItemArmTransform(PoseStack p_109383_, HumanoidArm p_109384_, float p_109385_) {
+    @Unique
+    private void sageBrush$applyItemArmTransform(PoseStack p_109383_, HumanoidArm p_109384_, float p_109385_) {
         int i = p_109384_ == HumanoidArm.RIGHT ? 1 : -1;
         p_109383_.translate((float)i * 0.56F, -0.52F + p_109385_ * -0.6F, -0.72F);
     }

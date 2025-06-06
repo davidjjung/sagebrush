@@ -28,6 +28,7 @@ public class SageBrush {
     public static final TrackedData<Integer> FEATHER_TIMER = TrackedData.Builder.create(DataProcessors.INT, () -> 0).enableSaving().enablePersistence().build();
     public static final TrackedData<Integer> WORSE_FEATHER_TIMER = TrackedData.Builder.create(DataProcessors.INT, () -> 0).enableSaving().enablePersistence().build();
     public static final TrackedData<Integer> SCUTE_TIMER = TrackedData.Builder.create(DataProcessors.INT, () -> 0).enableSaving().enablePersistence().build();
+    public static final TrackedData<Integer> STRING_TIMER = TrackedData.Builder.create(DataProcessors.INT, () -> 0).enableSaving().enablePersistence().build();
 
     public SageBrush() {
         IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
@@ -46,6 +47,7 @@ public class SageBrush {
         TrackedDataManager.INSTANCE.registerData(new ResourceLocation(MOD_ID, "feather_timer"), FEATHER_TIMER);
         TrackedDataManager.INSTANCE.registerData(new ResourceLocation(MOD_ID, "worse_feather_timer"), WORSE_FEATHER_TIMER);
         TrackedDataManager.INSTANCE.registerData(new ResourceLocation(MOD_ID, "scute_timer"), SCUTE_TIMER);
+        TrackedDataManager.INSTANCE.registerData(new ResourceLocation(MOD_ID, "string_timer"), STRING_TIMER);
     }
 
     private void commonSetup(FMLCommonSetupEvent event) {

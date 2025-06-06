@@ -1,7 +1,7 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "item/brush"
+    "layer0": "sage_brush:item/red_brush"
   },
   "display": {
     "firstperson_lefthand": {
@@ -19,5 +19,25 @@
       "translation": [ 0, 4, 0 ],
       "scale": [ 0.9, 0.9, 0.9 ]
     }
-  }
+  },
+  "overrides": [
+    {
+      "predicate": {
+        "brushing": 0.25
+      },
+      "model": "sage_brush:item/brush_brushing_0"
+    },
+    {
+      "predicate": {
+        "brushing": 0.5
+      },
+      "model": "sage_brush:item/brush_brushing_1"
+    },
+    {
+      "predicate": {
+        "brushing": 0.75
+      },
+      "model": "sage_brush:item/brush_brushing_2"
+    }
+  ]
 }

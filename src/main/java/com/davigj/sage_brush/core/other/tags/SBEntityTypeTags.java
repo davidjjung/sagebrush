@@ -16,6 +16,8 @@ public class SBEntityTypeTags {
     public static final TagKey<EntityType<?>> COSMETIC_SHOEBILL_FEATHERS = entityTypeTag("cosmetic_shoebill_feathers");
     public static final TagKey<EntityType<?>> COSMETIC_EMU_FEATHERS = entityTypeTag("cosmetic_emu_feathers");
     public static final TagKey<EntityType<?>> COSMETIC_FEATHERED = entityTypeTag("cosmetic_feathered");
+    public static final TagKey<EntityType<?>> STRINGABLES = entityTypeTag("stringables");
+    public static final TagKey<EntityType<?>> SLIMY = entityTypeTag("slimy");
 
     private static TagKey<EntityType<?>> entityTypeTag(String name) {
         return TagUtil.entityTypeTag(SageBrush.MOD_ID, name);

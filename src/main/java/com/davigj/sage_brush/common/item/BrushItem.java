@@ -3,13 +3,13 @@ package com.davigj.sage_brush.common.item;
 import com.davigj.sage_brush.core.SBConfig;
 import com.davigj.sage_brush.core.other.SBBrushUtil;
 import com.davigj.sage_brush.core.other.tags.SBBlockTags;
+import com.davigj.sage_brush.core.registry.SBSounds;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.network.ServerGamePacketListenerImpl;
 import net.minecraft.sounds.SoundEvent;
-import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -23,8 +23,6 @@ import net.minecraft.world.item.UseAnim;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
@@ -39,7 +37,7 @@ import static net.minecraft.world.entity.projectile.ProjectileUtil.getEntityHitR
 public class BrushItem extends Item {
     public static final int ANIMATION_DURATION = 10;
     private static final int USE_DURATION = 200;
-    private static final double MAX_BRUSH_DISTANCE = Math.sqrt(ServerGamePacketListenerImpl.MAX_INTERACTION_DISTANCE) - 1.0D;
+    public static final double MAX_BRUSH_DISTANCE = Math.sqrt(ServerGamePacketListenerImpl.MAX_INTERACTION_DISTANCE) - 1.0D;
 
     public BrushItem(Properties p_272907_) {
         super(p_272907_);
@@ -77,11 +75,11 @@ public class BrushItem extends Item {
                 int $$9 = brush.getUseDuration(stack) - duration + 1;
                 boolean $$10 = $$9 % 10 == 5;
                 if ($$10) {
-//                    level.playSound(player, player.blockPosition(), SoundEvents.BRUSH_GENERIC, SoundSource.PLAYERS);
+                    level.playSound(player, player.blockPosition(), SBSounds.BRUSH_GENERIC.get(), SoundSource.PLAYERS, 1.0F, 1.0F);
                     Entity $$11 = ehr.getEntity();
                     HumanoidArm arm = player.getUsedItemHand() == InteractionHand.MAIN_HAND ? player.getMainArm() : player.getMainArm().getOpposite();
                     Vec3 vec3 = living.getViewVector(0.0F).scale(MAX_BRUSH_DISTANCE);
-                    SBBrushUtil.onEntityUseTick(level, stack, $$11, living, vec3, arm);
+                    SBBrushUtil.onEntityUseTick(level, stack, $$11, living, vec3, arm, ehr);
                 }
                 return;
             }
@@ -101,18 +99,11 @@ public class BrushItem extends Item {
                         } else {
                             this.spawnDustParticles(level, blockhitresult, blockstate, living.getViewVector(0.0F), humanoidarm);
                         }
-                        Block $$18 = blockstate.getBlock();
-                        SoundEvent soundevent;
-//                        if ($$18 instanceof BrushableBlock) {
-//                            BrushableBlock brushableblock = (BrushableBlock)$$18;
-//                            soundevent = brushableblock.getBrushSound();
-//                        } else {
-//                            soundevent = SoundEvents.BRUSH_GENERIC;
-//                        }
-
-//                        p_273467_.playSound(player, blockpos, soundevent, SoundSource.BLOCKS);
-                        if (!level.isClientSide()) {
-                            BlockEntity blockentity = level.getBlockEntity(blockpos);
+//                        Block $$18 = blockstate.getBlock();
+                        SoundEvent soundevent = SBSounds.BRUSH_GENERIC.get();
+                        level.playSound(player, blockpos, soundevent, SoundSource.BLOCKS, 1.0F, 1.0F);
+//                        if (!level.isClientSide()) {
+//                            BlockEntity blockentity = level.getBlockEntity(blockpos);
 //                            if (blockentity instanceof BrushableBlockEntity) {
 //                                BrushableBlockEntity brushableblockentity = (BrushableBlockEntity)blockentity;
 //                                boolean flag1 = brushableblockentity.brush(p_273467_.getGameTime(), player, blockhitresult.getDirection());
@@ -123,7 +114,7 @@ public class BrushItem extends Item {
 //                                    });
 //                                }
 //                            }
-                        }
+//                        }
                     }
 
                     return;
@@ -174,7 +165,6 @@ public class BrushItem extends Item {
                 return;
             }
         }
-        double d0 = 3.0D;
         int i = p_285071_ == HumanoidArm.RIGHT ? 1 : -1;
         int j = SBConfig.CLIENT.reducedParticles.get() && state.is(SBBlockTags.REDUCED_DUST) ? level.getRandom().nextInt(2, 4) : level.getRandom().nextInt(7, 12);
         BlockParticleOption blockparticleoption = new BlockParticleOption(ParticleTypes.BLOCK, state);

@@ -1,11 +1,13 @@
 package com.davigj.sage_brush.core.other;
 
+import com.davigj.sage_brush.client.BrushDustParticleOptions;
 import com.davigj.sage_brush.common.item.BrushItem;
 import com.davigj.sage_brush.core.SBConfig;
 import com.davigj.sage_brush.core.SageBrush;
 import com.davigj.sage_brush.core.other.tags.SBBlockTags;
 import com.davigj.sage_brush.core.other.tags.SBEntityTypeTags;
 import com.davigj.sage_brush.core.registry.SBParticleTypes;
+import com.mojang.math.Vector3f;
 import com.teamabnormals.blueprint.common.world.storage.tracking.TrackedData;
 import com.teamabnormals.blueprint.common.world.storage.tracking.TrackedDataManager;
 import net.minecraft.core.BlockPos;
@@ -19,11 +21,14 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.*;
+import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.animal.Panda;
 import net.minecraft.world.entity.animal.Parrot;
 import net.minecraft.world.entity.animal.Turtle;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.SpawnEggItem;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.Level;
@@ -47,7 +52,12 @@ import static net.minecraft.world.level.block.state.properties.BlockStatePropert
 public class SBBrushUtil {
     public static final TrackedDataManager manager = TrackedDataManager.INSTANCE;
 
-    public static void onEntityUseTick(Level level, ItemStack stack, Entity victim, LivingEntity player, Vec3 velocity, HumanoidArm arm) {
+    public static void onEntityUseTick(Level level, ItemStack stack, Entity victim, LivingEntity player, Vec3 velocity, HumanoidArm arm, HitResult result) {
+        if (!victim.isInWaterRainOrBubble() && !victim.getType().is(SLIMY)) {
+            if (!(victim.getType().is(FEATHERED) || victim.getType().is(COSMETIC_FEATHERED)) && SBConfig.CLIENT.allFeathersNoDust.get()) {
+                entityDustParticleFX(level, victim, velocity, arm, 1, 4, result);
+            }
+        }
         if (victim instanceof TamableAnimal tamable && tamable.isOwnedBy(player)) {
             if (level.isClientSide && SBConfig.CLIENT.petHearts.get()) {
                 entityParticleFX(level, tamable, velocity, arm, ParticleTypes.HEART, 0, 2);
@@ -58,19 +68,15 @@ public class SBBrushUtil {
 //            tamable.lookAt(player, 30.0F, 30.0F);
         }
         if (victim instanceof Panda panda) {
-            if (level.isClientSide) {
-                entityParticleFX(level, panda, velocity, arm, new BlockParticleOption(ParticleTypes.BLOCK, Blocks.SNOW_BLOCK.defaultBlockState()), 2, 4);
-            } else {
-                double achoo = panda.getRandom().nextDouble();
-                if (achoo > 0.85) {
-                    if (((panda.isBaby() || panda.isWeak()) || !SBConfig.COMMON.weakAndSick.get()) &&
-                            panda.canPerformAction() && !panda.isSneezing() && SBConfig.COMMON.pandaSneeze.get()) {
-                        panda.sneeze(true);
-                        damageItem(stack, player);
-                    }
-                    if ((!(panda.isPlayful() || panda.isLazy())) || !SBConfig.COMMON.lazyAndPlayful.get()) {
-                        snagBrush(panda, player, 1 - achoo, SBConfig.COMMON.pandaSnagChance.get());
-                    }
+            double achoo = panda.getRandom().nextDouble();
+            if (achoo > 0.85) {
+                if (((panda.isBaby() || panda.isWeak()) || !SBConfig.COMMON.weakAndSick.get()) &&
+                        panda.canPerformAction() && !panda.isSneezing() && SBConfig.COMMON.pandaSneeze.get()) {
+                    panda.sneeze(true);
+                    damageItem(stack, player);
+                }
+                if ((!(panda.isPlayful() || panda.isLazy())) || !SBConfig.COMMON.lazyAndPlayful.get()) {
+                    snagBrush(panda, player, 1 - achoo, SBConfig.COMMON.pandaSnagChance.get());
                 }
             }
             return;
@@ -89,30 +95,52 @@ public class SBBrushUtil {
             }
         }
         if (victim instanceof Turtle turtle && SBConfig.COMMON.scute.get()) {
-            if (level.isClientSide) {
-                entityParticleFX(level, turtle, velocity, arm, new BlockParticleOption(ParticleTypes.BLOCK, Blocks.GREEN_CONCRETE.defaultBlockState()), 2, 4);
-            } else {
-                int timer = manager.getValue(turtle, SageBrush.SCUTE_TIMER);
-                if (timer == 0) {
-                    turtle.spawnAtLocation(Items.SCUTE);
-                    damageItem(stack, player);
-                    manager.setValue(turtle, SageBrush.SCUTE_TIMER, SBConfig.COMMON.scuteTimer.get());
-                }
+            int timer = manager.getValue(turtle, SageBrush.SCUTE_TIMER);
+            if (timer == 0) {
+                turtle.spawnAtLocation(Items.SCUTE);
+                damageItem(stack, player);
+                manager.setValue(turtle, SageBrush.SCUTE_TIMER, SBConfig.COMMON.scuteTimer.get());
             }
             return;
         }
         if (SBConfig.COMMON.torScute.get() && (ModList.get().isLoaded("sullysmod") && SBConstants.isTortoise(victim))) {
+            int timer = manager.getValue(victim, SageBrush.SCUTE_TIMER);
+            if (timer == 0) {
+                victim.spawnAtLocation(SBConstants.tortoiseScute);
+                damageItem(stack, player);
+                manager.setValue(victim, SageBrush.SCUTE_TIMER, SBConfig.COMMON.torScuteTimer.get());
+            }
+        }
+        if (SBConfig.COMMON.yakHair.get() && (ModList.get().isLoaded("environmental") && SBConstants.isYak(victim))) {
             if (level.isClientSide) {
                 entityParticleFX(level, victim, velocity, arm, new BlockParticleOption(ParticleTypes.BLOCK, Blocks.BROWN_CONCRETE.defaultBlockState()), 2, 4);
             } else {
-                int timer = manager.getValue(victim, SageBrush.SCUTE_TIMER);
-                if (timer == 0) {
-                    victim.spawnAtLocation(SBConstants.tortoiseScute);
-                    damageItem(stack, player);
-                    manager.setValue(victim, SageBrush.SCUTE_TIMER, SBConfig.COMMON.torScuteTimer.get());
+                if (victim instanceof Shearable shearable && victim instanceof Animal animal && shearable.readyForShearing() && player instanceof Player) {
+                    if (animal.getRandom().nextBoolean()) {
+                        victim.spawnAtLocation(SBConstants.yakHair, SBConfig.COMMON.yakBrushHairCount.get());
+                        damageItem(stack, player);
+                        if ((2 * animal.getRandom().nextFloat() < SBConfig.COMMON.yakShearChance.get())) {
+                            if (!SBConfig.COMMON.yakBrushGentle.get()) {
+                                if (!((Player) player).getAbilities().instabuild && !(player.getItemBySlot(EquipmentSlot.LEGS).is(SBConstants.yakPants))) {
+                                    animal.setTarget(player);
+                                }
+                            }
+                            SBConstants.setSheared(animal);
+                            animal.playSound(SoundEvents.SHEEP_SHEAR);
+                        }
+                    }
                 }
             }
         }
+        if (victim.getType().is(STRINGABLES)) {
+            int timer = manager.getValue(victim, SageBrush.STRING_TIMER);
+            if (timer == 0) {
+                victim.spawnAtLocation(Items.STRING);
+                damageItem(stack, player);
+                manager.setValue(victim, SageBrush.STRING_TIMER, SBConfig.COMMON.stringTimer.get());
+            }
+        }
+
     }
 
     private static void visualMoltFX(Level level, Entity victim, Vec3 velocity, HumanoidArm arm) {
@@ -176,6 +204,30 @@ public class SBBrushUtil {
         }
     }
 
+    private static void entityDustParticleFX(Level level, Entity victim, Vec3 vec3, HumanoidArm arm, int minPar, int maxPar, HitResult result) {
+        int i = arm == HumanoidArm.RIGHT ? 1 : -1;
+        int j = level.getRandom().nextInt(minPar, maxPar);
+        Vec3 pos = victim.getEyePosition();
+
+        int color = 0xFFFFFF;
+//        System.out.println(victim.getPickedResult(result));
+        if (victim instanceof Mob mob && mob.getPickedResult(result) != null) {
+            if (mob.getPickedResult(result).getItem() instanceof SpawnEggItem egg) {
+                color = egg.getColor(0);
+            }
+        }
+
+        vec3 = vec3.normalize();
+
+        for (int k = 0; k < j; ++k) {
+            double dx = vec3.z() * i * 0.07 * level.getRandom().nextDouble();
+            double dz = -vec3.x() * i * 0.07 * level.getRandom().nextDouble();
+
+            level.addParticle(new BrushDustParticleOptions(new Vector3f(Vec3.fromRGB24(color)), 1.0F),
+                    pos.x, victim.yo + (victim.getBbHeight() / 2), pos.z,
+                    dx, 0.0D, dz);
+        }
+    }
 
     public static void onBlockBrushTick(Level level, BlockHitResult hitResult, BlockState state, Vec3 velocity,
                                         HumanoidArm arm, BlockPos blockPos, LivingEntity living, ItemStack stack) {
@@ -209,7 +261,7 @@ public class SBBrushUtil {
     }
 
     private static boolean letItShnope(Level level, BlockState state, BlockPos blockPos) {
-        if (state.is(Blocks.SNOW)) {
+        if (state.is(Blocks.SNOW) || state.is(SBConstants.snow)) {
             if (!level.isClientSide) {
                 int layers = state.getValue(LAYERS);
                 if (layers > 1) {
@@ -222,7 +274,7 @@ public class SBBrushUtil {
         }
         if (state.is(Blocks.SNOW_BLOCK)) {
             if (!level.isClientSide) {
-                level.setBlockAndUpdate(blockPos, Blocks.SNOW.defaultBlockState().setValue(LAYERS, 7));
+                level.setBlockAndUpdate(blockPos, SBConstants.snow.defaultBlockState().setValue(LAYERS, 7));
             }
             return true;
         }

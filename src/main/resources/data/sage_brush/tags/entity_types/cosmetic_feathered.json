@@ -7,10 +7,6 @@
     {
       "required": false,
       "id": "alexsmobs:sunbird"
-    },
-    {
-      "required": false,
-      "id": "ecologics:penguin"
     }
   ]
 }
