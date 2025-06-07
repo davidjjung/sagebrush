@@ -6,11 +6,14 @@ import com.github.alexthe666.alexsmobs.entity.EntityEmu;
 import com.github.alexthe666.alexsmobs.entity.EntityRoadrunner;
 import com.github.alexthe666.alexsmobs.item.AMItemRegistry;
 import com.teamabnormals.atmospheric.core.registry.AtmosphericBlocks;
+import com.teamabnormals.environmental.common.entity.animal.Yak;
+import com.teamabnormals.environmental.core.registry.EnvironmentalItems;
 import com.uraneptus.sullysmod.common.entities.Tortoise;
 import com.uraneptus.sullysmod.core.registry.SMItems;
 import net.mehvahdjukaar.supplementaries.reg.ModRegistry;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.DoublePlantBlock;
@@ -24,6 +27,8 @@ public class SBConstants {
     public static final Item emuFeather;
     public static final Item roadrunnerFeather;
     public static final Item tortoiseScute;
+    public static final Item yakHair;
+    public static final Item yakPants;
     public static final ParticleOptions sunbirdParticle;
 
     public static boolean isEmu(Entity entity) {
@@ -35,6 +40,9 @@ public class SBConstants {
     public static boolean isTortoise(Entity entity) {
         return entity instanceof Tortoise;
     }
+    public static boolean isYak(Entity entity) {
+        return entity instanceof Yak;
+    }
 
     public static boolean isFeatherBlock(BlockState state) {
         return state.is(ModRegistry.FEATHER_BLOCK.get());
@@ -45,10 +53,18 @@ public class SBConstants {
                 || state.is(AtmosphericBlocks.FLOWERING_MORADO_LEAVES.get());
     }
 
+    public static void setSheared(LivingEntity living) {
+        if (SBConstants.isYak(living)) {
+            ((Yak)living).setSheared(true);
+        }
+    }
+
     static {
         emuFeather = ModList.get().isLoaded("alexsmobs") ? AMItemRegistry.EMU_FEATHER.get() : Items.FEATHER;
         roadrunnerFeather = ModList.get().isLoaded("alexsmobs") ? AMItemRegistry.ROADRUNNER_FEATHER.get() : Items.FEATHER;
         tortoiseScute = ModList.get().isLoaded("sullysmod") ? SMItems.TORTOISE_SCUTE.get() : Items.SCUTE;
+        yakHair = ModList.get().isLoaded("environmental") ? EnvironmentalItems.YAK_HAIR.get() : Items.STRING;
+        yakPants = ModList.get().isLoaded("environmental") ? EnvironmentalItems.YAK_PANTS.get() : Items.LEATHER;
         sunbirdParticle = ModList.get().isLoaded("alexsmobs") ? AMParticleRegistry.SUNBIRD_FEATHER.get() : SBParticleTypes.FEATHER.get();
     }
 }

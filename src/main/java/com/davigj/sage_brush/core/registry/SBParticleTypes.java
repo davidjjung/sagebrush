@@ -1,7 +1,9 @@
 package com.davigj.sage_brush.core.registry;
 
+import com.davigj.sage_brush.client.BrushDustParticleOptions;
 import com.davigj.sage_brush.client.particle.*;
 import com.davigj.sage_brush.core.SageBrush;
+import com.mojang.serialization.Codec;
 import net.minecraft.core.particles.ParticleType;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraftforge.api.distmarker.Dist;
@@ -28,7 +30,13 @@ public class SBParticleTypes {
     public static final RegistryObject<SimpleParticleType> CHERRY_BLOSSOM = PARTICLE_TYPES.register("cherry_blossom", () -> new SimpleParticleType(true));
     public static final RegistryObject<SimpleParticleType> SPORE_BLOSSOM = PARTICLE_TYPES.register("spore_blossom", () -> new SimpleParticleType(true));
     public static final RegistryObject<SimpleParticleType> YELLOW_BLOSSOM = PARTICLE_TYPES.register("yellow_blossom", () -> new SimpleParticleType(true));
-
+    public static final RegistryObject<ParticleType<BrushDustParticleOptions>> DUST = PARTICLE_TYPES.register("dust", () ->
+            new ParticleType<BrushDustParticleOptions>(false, BrushDustParticleOptions.DESERIALIZER) {
+                @Override
+                public Codec<BrushDustParticleOptions> codec() {
+                    return BrushDustParticleOptions.CODEC;
+                }
+            });
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public static void registerParticleFactories(RegisterParticleProvidersEvent event) {
         event.registerSpriteSet(SBParticleTypes.GLEAM.get(), GleamParticle.Provider::new);
@@ -42,5 +50,6 @@ public class SBParticleTypes {
         event.registerSpriteSet(SBParticleTypes.CHERRY_BLOSSOM.get(), ShrunkBlossomParticle.Provider::new);
         event.registerSpriteSet(SBParticleTypes.SPORE_BLOSSOM.get(), BlossomParticle.Provider::new);
         event.registerSpriteSet(SBParticleTypes.YELLOW_BLOSSOM.get(), EnlargedBlossomParticle.Provider::new);
+        event.registerSpriteSet(SBParticleTypes.DUST.get(), BrushDustParticle.Provider::new);
     }
 }

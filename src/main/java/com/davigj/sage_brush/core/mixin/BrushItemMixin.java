@@ -70,7 +70,7 @@ public abstract class BrushItemMixin extends Item {
                     Entity $$11 = ehr.getEntity();
                     HumanoidArm arm = player.getUsedItemHand() == InteractionHand.MAIN_HAND ? player.getMainArm() : player.getMainArm().getOpposite();
                     Vec3 vec3 = living.getViewVector(0.0F).scale(MAX_BRUSH_DISTANCE);
-                    SBBrushUtil.onEntityUseTick(level, stack, $$11, living, vec3, arm);
+                    SBBrushUtil.onEntityUseTick(level, stack, $$11, living, vec3, arm, ehr);
                 }
                 ci.cancel();
             }
