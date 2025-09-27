@@ -77,7 +77,8 @@ sourceSets.main.resources {
 
 dependencies {
     minecraft "net.minecraftforge:forge:${project.minecraft}-${project.forge}"
-    implementation fg.deobf("com.teamabnormals:blueprint:${project.minecraft}-${project.blueprint}")
+//    implementation fg.deobf("com.teamabnormals:blueprint:${project.minecraft}-${project.blueprint}")
+    implementation fg.deobf("maven.modrinth:blueprint:xtEwbO0X")
     compileOnly fg.deobf("maven.modrinth:citadel:ssXkoBKk")
     compileOnly fg.deobf("maven.modrinth:alexs-mobs:oaRqJ7uM")
     compileOnly fg.deobf("maven.modrinth:artsandcrafts:aYBUh5gU")
@@ -86,14 +87,14 @@ dependencies {
     compileOnly fg.deobf("maven.modrinth:sullysmod:B9yOFBhf")
     compileOnly fg.deobf("maven.modrinth:atmospheric:wFKEIHk8")
     compileOnly fg.deobf("maven.modrinth:autumnity:dNSKgdoR")
-    compileOnly fg.deobf("maven.modrinth:environmental:k7F41lm3")
+    compileOnly fg.deobf("maven.modrinth:environmental:4.1.0")
 
 //    runtimeOnly fg.deobf("maven.modrinth:citadel:ssXkoBKk")
 //    runtimeOnly fg.deobf("maven.modrinth:alexs-mobs:oaRqJ7uM")
     runtimeOnly fg.deobf("maven.modrinth:artsandcrafts:aYBUh5gU")
 //    runtimeOnly fg.deobf("maven.modrinth:atmospheric:wFKEIHk8")
 //    runtimeOnly fg.deobf("maven.modrinth:autumnity:dNSKgdoR")
-//    runtimeOnly fg.deobf("maven.modrinth:environmental:k7F41lm3")
+    runtimeOnly fg.deobf("maven.modrinth:environmental:4.1.0")
 //    runtimeOnly fg.deobf("maven.modrinth:sullysmod:B9yOFBhf")
 
     implementation fg.deobf("maven.modrinth:visuality-forge:MyhpSYT4")

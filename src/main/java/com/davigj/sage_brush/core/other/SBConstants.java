@@ -6,7 +6,7 @@ import com.github.alexthe666.alexsmobs.entity.EntityEmu;
 import com.github.alexthe666.alexsmobs.entity.EntityRoadrunner;
 import com.github.alexthe666.alexsmobs.item.AMItemRegistry;
 import com.teamabnormals.atmospheric.core.registry.AtmosphericBlocks;
-import com.teamabnormals.environmental.common.entity.animal.Yak;
+import com.teamabnormals.environmental.common.entity.animal.yak.Yak;
 import com.teamabnormals.environmental.core.registry.EnvironmentalItems;
 import com.uraneptus.sullysmod.common.entities.Tortoise;
 import com.uraneptus.sullysmod.core.registry.SMItems;
@@ -67,4 +67,6 @@ public class SBConstants {
         yakPants = ModList.get().isLoaded("environmental") ? EnvironmentalItems.YAK_PANTS.get() : Items.LEATHER;
         sunbirdParticle = ModList.get().isLoaded("alexsmobs") ? AMParticleRegistry.SUNBIRD_FEATHER.get() : SBParticleTypes.FEATHER.get();
     }
+
+
 }

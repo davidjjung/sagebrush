@@ -2,7 +2,7 @@ package com.davigj.sage_brush.core.mixin;
 
 import com.davigj.sage_brush.core.SBConfig;
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
-import com.teamabnormals.environmental.common.entity.animal.Yak;
+import com.teamabnormals.environmental.common.entity.animal.yak.Yak;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.level.Level;

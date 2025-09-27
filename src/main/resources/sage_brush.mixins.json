@@ -6,7 +6,7 @@
   "refmap": "sage_brush.refmap.json",
   "mixins": [
     "BrushItemMixin",
-    "PaintbrushMixin",
+    "PaintbrushItemMixin",
     "TortoiseMixin",
     "TurtleMixin",
     "YakMixin"
