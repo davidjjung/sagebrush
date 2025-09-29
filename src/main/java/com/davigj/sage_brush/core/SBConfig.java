@@ -28,8 +28,6 @@ public class SBConfig {
         public final ForgeConfigSpec.ConfigValue<Double> yakShearChance;
         public final ForgeConfigSpec.ConfigValue<Boolean> yakBrushGentle;
         public final ForgeConfigSpec.ConfigValue<Integer> yakBrushHairCount;
-        public final ForgeConfigSpec.ConfigValue<Integer> yakShearDropsBase;
-        public final ForgeConfigSpec.ConfigValue<Integer> yakShearDropsExtra;
 
         Common (ForgeConfigSpec.Builder builder) {
             builder.push("common");
@@ -59,8 +57,6 @@ public class SBConfig {
             yakShearChance = builder.comment("Chance of yak becoming sheared when successfully brushed").define("Yak loses fur coat from brushing chance", 0.2);
             yakBrushGentle = builder.comment("Whether yaks remain unprovoked by brushing").define("Brushing yaks always gentle", false);
             yakBrushHairCount = builder.comment("How many hairs drop each time when brushed").define("Yak brush hair count", 1);
-            yakShearDropsBase = builder.comment("Minimum dropped hair when yaks are sheared, not brushed").define("Yak shear drops base", 4);
-            yakShearDropsExtra = builder.comment("Extra hair that drops by random chance, 0 to this number").define("Yak shear drops additional", 12);
             builder.pop();
             builder.push("brush_snags");
             brushSnag = builder.comment("Brushes occasionally provoke mobs that have no resources to shed, causing them to attack or panic").define("Brushes snag", false);

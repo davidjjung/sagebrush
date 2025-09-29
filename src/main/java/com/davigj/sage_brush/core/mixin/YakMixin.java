@@ -18,13 +18,13 @@ public abstract class YakMixin extends Animal {
         super(p_27557_, p_27558_);
     }
 
-    @ModifyExpressionValue(method = "onSheared", at = @At(value = "CONSTANT", args = "intValue=4"), remap = false)
-    private int yakWrap(int i) {
-        return SBConfig.COMMON.yakShearDropsBase.get();
-    }
+//    @ModifyExpressionValue(method = "onSheared", at = @At(value = "CONSTANT", args = "intValue=4"), remap = false)
+//    private int yakWrap(int i) {
+//        return SBConfig.COMMON.yakShearDropsBase.get();
+//    }
 
-    @ModifyArg(method = "onSheared", at = @At(value = "INVOKE", target = "Lnet/minecraft/util/RandomSource;nextInt(I)I"), index = 0, remap = false)
-    private int yakRandomWrap(int i) {
-        return this.random.nextInt(SBConfig.COMMON.yakShearDropsExtra.get());
-    }
+//    @ModifyArg(method = "onSheared", at = @At(value = "INVOKE", target = "Lnet/minecraft/util/RandomSource;nextInt(I)I"), index = 0, remap = false)
+//    private int yakRandomWrap(int i) {
+//        return this.random.nextInt(SBConfig.COMMON.yakShearDropsExtra.get());
+//    }
 }

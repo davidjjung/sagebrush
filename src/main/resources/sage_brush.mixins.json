@@ -8,8 +8,7 @@
     "BrushItemMixin",
     "PaintbrushItemMixin",
     "TortoiseMixin",
-    "TurtleMixin",
-    "YakMixin"
+    "TurtleMixin"
   ],
   "client": [
   ],

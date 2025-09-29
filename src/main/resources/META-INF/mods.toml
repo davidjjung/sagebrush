@@ -13,9 +13,7 @@ authors = "DavigJ"
 credits = "DavigJ"
 displayURL = "https://modrinth.com/mod/sage-brush"
 displayName = "Sage Brush"
-description = '''
-    Wisens up brushes a bit.
-    '''
+description = '''Wisens up brushes a bit.'''
 
 [[dependencies.sage_brush]]
 modId = "minecraft"
