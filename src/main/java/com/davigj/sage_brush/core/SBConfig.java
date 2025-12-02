@@ -6,6 +6,7 @@ import org.apache.commons.lang3.tuple.Pair;
 public class SBConfig {
     public static class Common {
         public final ModConfigSpec.ConfigValue<Boolean> regen;
+        public final ModConfigSpec.ConfigValue<Boolean> pollenBrush;
         public final ModConfigSpec.ConfigValue<Boolean> hurtSound;
         public final ModConfigSpec.ConfigValue<Boolean> aggroReal;
         public final ModConfigSpec.ConfigValue<Boolean> brushSnagMockDamage;
@@ -20,6 +21,7 @@ public class SBConfig {
             builder.push("common");
             builder.push("entity_interactions");
             regen = builder.comment("Pets periodically get Regeneration when brushed").define("Pet regen", false);
+            pollenBrush = builder.comment("Pollen can be brushed off of bees").define("Pollen brush", true);
             builder.push("brush_snagging");
             hurtSound = builder.comment("Snagged brushes trigger hurt sound").define("Hurt sound", true);
             aggroReal = builder.comment("Aggroed mobs actually aggrieve").define("Aggro real", true);

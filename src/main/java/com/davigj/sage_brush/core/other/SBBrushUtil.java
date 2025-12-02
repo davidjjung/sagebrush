@@ -3,6 +3,7 @@ package com.davigj.sage_brush.core.other;
 import com.davigj.sage_brush.client.BrushDustParticleOptions;
 import com.davigj.sage_brush.core.SBConfig;
 import com.davigj.sage_brush.core.SageBrush;
+import com.davigj.sage_brush.core.mixin.BeeAccessor;
 import com.davigj.sage_brush.core.mixin.IMixinLivingEntity;
 import com.davigj.sage_brush.core.other.tags.SBBlockTags;
 import com.davigj.sage_brush.core.registry.SBParticleTypes;
@@ -18,11 +19,11 @@ import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
-import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.*;
+import net.minecraft.world.entity.animal.Bee;
 import net.minecraft.world.entity.animal.Panda;
 import net.minecraft.world.entity.animal.Sheep;
 import net.minecraft.world.entity.player.Player;
@@ -67,14 +68,13 @@ public class SBBrushUtil {
             int timerTicks = manager.getValue(victim, timer);
             if (timerTicks == 0) {
                 manager.setValue(victim, timer, data.seconds() * 20);
-                if (!(data.shearable() && player instanceof Player player1 && victim instanceof IShearable shearable
-                        && shearable.isShearable(player1, stack, level, victim.blockPosition()))) {
-                    if (!data.item().equals("null")) {
-                        ItemStack resource = new ItemStack(getCompatItem(data.item()).get(), data.itemCount());
-                        victim.spawnAtLocation(resource);
-                        victim.playSound(SoundEvents.ITEM_PICKUP, 0.3F, (float) (1.8F + (victim.getRandom().nextGaussian() * 0.2F)));
-                        damageItem(stack, player);
-                    }
+                boolean passesShearFilter = !data.shearable() || (player instanceof Player player1 && victim instanceof IShearable shearable
+                        && shearable.isShearable(player1, stack, level, victim.blockPosition()));
+                if (passesShearFilter && !data.item().equals("null")) {
+                    ItemStack resource = new ItemStack(getCompatItem(data.item()).get(), data.itemCount());
+                    victim.spawnAtLocation(resource);
+                    victim.playSound(SoundEvents.ITEM_PICKUP, 0.3F, (float) (1.8F + (victim.getRandom().nextGaussian() * 0.2F)));
+                    damageItem(stack, player);
                 }
             } else {
                 if (victim instanceof LivingEntity living && data.aggroChance() != 0.0 && victim.getRandom().nextDouble() < data.aggroChance()) {
@@ -83,7 +83,9 @@ public class SBBrushUtil {
                     } else if (victim instanceof Sheep sheep && data.shearable()) {
                         handleSheep(sheep, player, stack);
                     } else if (SBConstants.isYak(victim) && data.shearable()) {
-                        SBConstants.yakShear(living, player);
+                        SBConstants.handleYak(living, player);
+                    } else if (victim instanceof Bee bee) {
+                        handleBee(bee, player, stack);
                     } else {
                         snagBrush(living, player);
                     }
@@ -96,7 +98,7 @@ public class SBBrushUtil {
                 }
             }
         }
-        // TODO: brushing beeeeez
+
         if (victim instanceof TamableAnimal tamable && tamable.isOwnedBy(player)) {
             if (level.isClientSide && SBConfig.CLIENT.petHearts.get()) {
                 entityParticleFX(level, tamable, velocity, arm, ParticleTypes.HEART, 0, 2);
@@ -125,9 +127,18 @@ public class SBBrushUtil {
 
     private static void handleSheep(Sheep sheep, LivingEntity perp, ItemStack stack) {
         sheep.setSheared(true);
-        sheep.level().playSound(null, sheep, SoundEvents.SHEEP_SHEAR, SoundSource.PLAYERS, 1.0F, 1.0F);
+        sheep.playSound(SoundEvents.SHEEP_SHEAR);
         snagBrush(sheep, perp);
         damageItem(stack, perp);
+    }
+
+    private static void handleBee(Bee bee, LivingEntity perp, ItemStack stack) {
+        if (bee.hasNectar() && SBConfig.COMMON.pollenBrush.get()) {
+            ((BeeAccessor) bee).callSetHasNectar(false);
+            bee.playSound(SoundEvents.BRUSH_SAND_COMPLETED);
+            snagBrush(bee, perp);
+            damageItem(stack, perp);
+        }
     }
 
     private static void snagBrush(LivingEntity victim, LivingEntity perp) {
@@ -137,7 +148,7 @@ public class SBBrushUtil {
             victim.hurt(victim.level().damageSources().generic(), 0.0F);
         }
         if (SBConfig.COMMON.hurtSound.get()) {
-            victim.playSound(((IMixinLivingEntity)victim).callGetHurtSound(victim.damageSources().generic()));
+            victim.playSound(((IMixinLivingEntity) victim).callGetHurtSound(victim.damageSources().generic()));
         }
         if (SBConfig.COMMON.aggroReal.get()) {
             victim.setLastHurtByMob(perp);

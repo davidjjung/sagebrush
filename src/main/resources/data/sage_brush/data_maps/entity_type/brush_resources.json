@@ -42,22 +42,25 @@
       "seconds": 2400
     },
 
-    "minecraft:panda": {
-      "aggroChance": 0.1
-    },
-
     "minecraft:sheep": {
       "item": "minecraft:string",
       "seconds": 3,
       "aggroChance": 0.025,
       "shearable": true
     },
-
     "environmental:yak": {
       "item": "environmental:yak_hair",
       "aggroChance": 0.1,
       "seconds": 2,
       "shearable": true
+    },
+
+    "minecraft:bee": {
+      "aggroChance": 0.3
+    },
+
+    "minecraft:panda": {
+      "aggroChance": 0.1
     },
 
     "alexsmobs:emu": {

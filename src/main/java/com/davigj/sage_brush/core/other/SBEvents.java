@@ -42,7 +42,7 @@ public class SBEvents {
         Holder<EntityType<?>> holder = entity.getType().builtInRegistryHolder();
         SBDataMapUtil.BrushData data = holder.getData(BRUSH_RESOURCES);
 
-        if (data != null && entity instanceof LivingEntity living && data.seconds() != 0) {
+        if (data != null && entity instanceof LivingEntity living && !data.item().equals("null") && data.seconds() > 0) {
             TrackedDataManager.INSTANCE.setValue(entity, SageBrush.RESOURCE_TIMER, living.getRandom().nextInt(data.seconds()));
         }
     }

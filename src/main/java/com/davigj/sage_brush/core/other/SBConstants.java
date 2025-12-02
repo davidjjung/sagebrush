@@ -20,9 +20,9 @@ public class SBConstants {
         return ModList.get().isLoaded("environmental") && entity instanceof Yak;
     }
 
-    public static void yakShear(LivingEntity yak, LivingEntity perp) {
+    public static void handleYak(LivingEntity yak, LivingEntity perp) {
         if (SBConstants.isYak(yak)) {
-            yak.level().playSound(null, yak, SoundEvents.SHEEP_SHEAR, SoundSource.PLAYERS, 1.0F, 1.0F);
+            yak.playSound(SoundEvents.SHEEP_SHEAR);
             ((Yak)yak).setSheared(true);
             if (perp.getItemBySlot(EquipmentSlot.LEGS).getItem() != SBConstants.yakPants) {
                 IMixinYaktelligence.callRetaliate((Yak) yak, perp);

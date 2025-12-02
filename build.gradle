@@ -68,6 +68,7 @@ dependencies {
 //    runtimeOnly "maven.modrinth:atmospheric:wFKEIHk8")
 //    runtimeOnly "maven.modrinth:autumnity:dNSKgdoR")
     runtimeOnly "maven.modrinth:environmental:NdDV1AM8"
+    runtimeOnly "maven.modrinth:just-dandy:tyeKnppe"
     runtimeOnly "maven.modrinth:no-mans-land:h56TqJQD"
     runtimeOnly "maven.modrinth:biolith:byVGeYWw"
     runtimeOnly "maven.modrinth:moonlight:86D1JAu2"

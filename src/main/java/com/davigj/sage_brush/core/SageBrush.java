@@ -23,7 +23,7 @@ public class SageBrush {
     public static final String MOD_ID = "sage_brush";
     public static final RegistryHelper REGISTRY_HELPER = new RegistryHelper(MOD_ID);
 
-    public static final TrackedData<Integer> RESOURCE_TIMER = TrackedData.Builder.create(ByteBufCodecs.INT, () -> 0).enablePersistence().build();
+    public static final TrackedData<Integer> RESOURCE_TIMER = TrackedData.Builder.create(ByteBufCodecs.INT, () -> -1).enablePersistence().build();
 
     public SageBrush(IEventBus bus, ModContainer container) {
         SBParticleTypes.PARTICLE_TYPES.register(bus);
