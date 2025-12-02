@@ -1,0 +1,114 @@
+{
+  "replace": false,
+  "values": {
+    "minecraft:chicken": {
+      "item": "minecraft:feather",
+      "seconds": 300,
+      "particle": "sage_brush:feather"
+    },
+    "minecraft:parrot": {
+      "item": "minecraft:feather",
+      "seconds": 600,
+      "particle": "sage_brush:parrot_feather"
+    },
+    "nomansland:goose": {
+      "item": "minecraft:feather",
+      "seconds": 600,
+      "particle": "sage_brush:feather",
+      "aggroChance": 0.2
+    },
+    "environmental:duck": {
+      "item": "minecraft:feather",
+      "seconds": 600,
+      "particle": "sage_brush:feather"
+    },
+    "autumnity:turkey": {
+      "item": "minecraft:feather",
+      "seconds": 600,
+      "particle": "sage_brush:feather",
+      "aggroChance": 0.2
+    },
+
+    "minecraft:turtle": {
+      "item": "minecraft:scute",
+      "seconds": 2400
+    },
+    "sullysmod:tortoise": {
+      "item": "sullysmod:tortoise_scute",
+      "seconds": 2400
+    },
+    "nomansland:tortoise": {
+      "item": "nomansland:sturdy_scute",
+      "seconds": 2400
+    },
+
+    "minecraft:panda": {
+      "aggroChance": 0.1
+    },
+
+    "minecraft:sheep": {
+      "item": "minecraft:string",
+      "seconds": 3,
+      "aggroChance": 0.025,
+      "shearable": true
+    },
+
+    "environmental:yak": {
+      "item": "environmental:yak_hair",
+      "aggroChance": 0.1,
+      "seconds": 2,
+      "shearable": true
+    },
+
+    "alexsmobs:emu": {
+      "item": "alexsmobs:emu_feather",
+      "particle": "sage_brush:emu_feather",
+      "seconds": 1200,
+      "aggroChance": 0.2
+    },
+    "alexsmobs:roadrunner": {
+      "item": "alexsmobs:roadrunner_feather",
+      "particle": "sage_brush:roadrunner_feather",
+      "seconds": 1200,
+      "aggroChance": 0.2
+    },
+    "alexsmobs:hummingbird": {
+      "item": "minecraft:feather",
+      "seconds": 1200,
+      "particle": "sage_brush:hummingbird_feather"
+    },
+    "alexsmobs:shoebill": {
+      "item": "minecraft:feather",
+      "seconds": 600,
+      "particle": "sage_brush:shoebill_feather"
+    },
+    "alexsmobs:seagull": {
+      "item": "minecraft:feather",
+      "seconds": 600,
+      "particle": "sage_brush:feather"
+    },
+    "alexsmobs:blue_jay": {
+      "item": "minecraft:feather",
+      "particle": "sage_brush:feather",
+      "seconds": 600
+    },
+    "alexsmobs:bald_eagle": {
+      "item": "minecraft:feather",
+      "particle": "sage_brush:feather",
+      "seconds": 600
+    },
+    "alexsmobs:toucan": {
+      "item": "minecraft:feather",
+      "particle": "sage_brush:black_feather",
+      "seconds": 600
+    },
+    "alexsmobs:crow": {
+      "item": "minecraft:feather",
+      "particle": "sage_brush:black_feather",
+      "seconds": 600
+    },
+    "alexsmobs:sunbird": {
+      "particle": "alexsmobs:sunbird_feather"
+    }
+  }
+}

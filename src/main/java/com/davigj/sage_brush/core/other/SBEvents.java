@@ -1,26 +1,31 @@
 package com.davigj.sage_brush.core.other;
 
-import com.davigj.sage_brush.core.SBConfig;
 import com.davigj.sage_brush.core.SageBrush;
-import com.teamabnormals.blueprint.common.world.storage.tracking.TrackedData;
+import com.davigj.sage_brush.core.registry.SBParticleTypes;
 import com.teamabnormals.blueprint.common.world.storage.tracking.TrackedDataManager;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.multiplayer.ClientLevel;
+import net.minecraft.core.Holder;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.TamableAnimal;
-import net.minecraft.world.entity.animal.Turtle;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Items;
-import net.minecraftforge.event.entity.EntityJoinLevelEvent;
-import net.minecraftforge.event.entity.living.LivingEvent;
-import net.minecraftforge.event.entity.player.PlayerInteractEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.ModList;
-import net.minecraftforge.fml.common.Mod;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.common.IShearable;
+import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
+import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
+import net.neoforged.neoforge.event.tick.EntityTickEvent;
 
-import static com.davigj.sage_brush.core.other.tags.SBEntityTypeTags.FEATHERED;
-import static com.davigj.sage_brush.core.other.tags.SBEntityTypeTags.WORSE_FEATHERED;
+import static com.davigj.sage_brush.core.other.SBDataMapUtil.BRUSH_RESOURCES;
 
-@Mod.EventBusSubscriber(modid = SageBrush.MOD_ID)
+@EventBusSubscriber(modid = SageBrush.MOD_ID)
 public class SBEvents {
     @SubscribeEvent
     public static void brushPets(PlayerInteractEvent.EntityInteract event) {
@@ -32,36 +37,41 @@ public class SBEvents {
     }
 
     @SubscribeEvent
-    public static void spawnTurts(EntityJoinLevelEvent event) {
+    public static void spawnNotAlong(EntityJoinLevelEvent event) {
         Entity entity = event.getEntity();
-        if (entity instanceof LivingEntity living) {
-            if ((living instanceof Turtle && SBConfig.COMMON.scute.get()) ||
-                    (SBConfig.COMMON.torScute.get() && (ModList.get().isLoaded("sullysmod") && SBConstants.isTortoise(living)))) {
-                TrackedDataManager.INSTANCE.setValue(entity, SageBrush.SCUTE_TIMER, living.getRandom().nextInt(SBConfig.COMMON.scuteTimer.get()));
-            }
+        Holder<EntityType<?>> holder = entity.getType().builtInRegistryHolder();
+        SBDataMapUtil.BrushData data = holder.getData(BRUSH_RESOURCES);
+
+        if (data != null && entity instanceof LivingEntity living && data.seconds() != 0) {
+            TrackedDataManager.INSTANCE.setValue(entity, SageBrush.RESOURCE_TIMER, living.getRandom().nextInt(data.seconds()));
         }
     }
 
     @SubscribeEvent
-    public static void entityTick(LivingEvent.LivingTickEvent event) {
+    public static void entityTick(EntityTickEvent.Post event) {
         TrackedDataManager manager = TrackedDataManager.INSTANCE;
-        LivingEntity target = event.getEntity();
-
-        if (target.getType().is(FEATHERED)) {
-            countDown(manager, target, SageBrush.FEATHER_TIMER);
-        } else if (target.getType().is(WORSE_FEATHERED)) {
-            countDown(manager, target, SageBrush.WORSE_FEATHER_TIMER);
-        }
-        if ((target instanceof Turtle && SBConfig.COMMON.scute.get()) ||
-                (ModList.get().isLoaded("sullysmod") && SBConstants.isTortoise(target) && SBConfig.COMMON.torScute.get())) {
-            countDown(manager, target, SageBrush.SCUTE_TIMER);
-        }
-    }
-
-    private static void countDown(TrackedDataManager manager, LivingEntity entity, TrackedData<Integer> timerData) {
-        int timer = manager.getValue(entity, timerData);
+        if (!(event.getEntity() instanceof LivingEntity target)) return;
+        int timer = manager.getValue(target, SageBrush.RESOURCE_TIMER);
         if (timer > 0) {
-            manager.setValue(entity, timerData, timer - 1);
+            manager.setValue(target, SageBrush.RESOURCE_TIMER, timer - 1);
+        }
+        Holder<EntityType<?>> holder = target.getType().builtInRegistryHolder();
+        SBDataMapUtil.BrushData data = holder.getData(BRUSH_RESOURCES);
+        if (data != null && !data.item().equals("null")) {
+            if (target.level().isClientSide) {
+                Minecraft minecraft = Minecraft.getInstance();
+                Player player = minecraft.player;
+                if (player != null && (player.getMainHandItem().is(Items.BRUSH) || player.getOffhandItem().is(Items.BRUSH))) {
+                    RandomSource random = target.level().getRandom();
+                    if (target.tickCount % 25 == 0 && player.level() instanceof ClientLevel && manager.getValue(target, SageBrush.RESOURCE_TIMER) == 0 &&
+                            (!data.shearable() || target instanceof IShearable shearable &&
+                                    (shearable.isShearable(player, player.getItemInHand(InteractionHand.MAIN_HAND), target.level(), target.blockPosition())
+                                    || (shearable.isShearable(player, player.getItemInHand(InteractionHand.OFF_HAND), target.level(), target.blockPosition()))))) {
+                        target.level().addParticle(SBParticleTypes.GLEAM.get(), target.getX() + random.nextDouble() - (target.getBbWidth() * 0.5),
+                                target.getEyeY() + (random.nextDouble() * 0.3) - 0.35, target.getZ() + random.nextDouble() - (target.getBbWidth() * 0.5), 0, 0, 0);
+                    }
+                }
+            }
         }
     }
 }

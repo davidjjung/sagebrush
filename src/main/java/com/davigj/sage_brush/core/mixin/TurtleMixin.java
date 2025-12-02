@@ -13,10 +13,8 @@ import org.spongepowered.asm.mixin.injection.At;
 public class TurtleMixin {
     @WrapOperation(method = "ageBoundaryReached", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/animal/Turtle;spawnAtLocation(Lnet/minecraft/world/level/ItemLike;I)Lnet/minecraft/world/entity/item/ItemEntity;"))
     private ItemEntity bonusSpawn(Turtle instance, ItemLike itemLike, int i, Operation<ItemEntity> original) {
-        if (SBConfig.COMMON.scute.get()) {
-            for (int j = 1; j < SBConfig.COMMON.scuteBabyDrops.get(); j++) {
-                original.call(instance, itemLike, i);
-            }
+        for (int j = 1; j < SBConfig.COMMON.scuteBabyDrops.get(); j++) {
+            original.call(instance, itemLike, i);
         }
         return original.call(instance, itemLike, i);
     }

@@ -1,71 +1,38 @@
 package com.davigj.sage_brush.core.other;
 
-import com.davigj.sage_brush.core.registry.SBParticleTypes;
-import com.github.alexthe666.alexsmobs.client.particle.AMParticleRegistry;
-import com.github.alexthe666.alexsmobs.entity.EntityEmu;
-import com.github.alexthe666.alexsmobs.entity.EntityRoadrunner;
-import com.github.alexthe666.alexsmobs.item.AMItemRegistry;
-import com.teamabnormals.atmospheric.core.registry.AtmosphericBlocks;
+import com.davigj.sage_brush.core.mixin.IMixinYaktelligence;
 import com.teamabnormals.environmental.common.entity.animal.yak.Yak;
 import com.teamabnormals.environmental.core.registry.EnvironmentalItems;
-import com.uraneptus.sullysmod.common.entities.Tortoise;
-import com.uraneptus.sullysmod.core.registry.SMItems;
-import net.mehvahdjukaar.supplementaries.reg.ModRegistry;
-import net.minecraft.core.particles.ParticleOptions;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.level.block.DoublePlantBlock;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
-import net.minecraftforge.fml.ModList;
-
-import static com.teamabnormals.atmospheric.common.block.AloeVeraTallBlock.AGE;
+import net.neoforged.fml.ModList;
 
 public class SBConstants {
-    public static final Item emuFeather;
-    public static final Item roadrunnerFeather;
-    public static final Item tortoiseScute;
     public static final Item yakHair;
     public static final Item yakPants;
-    public static final ParticleOptions sunbirdParticle;
 
-    public static boolean isEmu(Entity entity) {
-        return entity instanceof EntityEmu;
-    }
-    public static boolean isRoadrunner(Entity entity) {
-        return entity instanceof EntityRoadrunner;
-    }
-    public static boolean isTortoise(Entity entity) {
-        return entity instanceof Tortoise;
-    }
     public static boolean isYak(Entity entity) {
-        return entity instanceof Yak;
+        return ModList.get().isLoaded("environmental") && entity instanceof Yak;
     }
 
-    public static boolean isFeatherBlock(BlockState state) {
-        return state.is(ModRegistry.FEATHER_BLOCK.get());
-    }
-
-    public static boolean isYellowBlossom(BlockState state) {
-        return (state.is(AtmosphericBlocks.TALL_ALOE_VERA.get()) && state.getValue(AGE) > 5 && state.getValue(DoublePlantBlock.HALF) == DoubleBlockHalf.UPPER)
-                || state.is(AtmosphericBlocks.FLOWERING_MORADO_LEAVES.get());
-    }
-
-    public static void setSheared(LivingEntity living) {
-        if (SBConstants.isYak(living)) {
-            ((Yak)living).setSheared(true);
+    public static void yakShear(LivingEntity yak, LivingEntity perp) {
+        if (SBConstants.isYak(yak)) {
+            yak.level().playSound(null, yak, SoundEvents.SHEEP_SHEAR, SoundSource.PLAYERS, 1.0F, 1.0F);
+            ((Yak)yak).setSheared(true);
+            if (perp.getItemBySlot(EquipmentSlot.LEGS).getItem() != SBConstants.yakPants) {
+                IMixinYaktelligence.callRetaliate((Yak) yak, perp);
+            }
         }
     }
 
     static {
-        emuFeather = ModList.get().isLoaded("alexsmobs") ? AMItemRegistry.EMU_FEATHER.get() : Items.FEATHER;
-        roadrunnerFeather = ModList.get().isLoaded("alexsmobs") ? AMItemRegistry.ROADRUNNER_FEATHER.get() : Items.FEATHER;
-        tortoiseScute = ModList.get().isLoaded("sullysmod") ? SMItems.TORTOISE_SCUTE.get() : Items.SCUTE;
         yakHair = ModList.get().isLoaded("environmental") ? EnvironmentalItems.YAK_HAIR.get() : Items.STRING;
-        yakPants = ModList.get().isLoaded("environmental") ? EnvironmentalItems.YAK_PANTS.get() : Items.LEATHER;
-        sunbirdParticle = ModList.get().isLoaded("alexsmobs") ? AMParticleRegistry.SUNBIRD_FEATHER.get() : SBParticleTypes.FEATHER.get();
+        yakPants = ModList.get().isLoaded("environmental") ? EnvironmentalItems.YAK_PANTS.get() : Items.LEATHER_LEGGINGS;
     }
 
 

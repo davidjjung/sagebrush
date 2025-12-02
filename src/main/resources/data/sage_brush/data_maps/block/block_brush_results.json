@@ -1,0 +1,26 @@
+{
+  "replace": false,
+  "values": {
+    "minecraft:spore_blossom": {
+      "particle": "sage_brush:spore_blossom"
+    },
+    "minecraft:end_rod": {
+      "particle": "minecraft:end_rod"
+    },
+    "minecraft:cherry_leaves": {
+      "particle": "sage_brush:cherry_blossom"
+    },
+    "supplementaries:feather_block": {
+      "particle": "sage_brush:feather"
+    },
+    "supplementaries:soap_block": {
+      "particle": "supplementaries:suds"
+    },
+    "atmospheric:tall_aloe_vera": {
+      "particle": "sage_brush:yellow_blossom"
+    },
+    "atmospheric:morado_leaves": {
+      "particle": "sage_brush:yellow_blossom"
+    }
+  }
+}

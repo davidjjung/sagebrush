@@ -15,7 +15,9 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.HumanoidArm;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.animal.armadillo.Armadillo;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.projectile.ProjectileUtil;
 import net.minecraft.world.item.BrushItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -43,11 +45,7 @@ public abstract class BrushItemMixin extends Item {
     }
 
     @Shadow
-    public abstract HitResult calculateHitResult(LivingEntity user);
-
-    @Final
-    @Shadow
-    private static double MAX_BRUSH_DISTANCE;
+    protected abstract HitResult calculateHitResult(Player player);
 
     @Override
     public @NotNull InteractionResult interactLivingEntity(@NotNull ItemStack p_41398_, @NotNull Player player, @NotNull LivingEntity p_41400_, InteractionHand hand) {
@@ -63,13 +61,13 @@ public abstract class BrushItemMixin extends Item {
         if (living instanceof Player player) {
             HitResult result = this.calculateHitResult(player);
             if (result instanceof EntityHitResult ehr && result.getType() == HitResult.Type.ENTITY) {
-                int $$9 = brush.getUseDuration(stack) - duration + 1;
+                int $$9 = brush.getUseDuration(stack, player) - duration + 1;
                 boolean $$10 = $$9 % 10 == 5;
                 if ($$10) {
                     level.playSound(player, player.blockPosition(), SoundEvents.BRUSH_GENERIC, SoundSource.PLAYERS);
                     Entity $$11 = ehr.getEntity();
                     HumanoidArm arm = player.getUsedItemHand() == InteractionHand.MAIN_HAND ? player.getMainArm() : player.getMainArm().getOpposite();
-                    Vec3 vec3 = living.getViewVector(0.0F).scale(MAX_BRUSH_DISTANCE);
+                    Vec3 vec3 = living.getViewVector(0.0F);
                     SBBrushUtil.onEntityUseTick(level, stack, $$11, living, vec3, arm, ehr);
                 }
                 ci.cancel();
@@ -89,14 +87,12 @@ public abstract class BrushItemMixin extends Item {
         }
     }
 
-
     @Inject(method = "calculateHitResult", at = @At("HEAD"), cancellable = true)
-    private void hitEmBoys(LivingEntity living, CallbackInfoReturnable<HitResult> cir) {
-        Vec3 vec3 = living.getViewVector(0.0F).scale(MAX_BRUSH_DISTANCE);
-        Level level = living.level();
-        Vec3 vec31 = living.getEyePosition();
+    private void hitEmBoys(Player player, CallbackInfoReturnable<HitResult> cir) {
+        Level level = player.level();
+        Vec3 vec31 = player.getEyePosition();
         Predicate<Entity> predicate = (entity) -> !entity.isSpectator() && entity.isPickable();
-        cir.setReturnValue(SBBrushUtil.getBrushHitResult(vec31, living, predicate, vec3, level));
+        cir.setReturnValue(SBBrushUtil.getBrushHitResult(vec31, player, predicate, level));
     }
 
     @Inject(method = "spawnDustParticles", at = @At("HEAD"), cancellable = true)

@@ -26,9 +26,9 @@
     "minecraft:lodestone",
     "minecraft:respawn_anchor",
     "#minecraft:beacon_base_blocks",
-    "#forge:glass",
-    "#forge:glass_panes",
-    "#forge:ores",
+    "#c:glass_panes",
+    "#c:glass_blocks",
+    "#c:ores",
     {
       "required": false,
       "id": "supplementaries:jar"

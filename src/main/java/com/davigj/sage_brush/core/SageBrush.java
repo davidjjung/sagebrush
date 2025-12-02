@@ -1,66 +1,58 @@
 package com.davigj.sage_brush.core;
 
 import com.davigj.sage_brush.core.registry.SBParticleTypes;
-import com.teamabnormals.blueprint.common.world.storage.tracking.DataProcessors;
 import com.teamabnormals.blueprint.common.world.storage.tracking.TrackedData;
 import com.teamabnormals.blueprint.common.world.storage.tracking.TrackedDataManager;
 import com.teamabnormals.blueprint.core.util.registry.RegistryHelper;
+import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.data.event.GatherDataEvent;
-import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.fml.ModLoadingContext;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.config.ModConfig;
-import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
-import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
-import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.neoforged.bus.api.IEventBus;
+import net.neoforged.fml.ModContainer;
+import net.neoforged.fml.common.Mod;
+import net.neoforged.fml.config.ModConfig;
+import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
+import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.neoforged.neoforge.data.event.GatherDataEvent;
+import net.neoforged.neoforge.registries.datamaps.RegisterDataMapTypesEvent;
+
+import static com.davigj.sage_brush.core.other.SBDataMapUtil.BLOCK_BRUSH_RESULTS;
+import static com.davigj.sage_brush.core.other.SBDataMapUtil.BRUSH_RESOURCES;
 
 @Mod(SageBrush.MOD_ID)
 public class SageBrush {
-    // TODO: docile tags, gleaming entities, IW sand, horsies and donkeys, offended animals, Sully's tortoises
-    // TODO later: arts and crafts paintbrushes, domestication innovation pets, example mixin
-    // TODO huge stretch goal: block particle jsons, entity particle jsons, entity resource jsons
-    // TODO uncertain: brushes getting "gummed up" by things like cobwebs?...
     public static final String MOD_ID = "sage_brush";
     public static final RegistryHelper REGISTRY_HELPER = new RegistryHelper(MOD_ID);
 
-    public static final TrackedData<Integer> FEATHER_TIMER = TrackedData.Builder.create(DataProcessors.INT, () -> 0).enableSaving().enablePersistence().build();
-    public static final TrackedData<Integer> WORSE_FEATHER_TIMER = TrackedData.Builder.create(DataProcessors.INT, () -> 0).enableSaving().enablePersistence().build();
-    public static final TrackedData<Integer> SCUTE_TIMER = TrackedData.Builder.create(DataProcessors.INT, () -> 0).enableSaving().enablePersistence().build();
+    public static final TrackedData<Integer> RESOURCE_TIMER = TrackedData.Builder.create(ByteBufCodecs.INT, () -> 0).enablePersistence().build();
 
-    public SageBrush() {
-        IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
-        ModLoadingContext context = ModLoadingContext.get();
-        MinecraftForge.EVENT_BUS.register(this);
-
-		REGISTRY_HELPER.register(bus);
+    public SageBrush(IEventBus bus, ModContainer container) {
         SBParticleTypes.PARTICLE_TYPES.register(bus);
 
         bus.addListener(this::commonSetup);
         bus.addListener(this::clientSetup);
         bus.addListener(this::dataSetup);
-        context.registerConfig(ModConfig.Type.COMMON, SBConfig.COMMON_SPEC);
-        context.registerConfig(ModConfig.Type.CLIENT, SBConfig.CLIENT_SPEC);
+        bus.addListener(this::registerDataMapTypes);
 
-        TrackedDataManager.INSTANCE.registerData(new ResourceLocation(MOD_ID, "feather_timer"), FEATHER_TIMER);
-        TrackedDataManager.INSTANCE.registerData(new ResourceLocation(MOD_ID, "worse_feather_timer"), WORSE_FEATHER_TIMER);
-        TrackedDataManager.INSTANCE.registerData(new ResourceLocation(MOD_ID, "scute_timer"), SCUTE_TIMER);
+        container.registerConfig(ModConfig.Type.COMMON, SBConfig.COMMON_SPEC);
+        container.registerConfig(ModConfig.Type.CLIENT, SBConfig.CLIENT_SPEC);
     }
 
     private void commonSetup(FMLCommonSetupEvent event) {
-        event.enqueueWork(() -> {
-
-        });
+        TrackedDataManager.INSTANCE.registerData(SageBrush.location("resource_timer"), RESOURCE_TIMER);
     }
 
     private void clientSetup(FMLClientSetupEvent event) {
-        event.enqueueWork(() -> {
-
-        });
     }
 
     private void dataSetup(GatherDataEvent event) {
+    }
 
+    private void registerDataMapTypes(RegisterDataMapTypesEvent event) {
+        event.register(BRUSH_RESOURCES);
+        event.register(BLOCK_BRUSH_RESULTS);
+    }
+
+    public static ResourceLocation location(String path) {
+        return ResourceLocation.fromNamespaceAndPath(MOD_ID, path);
     }
 }

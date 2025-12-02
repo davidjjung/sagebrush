@@ -6,12 +6,10 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.level.block.Block;
 
-public class SBBlockTags {
-    public static final TagKey<Block> GLEAMING = blockTag("gleaming");
-    public static final TagKey<Block> REDUCED_DUST = blockTag("reduced_dust");
-    public static final TagKey<Block> REMOVABLE = blockTag("removable");
+import static com.teamabnormals.blueprint.core.util.TagUtil.blockTag;
 
-    private static TagKey<Block> blockTag(String name) {
-        return TagKey.create(Registries.BLOCK, new ResourceLocation(SageBrush.MOD_ID, name));
-    }
+public class SBBlockTags {
+    public static final TagKey<Block> GLEAMING = blockTag(SageBrush.MOD_ID, "gleaming");
+    public static final TagKey<Block> REDUCED_DUST = blockTag(SageBrush.MOD_ID,"reduced_dust");
+    public static final TagKey<Block> REMOVABLE = blockTag(SageBrush.MOD_ID,"removable");
 }

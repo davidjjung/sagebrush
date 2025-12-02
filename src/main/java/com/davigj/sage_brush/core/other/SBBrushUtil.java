@@ -3,34 +3,36 @@ package com.davigj.sage_brush.core.other;
 import com.davigj.sage_brush.client.BrushDustParticleOptions;
 import com.davigj.sage_brush.core.SBConfig;
 import com.davigj.sage_brush.core.SageBrush;
+import com.davigj.sage_brush.core.mixin.IMixinLivingEntity;
 import com.davigj.sage_brush.core.other.tags.SBBlockTags;
-import com.davigj.sage_brush.core.other.tags.SBEntityTypeTags;
 import com.davigj.sage_brush.core.registry.SBParticleTypes;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.teamabnormals.blueprint.common.world.storage.tracking.TrackedData;
 import com.teamabnormals.blueprint.common.world.storage.tracking.TrackedDataManager;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.Holder;
 import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.*;
-import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.animal.Panda;
-import net.minecraft.world.entity.animal.Parrot;
-import net.minecraft.world.entity.animal.Turtle;
+import net.minecraft.world.entity.animal.Sheep;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.BrushItem;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.item.SpawnEggItem;
 import net.minecraft.world.level.ClipContext;
-import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
@@ -38,13 +40,17 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.minecraftforge.fml.ModList;
+import net.neoforged.fml.ModList;
+import net.neoforged.neoforge.common.IShearable;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Predicate;
+import java.util.function.Supplier;
 
-import static com.davigj.sage_brush.core.other.tags.SBEntityTypeTags.*;
+import static com.davigj.sage_brush.core.other.SBDataMapUtil.BLOCK_BRUSH_RESULTS;
+import static com.davigj.sage_brush.core.other.SBDataMapUtil.BRUSH_RESOURCES;
+import static com.davigj.sage_brush.core.other.tags.SBEntityTypeTags.SLIMY;
 import static net.minecraft.world.entity.projectile.ProjectileUtil.getEntityHitResult;
 import static net.minecraft.world.level.block.state.properties.BlockStateProperties.LAYERS;
 
@@ -52,128 +58,88 @@ public class SBBrushUtil {
     public static final TrackedDataManager manager = TrackedDataManager.INSTANCE;
 
     public static void onEntityUseTick(Level level, ItemStack stack, Entity victim, LivingEntity player, Vec3 velocity, HumanoidArm arm, HitResult result) {
-        if (!victim.isInWaterRainOrBubble() && !victim.getType().is(SLIMY)) {
-            if (!(victim.getType().is(FEATHERED) || victim.getType().is(COSMETIC_FEATHERED)) && SBConfig.CLIENT.allFeathersNoDust.get()) {
-                entityDustParticleFX(level, victim, velocity, arm, 1, 4, result);
-            }
-        }
-        if (victim instanceof TamableAnimal tamable && tamable.isOwnedBy(player)) {
-            if (level.isClientSide && SBConfig.CLIENT.petHearts.get()) {
-                entityParticleFX(level, tamable, velocity, arm, ParticleTypes.HEART, 0, 2);
-            } else if (tamable.getRandom().nextDouble() < 0.2 && SBConfig.COMMON.regen.get()) {
-                tamable.addEffect(new MobEffectInstance(MobEffects.REGENERATION, 60));
-                damageItem(stack, player);
-            }
-//            tamable.lookAt(player, 30.0F, 30.0F);
-        }
-        if (victim instanceof Panda panda) {
-            double achoo = panda.getRandom().nextDouble();
-            if (achoo > 0.85) {
-                if (((panda.isBaby() || panda.isWeak()) || !SBConfig.COMMON.weakAndSick.get()) &&
-                        panda.canPerformAction() && !panda.isSneezing() && SBConfig.COMMON.pandaSneeze.get()) {
-                    panda.sneeze(true);
-                    damageItem(stack, player);
+        Holder<EntityType<?>> holder = victim.getType().builtInRegistryHolder();
+        SBDataMapUtil.BrushData data = holder.getData(BRUSH_RESOURCES);
+        boolean dusty = !victim.isInWaterRainOrBubble() && !victim.getType().is(SLIMY) && (level.isClientSide && SBConfig.CLIENT.dustyMobs.get());
+        if (data != null) {
+            if ((victim instanceof AgeableMob ageable && ageable.isBaby()) && !data.babyHarvest()) return;
+            TrackedData<Integer> timer = SageBrush.RESOURCE_TIMER;
+            int timerTicks = manager.getValue(victim, timer);
+            if (timerTicks == 0) {
+                manager.setValue(victim, timer, data.seconds() * 20);
+                if (!(data.shearable() && player instanceof Player player1 && victim instanceof IShearable shearable
+                        && shearable.isShearable(player1, stack, level, victim.blockPosition()))) {
+                    if (!data.item().equals("null")) {
+                        ItemStack resource = new ItemStack(getCompatItem(data.item()).get(), data.itemCount());
+                        victim.spawnAtLocation(resource);
+                        victim.playSound(SoundEvents.ITEM_PICKUP, 0.3F, (float) (1.8F + (victim.getRandom().nextGaussian() * 0.2F)));
+                        damageItem(stack, player);
+                    }
                 }
-                if ((!(panda.isPlayful() || panda.isLazy())) || !SBConfig.COMMON.lazyAndPlayful.get()) {
-                    snagBrush(panda, player, 1 - achoo, SBConfig.COMMON.pandaSnagChance.get());
-                }
-            }
-            return;
-        }
-        if (victim.getType().is(SBEntityTypeTags.FEATHERED) || victim.getType().is(SBEntityTypeTags.WORSE_FEATHERED) || victim.getType().is(COSMETIC_FEATHERED)) {
-            if (level.isClientSide && SBConfig.CLIENT.molt.get()) {
-                visualMoltFX(level, victim, velocity, arm);
-            } else if (SBConfig.COMMON.featheredMolt.get()) {
-                if (victim.getType().is(SBEntityTypeTags.FEATHERED)) {
-                    pluck(stack, player, victim, SageBrush.FEATHER_TIMER, SBConfig.COMMON.moltTimer.get());
-                } else if (victim.getType().is(SBEntityTypeTags.WORSE_FEATHERED)) {
-                    pluck(stack, player, victim, SageBrush.WORSE_FEATHER_TIMER, SBConfig.COMMON.worseMoltTimer.get());
-                }
-                if (victim instanceof LivingEntity)
-                    snagBrush((LivingEntity) victim, player, level.getRandom().nextDouble(), SBConfig.COMMON.featherSnagChance.get());
-            }
-        }
-        if (victim instanceof Turtle turtle && SBConfig.COMMON.scute.get()) {
-            int timer = manager.getValue(turtle, SageBrush.SCUTE_TIMER);
-            if (timer == 0) {
-                turtle.spawnAtLocation(Items.SCUTE);
-                damageItem(stack, player);
-                manager.setValue(turtle, SageBrush.SCUTE_TIMER, SBConfig.COMMON.scuteTimer.get());
-            }
-            return;
-        }
-        if (SBConfig.COMMON.torScute.get() && (ModList.get().isLoaded("sullysmod") && SBConstants.isTortoise(victim))) {
-            int timer = manager.getValue(victim, SageBrush.SCUTE_TIMER);
-            if (timer == 0) {
-                victim.spawnAtLocation(SBConstants.tortoiseScute);
-                damageItem(stack, player);
-                manager.setValue(victim, SageBrush.SCUTE_TIMER, SBConfig.COMMON.torScuteTimer.get());
-            }
-        }
-
-        if (SBConfig.COMMON.yakHair.get() && (ModList.get().isLoaded("environmental") && SBConstants.isYak(victim))) {
-            if (victim instanceof Shearable shearable && victim instanceof Animal animal && shearable.readyForShearing() && player instanceof Player) {
-                if (animal.getRandom().nextBoolean()) {
-                    victim.spawnAtLocation(SBConstants.yakHair, SBConfig.COMMON.yakBrushHairCount.get());
-                    damageItem(stack, player);
-                    if ((2 * animal.getRandom().nextFloat() < SBConfig.COMMON.yakShearChance.get())) {
-                        if (!SBConfig.COMMON.yakBrushGentle.get()) {
-                            if (!((Player) player).getAbilities().instabuild && !(player.getItemBySlot(EquipmentSlot.LEGS).is(SBConstants.yakPants))) {
-                                animal.setTarget(player);
-                            }
-                        }
-                        SBConstants.setSheared(animal);
-                        animal.playSound(SoundEvents.SHEEP_SHEAR);
+            } else {
+                if (victim instanceof LivingEntity living && data.aggroChance() != 0.0 && victim.getRandom().nextDouble() < data.aggroChance()) {
+                    if (victim instanceof Panda panda) {
+                        handlePanda(panda, player, stack);
+                    } else if (victim instanceof Sheep sheep && data.shearable()) {
+                        handleSheep(sheep, player, stack);
+                    } else if (SBConstants.isYak(victim) && data.shearable()) {
+                        SBConstants.yakShear(living, player);
+                    } else {
+                        snagBrush(living, player);
                     }
                 }
             }
-        }
-    }
-
-    private static void visualMoltFX(Level level, Entity victim, Vec3 velocity, HumanoidArm arm) {
-        ParticleOptions particle = SBParticleTypes.FEATHER.get();
-        if (victim instanceof Parrot) {
-            particle = SBParticleTypes.PARROT_FEATHER.get();
-        } else if (victim.getType().is(COSMETIC_BLACK_FEATHERS)) {
-            particle = SBParticleTypes.BLACK_FEATHER.get();
-        } else if (victim.getType().is(COSMETIC_HUMMINGBIRD_FEATHERS)) {
-            particle = SBParticleTypes.HUMMINGBIRD_FEATHER.get();
-        } else if (victim.getType().is(COSMETIC_ROADRUNNER_FEATHERS)) {
-            particle = SBParticleTypes.ROADRUNNER_FEATHER.get();
-        } else if (victim.getType().is(COSMETIC_EMU_FEATHERS)) {
-            particle = SBParticleTypes.EMU_FEATHER.get();
-        } else if (victim.getType().is(COSMETIC_SHOEBILL_FEATHERS)) {
-            particle = SBParticleTypes.SHOEBILL_FEATHER.get();
-        } else if (victim.getType().is(COSMETIC_SUNBIRD_FEATHERS)) {
-            particle = SBConstants.sunbirdParticle;
-        }
-        entityParticleFX(level, victim, velocity, arm, particle, 1, 3);
-    }
-
-    private static void pluck(ItemStack stack, LivingEntity player, Entity pluckee, TrackedData<Integer> timerData, int reset) {
-        int timer = manager.getValue(pluckee, timerData);
-        if (timer == 0) {
-            ItemLike item = Items.FEATHER;
-            if (ModList.get().isLoaded("alexsmobs")) {
-                if (SBConstants.isEmu(pluckee)) {
-                    item = SBConstants.emuFeather;
-                } else if (SBConstants.isRoadrunner(pluckee)) {
-                    item = SBConstants.roadrunnerFeather;
+            if (!data.particle().equals("null")) {
+                if (level.isClientSide) {
+                    entityParticleFX(level, victim, velocity, arm, (ParticleOptions) getCompatParticle(data.particle()).get(), 1, 3);
+                    dusty = false;
                 }
             }
-            pluckee.spawnAtLocation(item);
-            damageItem(stack, player);
-            manager.setValue(pluckee, timerData, reset);
+        }
+        // TODO: brushing beeeeez
+        if (victim instanceof TamableAnimal tamable && tamable.isOwnedBy(player)) {
+            if (level.isClientSide && SBConfig.CLIENT.petHearts.get()) {
+                entityParticleFX(level, tamable, velocity, arm, ParticleTypes.HEART, 0, 2);
+            } else if (tamable.getRandom().nextDouble() < 0.3 && SBConfig.COMMON.regen.get()) {
+                tamable.addEffect(new MobEffectInstance(MobEffects.REGENERATION, 80));
+                damageItem(stack, player);
+            }
+        }
+
+        if (dusty) {
+            entityDustParticleFX(level, victim, velocity, arm, 1, 4, result);
         }
     }
 
-    private static void snagBrush(LivingEntity victim, LivingEntity perp, double snag, double snagConfig) {
-        if (victim instanceof TamableAnimal tamable && tamable.isOwnedBy(perp)) return;
-        if (SBConfig.COMMON.brushSnag.get() && snag < snagConfig) {
-            victim.playSound(SoundEvents.PLAYER_HURT_SWEET_BERRY_BUSH, 0.3F, 1.8F);
-            if (SBConfig.COMMON.brushSnagMockDamage.get()) {
-                victim.hurt(victim.level().damageSources().generic(), 0.0F);
+    private static void handlePanda(Panda panda, LivingEntity perp, ItemStack stack) {
+        boolean canSneeze = ((panda.isBaby() || panda.isWeak()) || !SBConfig.COMMON.weakAndSick.get());
+        if (canSneeze && panda.canPerformAction() && !panda.isSneezing() && SBConfig.COMMON.pandaSneeze.get()) {
+            panda.sneeze(true);
+            damageItem(stack, perp);
+            boolean canAggro = !(panda.isPlayful() || panda.isLazy());
+            if (canAggro || !SBConfig.COMMON.lazyAndPlayful.get()) {
+                snagBrush(panda, perp);
             }
+        }
+    }
+
+    private static void handleSheep(Sheep sheep, LivingEntity perp, ItemStack stack) {
+        sheep.setSheared(true);
+        sheep.level().playSound(null, sheep, SoundEvents.SHEEP_SHEAR, SoundSource.PLAYERS, 1.0F, 1.0F);
+        snagBrush(sheep, perp);
+        damageItem(stack, perp);
+    }
+
+    private static void snagBrush(LivingEntity victim, LivingEntity perp) {
+        if (victim instanceof TamableAnimal tamable && tamable.isOwnedBy(perp)) return;
+        victim.playSound(SoundEvents.PLAYER_HURT_SWEET_BERRY_BUSH, 0.3F, 1.8F);
+        if (SBConfig.COMMON.brushSnagMockDamage.get()) {
+            victim.hurt(victim.level().damageSources().generic(), 0.0F);
+        }
+        if (SBConfig.COMMON.hurtSound.get()) {
+            victim.playSound(((IMixinLivingEntity)victim).callGetHurtSound(victim.damageSources().generic()));
+        }
+        if (SBConfig.COMMON.aggroReal.get()) {
             victim.setLastHurtByMob(perp);
         }
     }
@@ -186,8 +152,8 @@ public class SBBrushUtil {
 
         for (int k = 0; k < j; ++k) {
             level.addParticle(particle, pos.x, pos.y, pos.z,
-                    vec3.z() * (double) i * 0.1 * level.getRandom().nextDouble(), 0.0,
-                    -vec3.x() * (double) i * 0.1 * level.getRandom().nextDouble());
+                    vec3.z() * (double) i * 0.2 * level.getRandom().nextDouble(), 0.0,
+                    -vec3.x() * (double) i * 0.2 * level.getRandom().nextDouble());
         }
     }
 
@@ -205,9 +171,8 @@ public class SBBrushUtil {
 
         vec3 = vec3.normalize();
         for (int k = 0; k < j; ++k) {
-            double dx = vec3.z() * i * 0.07 * level.getRandom().nextDouble();
-            double dz = -vec3.x() * i * 0.07 * level.getRandom().nextDouble();
-
+            double dx = vec3.z() * i * 0.07 * level.getRandom().nextDouble() * (victim.getBbWidth() * 0.8);
+            double dz = -vec3.x() * i * 0.07 * level.getRandom().nextDouble() * (victim.getBbWidth() * 0.8);
             level.addParticle(new BrushDustParticleOptions(Vec3.fromRGB24(color).toVector3f(), 1.0F),
                     pos.x, victim.yo + (victim.getBbHeight() / 2), pos.z,
                     dx, 0.0D, dz);
@@ -223,28 +188,18 @@ public class SBBrushUtil {
             damageItem(stack, living);
             return;
         }
-        if (state.is(Blocks.SPORE_BLOSSOM)) {
-            blockParticleFX(level, hitResult, velocity, arm, SBParticleTypes.SPORE_BLOSSOM.get(), 2, 5);
-            return;
-        } else if (state.is(Blocks.END_ROD)) {
-            blockParticleFX(level, hitResult, velocity, arm, ParticleTypes.END_ROD, 2, 5);
-            return;
-        } else if (state.is(Blocks.CHERRY_LEAVES)) {
-            blockParticleFX(level, hitResult, velocity, arm, SBParticleTypes.CHERRY_BLOSSOM.get(), 2, 5);
-            return;
-        } else if (ModList.get().isLoaded("supplementaries") && SBConstants.isFeatherBlock(state)) {
-            blockParticleFX(level, hitResult, velocity, arm, SBParticleTypes.FEATHER.get(), 2, 5);
-            return;
-        } else if (ModList.get().isLoaded("atmospheric") && SBConstants.isYellowBlossom(state)) {
-            blockParticleFX(level, hitResult, velocity, arm, SBParticleTypes.YELLOW_BLOSSOM.get(), 2, 3);
-            return;
-        }
         if (SBConfig.COMMON.removable.get() && state.is(SBBlockTags.REMOVABLE)) {
             blockParticleFX(level, hitResult, velocity, arm, new BlockParticleOption(ParticleTypes.BLOCK, state), 18, 24);
             if (!level.isClientSide) {
                 level.removeBlock(blockPos, false);
                 damageItem(stack, living);
             }
+            return;
+        }
+        Holder<Block> holder = state.getBlock().builtInRegistryHolder();
+        SBDataMapUtil.BlockBrushResultData data = holder.getData(BLOCK_BRUSH_RESULTS);
+        if (data != null && !data.particle().equals("null")) {
+            blockParticleFX(level, hitResult, velocity, arm, getCompatParticle(data.particle()).get(), data.minCount(), data.maxCount());
             return;
         }
         original.call(instance, level, hitResult, state, velocity, arm);
@@ -287,20 +242,20 @@ public class SBBrushUtil {
     }
 
     private static void damageItem(ItemStack stack, LivingEntity entity) {
-        stack.hurtAndBreak(1, entity, (e) -> {
-            EquipmentSlot slot = stack.equals(entity.getItemBySlot(EquipmentSlot.OFFHAND)) ? EquipmentSlot.OFFHAND : EquipmentSlot.MAINHAND;
-            e.broadcastBreakEvent(slot);
-        });
+        stack.hurtAndBreak(1, entity, stack.equals(entity.getItemBySlot(EquipmentSlot.OFFHAND)) ? EquipmentSlot.OFFHAND : EquipmentSlot.MAINHAND);
     }
 
 
-    public static HitResult getBrushHitResult(Vec3 eye, Entity viewer, Predicate<Entity> predicate, Vec3 view, Level level) {
-        Vec3 vec3 = eye.add(view);
-        HitResult hitresult = level.clip(new ClipContext(eye, vec3, ClipContext.Block.OUTLINE, ClipContext.Fluid.NONE, viewer));
+    public static HitResult getBrushHitResult(Vec3 pos, Player player, Predicate<Entity> filter, Level level) {
+        Vec3 blockVec = player.getViewVector(0.0F).scale(player.blockInteractionRange());
+        Vec3 vec3 = pos.add(blockVec);
+        HitResult hitresult = level.clip(new ClipContext(pos, vec3, ClipContext.Block.OUTLINE, ClipContext.Fluid.NONE, player));
         if (hitresult.getType() != HitResult.Type.MISS) {
             vec3 = hitresult.getLocation();
         }
-        HitResult hitresult1 = getEntityHitResult(level, viewer, eye, vec3, viewer.getBoundingBox().expandTowards(view).inflate(1.0), predicate);
+        HitResult hitresult1 = getEntityHitResult(level, player, pos, vec3,
+                player.getBoundingBox().expandTowards(player.getViewVector(0.0F).scale(player.entityInteractionRange()))
+                        .inflate(1.0), filter);
         if (hitresult1 != null) {
             hitresult = hitresult1;
         }
@@ -334,5 +289,21 @@ public class SBBrushUtil {
                 level.addParticle(SBParticleTypes.GLEAM.get(), newParticlePos.x, newParticlePos.y, newParticlePos.z, 0.0D, 0.0D, 0.0D);
             }
         }
+    }
+
+    private static Supplier<Item> getCompatItem(String fullId) {
+        String[] parts = fullId.split(":");
+        String modid = parts[0];
+        String itemID = parts[1];
+        ResourceLocation item = ResourceLocation.fromNamespaceAndPath(modid, itemID);
+        return ModList.get().isLoaded(modid) ? () -> BuiltInRegistries.ITEM.get(item) : () -> null;
+    }
+
+    private static Supplier<ParticleOptions> getCompatParticle(String fullId) {
+        String[] parts = fullId.split(":");
+        String modid = parts[0];
+        String particleID = parts[1];
+        ResourceLocation particle = ResourceLocation.fromNamespaceAndPath(modid, particleID);
+        return ModList.get().isLoaded(modid) ? () -> (ParticleOptions) BuiltInRegistries.PARTICLE_TYPE.get(particle) : () -> null;
     }
 }
