@@ -1,7 +1,7 @@
 package com.davigj.sage_brush.core.mixin;
 
 import com.davigj.sage_brush.core.SBConfig;
-import com.davigj.sage_brush.core.other.SBBrushUtil;
+import com.davigj.sage_brush.core.other.BrushUtil;
 import com.davigj.sage_brush.core.other.tags.SBBlockTags;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
@@ -15,9 +15,7 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.HumanoidArm;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.animal.armadillo.Armadillo;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.entity.projectile.ProjectileUtil;
 import net.minecraft.world.item.BrushItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -28,7 +26,6 @@ import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
-import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -68,7 +65,7 @@ public abstract class BrushItemMixin extends Item {
                     Entity $$11 = ehr.getEntity();
                     HumanoidArm arm = player.getUsedItemHand() == InteractionHand.MAIN_HAND ? player.getMainArm() : player.getMainArm().getOpposite();
                     Vec3 vec3 = living.getViewVector(0.0F);
-                    SBBrushUtil.onEntityUseTick(level, stack, $$11, living, vec3, arm, ehr);
+                    BrushUtil.onEntityUseTick(level, stack, $$11, living, vec3, arm, ehr);
                 }
                 ci.cancel();
             }
@@ -81,7 +78,7 @@ public abstract class BrushItemMixin extends Item {
                         Operation<Void> original, Level p_273467_, LivingEntity p_273619_, ItemStack p_273316_,
                         @Local BlockPos blockPos) {
         if (SBConfig.CLIENT.specializedParticles.get()) {
-            SBBrushUtil.onBlockBrushTick(level, hitResult, state, vec3, arm, blockPos, original, instance, p_273619_, p_273316_);
+            BrushUtil.onBlockBrushTick(level, hitResult, state, vec3, arm, blockPos, original, instance, p_273619_, p_273316_);
         } else {
             original.call(instance, level, hitResult, state, vec3, arm);
         }
@@ -92,13 +89,13 @@ public abstract class BrushItemMixin extends Item {
         Level level = player.level();
         Vec3 vec31 = player.getEyePosition();
         Predicate<Entity> predicate = (entity) -> !entity.isSpectator() && entity.isPickable();
-        cir.setReturnValue(SBBrushUtil.getBrushHitResult(vec31, player, predicate, level));
+        cir.setReturnValue(BrushUtil.getBrushHitResult(vec31, player, predicate, level));
     }
 
     @Inject(method = "spawnDustParticles", at = @At("HEAD"), cancellable = true)
     private void sparkle(Level level, BlockHitResult hitResult, BlockState state, Vec3 p_278337_, HumanoidArm p_285071_, CallbackInfo ci) {
         if (SBConfig.CLIENT.gleamingParticles.get() && state.is(SBBlockTags.GLEAMING)) {
-            SBBrushUtil.gleam(level, hitResult, state, level.getRandom().nextInt(1,3));
+            BrushUtil.gleam(level, hitResult, state, level.getRandom().nextInt(1,3));
             if (SBConfig.CLIENT.purePolish.get()) {
                 ci.cancel();
             }

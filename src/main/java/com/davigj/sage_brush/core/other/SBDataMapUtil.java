@@ -1,5 +1,6 @@
 package com.davigj.sage_brush.core.other;
 
+import com.davigj.sage_brush.core.SBConfig;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.registries.Registries;
@@ -15,7 +16,7 @@ public class SBDataMapUtil {
                 Codec.STRING.optionalFieldOf("item", "null").forGetter(BrushData::item),
                 Codec.INT.optionalFieldOf("itemCount", 1).forGetter(BrushData::itemCount),
                 Codec.INT.optionalFieldOf("seconds", 0).forGetter(BrushData::seconds),
-                Codec.DOUBLE.optionalFieldOf("aggroChance", 0.0).forGetter(BrushData::aggroChance),
+                Codec.DOUBLE.optionalFieldOf("aggroChance", SBConfig.COMMON.aggroChance.get()).forGetter(BrushData::aggroChance),
                 Codec.STRING.optionalFieldOf("particle", "null").forGetter(BrushData::particle),
                 Codec.BOOL.optionalFieldOf("babyHarvest", false).forGetter(BrushData::babyHarvest),
                 Codec.BOOL.optionalFieldOf("shearable", false).forGetter(BrushData::shearable)

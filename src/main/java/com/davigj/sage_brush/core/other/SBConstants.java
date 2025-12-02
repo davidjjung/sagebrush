@@ -1,5 +1,6 @@
 package com.davigj.sage_brush.core.other;
 
+import com.davigj.sage_brush.core.SBConfig;
 import com.davigj.sage_brush.core.mixin.IMixinYaktelligence;
 import com.teamabnormals.environmental.common.entity.animal.yak.Yak;
 import com.teamabnormals.environmental.core.registry.EnvironmentalItems;
@@ -24,7 +25,7 @@ public class SBConstants {
         if (SBConstants.isYak(yak)) {
             yak.playSound(SoundEvents.SHEEP_SHEAR);
             ((Yak)yak).setSheared(true);
-            if (perp.getItemBySlot(EquipmentSlot.LEGS).getItem() != SBConstants.yakPants) {
+            if (SBConfig.COMMON.aggroReal.get() && perp.getItemBySlot(EquipmentSlot.LEGS).getItem() != SBConstants.yakPants) {
                 IMixinYaktelligence.callRetaliate((Yak) yak, perp);
             }
         }

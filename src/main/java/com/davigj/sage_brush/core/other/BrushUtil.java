@@ -55,7 +55,7 @@ import static com.davigj.sage_brush.core.other.tags.SBEntityTypeTags.SLIMY;
 import static net.minecraft.world.entity.projectile.ProjectileUtil.getEntityHitResult;
 import static net.minecraft.world.level.block.state.properties.BlockStateProperties.LAYERS;
 
-public class SBBrushUtil {
+public class BrushUtil {
     public static final TrackedDataManager manager = TrackedDataManager.INSTANCE;
 
     public static void onEntityUseTick(Level level, ItemStack stack, Entity victim, LivingEntity player, Vec3 velocity, HumanoidArm arm, HitResult result) {
@@ -66,25 +66,26 @@ public class SBBrushUtil {
             if ((victim instanceof AgeableMob ageable && ageable.isBaby()) && !data.babyHarvest()) return;
             TrackedData<Integer> timer = SageBrush.RESOURCE_TIMER;
             int timerTicks = manager.getValue(victim, timer);
+            boolean aggro = data.aggroChance() != 0.0 && victim.getRandom().nextDouble() < data.aggroChance();
             if (timerTicks == 0) {
                 manager.setValue(victim, timer, data.seconds() * 20);
-                boolean passesShearFilter = !data.shearable() || (player instanceof Player player1 && victim instanceof IShearable shearable
-                        && shearable.isShearable(player1, stack, level, victim.blockPosition()));
+                boolean canShear = data.shearable() && player instanceof Player player1 && victim instanceof IShearable shearable
+                        && shearable.isShearable(player1, stack, level, victim.blockPosition());
+                boolean passesShearFilter = !data.shearable() || canShear;
                 if (passesShearFilter && !data.item().equals("null")) {
                     ItemStack resource = new ItemStack(getCompatItem(data.item()).get(), data.itemCount());
                     victim.spawnAtLocation(resource);
                     victim.playSound(SoundEvents.ITEM_PICKUP, 0.3F, (float) (1.8F + (victim.getRandom().nextGaussian() * 0.2F)));
                     damageItem(stack, player);
+                    if (SBConfig.COMMON.shearables.get() && canShear && victim instanceof LivingEntity living && aggro) {
+                        handleShearables(living, player, stack);
+                    }
                 }
             } else {
-                if (victim instanceof LivingEntity living && data.aggroChance() != 0.0 && victim.getRandom().nextDouble() < data.aggroChance()) {
+                if (victim instanceof LivingEntity living && aggro) {
                     if (victim instanceof Panda panda) {
                         handlePanda(panda, player, stack);
-                    } else if (victim instanceof Sheep sheep && data.shearable()) {
-                        handleSheep(sheep, player, stack);
-                    } else if (SBConstants.isYak(victim) && data.shearable()) {
-                        SBConstants.handleYak(living, player);
-                    } else if (victim instanceof Bee bee) {
+                    } else if (victim instanceof Bee bee && SBConfig.COMMON.pollenBrush.get()) {
                         handleBee(bee, player, stack);
                     } else {
                         snagBrush(living, player);
@@ -125,6 +126,14 @@ public class SBBrushUtil {
         }
     }
 
+    private static void handleShearables(LivingEntity victim, LivingEntity perp, ItemStack stack) {
+        if (victim instanceof Sheep sheep) {
+            handleSheep(sheep, perp, stack);
+        } else if (SBConstants.isYak(victim)) {
+            SBConstants.handleYak(victim, perp);
+        }
+    }
+
     private static void handleSheep(Sheep sheep, LivingEntity perp, ItemStack stack) {
         sheep.setSheared(true);
         sheep.playSound(SoundEvents.SHEEP_SHEAR);
@@ -133,7 +142,7 @@ public class SBBrushUtil {
     }
 
     private static void handleBee(Bee bee, LivingEntity perp, ItemStack stack) {
-        if (bee.hasNectar() && SBConfig.COMMON.pollenBrush.get()) {
+        if (bee.hasNectar()) {
             ((BeeAccessor) bee).callSetHasNectar(false);
             bee.playSound(SoundEvents.BRUSH_SAND_COMPLETED);
             snagBrush(bee, perp);
@@ -194,7 +203,7 @@ public class SBBrushUtil {
     public static void onBlockBrushTick(Level level, BlockHitResult hitResult, BlockState state, Vec3 velocity,
                                         HumanoidArm arm, BlockPos blockPos, Operation<Void> original, BrushItem instance,
                                         LivingEntity living, ItemStack stack) {
-        if (letItShnope(level, state, blockPos)) {
+        if (handleSnows(level, state, blockPos)) {
             blockParticleFX(level, hitResult, velocity, arm, ParticleTypes.SNOWFLAKE, 10, 14);
             damageItem(stack, living);
             return;
@@ -216,7 +225,7 @@ public class SBBrushUtil {
         original.call(instance, level, hitResult, state, velocity, arm);
     }
 
-    private static boolean letItShnope(Level level, BlockState state, BlockPos blockPos) {
+    private static boolean handleSnows(Level level, BlockState state, BlockPos blockPos) {
         if (state.is(Blocks.SNOW)) {
             if (!level.isClientSide) {
                 int layers = state.getValue(LAYERS);

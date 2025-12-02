@@ -7,8 +7,10 @@ public class SBConfig {
     public static class Common {
         public final ModConfigSpec.ConfigValue<Boolean> regen;
         public final ModConfigSpec.ConfigValue<Boolean> pollenBrush;
+        public final ModConfigSpec.ConfigValue<Boolean> shearables;
         public final ModConfigSpec.ConfigValue<Boolean> hurtSound;
         public final ModConfigSpec.ConfigValue<Boolean> aggroReal;
+        public final ModConfigSpec.ConfigValue<Double> aggroChance;
         public final ModConfigSpec.ConfigValue<Boolean> brushSnagMockDamage;
         public final ModConfigSpec.ConfigValue<Boolean> pandaSneeze;
         public final ModConfigSpec.ConfigValue<Boolean> weakAndSick;
@@ -21,11 +23,13 @@ public class SBConfig {
             builder.push("common");
             builder.push("entity_interactions");
             regen = builder.comment("Pets periodically get Regeneration when brushed").define("Pet regen", false);
-            pollenBrush = builder.comment("Pollen can be brushed off of bees").define("Pollen brush", true);
+            pollenBrush = builder.comment("Nectar, technically pollen, can be brushed off of bees").define("Pollen brush", true);
+            shearables = builder.comment("Shearable mobs, such as sheep and yaks, are accidentally shorn on aggro").define("Shearables shorn", true);
             builder.push("brush_snagging");
             hurtSound = builder.comment("Snagged brushes trigger hurt sound").define("Hurt sound", true);
-            aggroReal = builder.comment("Aggroed mobs actually aggrieve").define("Aggro real", true);
+            aggroReal = builder.comment("Aggroed mobs target the player").define("Aggro real", true);
             brushSnagMockDamage = builder.comment("Brushes deal fake (zero) damage upon aggro-ing").define("Aggro mock damage", false);
+            aggroChance = builder.comment("Basic chance for mobs to aggress").define("Base aggro chance", 0.0);
             builder.pop();
             builder.push("pandas");
             pandaSneeze = builder.comment("Pandas sneeze when aggroed").define("Pandas sneeze", true);
