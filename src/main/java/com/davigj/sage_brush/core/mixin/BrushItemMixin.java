@@ -94,7 +94,7 @@ public abstract class BrushItemMixin extends Item {
 
     @Inject(method = "spawnDustParticles", at = @At("HEAD"), cancellable = true)
     private void sparkle(Level level, BlockHitResult hitResult, BlockState state, Vec3 p_278337_, HumanoidArm p_285071_, CallbackInfo ci) {
-        if (SBConfig.CLIENT.gleamingParticles.get() && state.is(SBBlockTags.GLEAMING)) {
+        if (SBConfig.CLIENT.gleamingBlocks.get() && state.is(SBBlockTags.GLEAMING)) {
             BrushUtil.gleam(level, hitResult, state, level.getRandom().nextInt(1,3));
             if (SBConfig.CLIENT.purePolish.get()) {
                 ci.cancel();

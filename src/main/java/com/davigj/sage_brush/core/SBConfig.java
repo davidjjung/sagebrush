@@ -50,7 +50,7 @@ public class SBConfig {
 
     public static class Client {
         public final ModConfigSpec.ConfigValue<Boolean> reducedParticles;
-        public final ModConfigSpec.ConfigValue<Boolean> gleamingParticles;
+        public final ModConfigSpec.ConfigValue<Boolean> gleamingBlocks;
         public final ModConfigSpec.ConfigValue<Boolean> purePolish;
         public final ModConfigSpec.ConfigValue<Boolean> petHearts;
         public final ModConfigSpec.ConfigValue<Boolean> gleam;
@@ -61,13 +61,13 @@ public class SBConfig {
             builder.push("client");
             builder.push("entity_interactions");
             petHearts = builder.comment("Pets periodically emit hearts when brushed").define("Pet hearts", true);
-            gleam = builder.comment("Overbrushed animals gleam. A more domestic alternative to brush snags").define("Gleaming mobs", true);
+            gleam = builder.comment("Mobs gleam when they can be brushed for resources").define("Gleaming mobs", true);
             builder.pop();
             builder.push("block_interactions");
             specializedParticles = builder.comment("Dust particle behaviors for brushes are altered at all").define("Specialized particles", true);
             dustyMobs = builder.comment("Mobs emit dust particles when brushed in the absence of a more specific particle").define("Dusty mobs", true);
             reducedParticles = builder.comment("Certain blocks emit fewer particles when brushed").define("Reduced dust", true);
-            gleamingParticles = builder.comment("Certain blocks emit gleam particles when brushed").define("Gleaming blocks", true);
+            gleamingBlocks = builder.comment("Certain blocks emit gleam particles when brushed").define("Gleaming blocks", true);
             purePolish = builder.comment("Gleaming blocks do not emit dust particles when brushed").define("Pure polish", true);
             builder.pop();
             builder.pop();

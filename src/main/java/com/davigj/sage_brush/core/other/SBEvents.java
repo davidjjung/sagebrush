@@ -1,5 +1,6 @@
 package com.davigj.sage_brush.core.other;
 
+import com.davigj.sage_brush.core.SBConfig;
 import com.davigj.sage_brush.core.SageBrush;
 import com.davigj.sage_brush.core.registry.SBParticleTypes;
 import com.teamabnormals.blueprint.common.world.storage.tracking.TrackedDataManager;
@@ -58,7 +59,7 @@ public class SBEvents {
         Holder<EntityType<?>> holder = target.getType().builtInRegistryHolder();
         SBDataMapUtil.BrushData data = holder.getData(BRUSH_RESOURCES);
         if (data != null && !data.item().equals("null")) {
-            if (target.level().isClientSide) {
+            if (target.level().isClientSide && SBConfig.CLIENT.gleam.get()) {
                 Minecraft minecraft = Minecraft.getInstance();
                 Player player = minecraft.player;
                 if (player != null && (player.getMainHandItem().is(Items.BRUSH) || player.getOffhandItem().is(Items.BRUSH))) {
