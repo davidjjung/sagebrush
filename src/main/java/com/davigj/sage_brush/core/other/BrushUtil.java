@@ -147,6 +147,10 @@ public class BrushUtil {
             bee.playSound(SoundEvents.BRUSH_SAND_COMPLETED);
             snagBrush(bee, perp);
             damageItem(stack, perp);
+            for (int i = 0; i < bee.getRandom().nextInt(5) + 3; i++) {
+                ((BeeAccessor) bee).callSpawnFluidParticle(bee.level(), bee.getX() - 0.3F, bee.getX() + 0.3F,
+                        bee.getZ() - 0.3F, bee.getZ() + 0.3F, bee.getY(0.5), ParticleTypes.FALLING_NECTAR);
+            }
         }
     }
 
