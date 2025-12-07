@@ -1,10 +1,13 @@
 package com.davigj.sage_brush.core.other;
 
 import com.davigj.sage_brush.client.BrushDustParticleOptions;
+import com.davigj.sage_brush.client.TintedFeatherParticleOptions;
 import com.davigj.sage_brush.core.SBConfig;
 import com.davigj.sage_brush.core.SageBrush;
 import com.davigj.sage_brush.core.mixin.BeeAccessor;
 import com.davigj.sage_brush.core.mixin.IMixinLivingEntity;
+import com.davigj.sage_brush.core.other.compat.EnvironmentalCompat;
+import com.davigj.sage_brush.core.other.compat.MixedLitterCompat;
 import com.davigj.sage_brush.core.other.tags.SBBlockTags;
 import com.davigj.sage_brush.core.registry.SBParticleTypes;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
@@ -43,27 +46,31 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.neoforged.fml.ModList;
 import net.neoforged.neoforge.common.IShearable;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
-
-import static com.davigj.sage_brush.core.other.SBDataMapUtil.BLOCK_BRUSH_RESULTS;
-import static com.davigj.sage_brush.core.other.SBDataMapUtil.BRUSH_RESOURCES;
+import static com.davigj.sage_brush.core.other.SBDataMapUtil.*;
+import static com.davigj.sage_brush.core.other.compat.MixedLitterCompat.MIXED_LITTER;
 import static com.davigj.sage_brush.core.other.tags.SBEntityTypeTags.SLIMY;
 import static net.minecraft.world.entity.projectile.ProjectileUtil.getEntityHitResult;
 import static net.minecraft.world.level.block.state.properties.BlockStateProperties.LAYERS;
 
 public class BrushUtil {
     public static final TrackedDataManager manager = TrackedDataManager.INSTANCE;
+    public static final Logger LOGGER = LogManager.getLogger(SageBrush.MOD_ID.toUpperCase());
 
     public static void onEntityUseTick(Level level, ItemStack stack, Entity victim, LivingEntity player, Vec3 velocity, HumanoidArm arm, HitResult result) {
         Holder<EntityType<?>> holder = victim.getType().builtInRegistryHolder();
         SBDataMapUtil.BrushData data = holder.getData(BRUSH_RESOURCES);
         boolean dusty = !victim.isInWaterRainOrBubble() && !victim.getType().is(SLIMY) && (level.isClientSide && SBConfig.CLIENT.dustyMobs.get());
+        ParticleOptions particle = null;
         if (data != null) {
-            if ((victim instanceof AgeableMob ageable && ageable.isBaby()) && !data.babyHarvest()) return;
+            if (isBaby(victim, data.babyHarvest())) return;
             TrackedData<Integer> timer = SageBrush.RESOURCE_TIMER;
             int timerTicks = manager.getValue(victim, timer);
             boolean aggro = data.aggroChance() != 0.0 && victim.getRandom().nextDouble() < data.aggroChance();
@@ -94,10 +101,22 @@ public class BrushUtil {
             }
             if (!data.particle().equals("null")) {
                 if (level.isClientSide) {
-                    entityParticleFX(level, victim, velocity, arm, (ParticleOptions) getCompatParticle(data.particle()).get(), 1, 3);
-                    dusty = false;
+                    particle = (ParticleOptions) getCompatParticle(data.particle()).get();
                 }
             }
+        }
+
+        if (MIXED_LITTER) {
+            particle = MixedLitterCompat.getParticle(holder.getData(ML_VARIANTS), victim, particle);
+        }
+
+        if (particle != null) {
+            entityParticleFX(level, victim, velocity, arm, particle, 1, 3);
+            dusty = false;
+        }
+
+        if (dusty) {
+            entityDustParticleFX(level, victim, velocity, arm, 1, 4, result);
         }
 
         if (victim instanceof TamableAnimal tamable && tamable.isOwnedBy(player)) {
@@ -108,10 +127,10 @@ public class BrushUtil {
                 damageItem(stack, player);
             }
         }
+    }
 
-        if (dusty) {
-            entityDustParticleFX(level, victim, velocity, arm, 1, 4, result);
-        }
+    public static boolean isBaby(Entity victim, boolean babyHarvest){
+        return (victim instanceof AgeableMob ageable && ageable.isBaby()) && !babyHarvest;
     }
 
     private static void handlePanda(Panda panda, LivingEntity perp, ItemStack stack) {
@@ -129,8 +148,8 @@ public class BrushUtil {
     private static void handleShearables(LivingEntity victim, LivingEntity perp, ItemStack stack) {
         if (victim instanceof Sheep sheep) {
             handleSheep(sheep, perp, stack);
-        } else if (SBConstants.isYak(victim)) {
-            SBConstants.handleYak(victim, perp);
+        } else if (EnvironmentalCompat.isYak(victim)) {
+            EnvironmentalCompat.handleYak(victim, perp);
         }
     }
 
@@ -176,8 +195,8 @@ public class BrushUtil {
 
         for (int k = 0; k < j; ++k) {
             level.addParticle(particle, pos.x, pos.y, pos.z,
-                    vec3.z() * (double) i * 0.2 * level.getRandom().nextDouble(), 0.0,
-                    -vec3.x() * (double) i * 0.2 * level.getRandom().nextDouble());
+                    vec3.z() * (double) i * 0.3 * level.getRandom().nextDouble(), 0.0,
+                    -vec3.x() * (double) i * 0.3 * level.getRandom().nextDouble());
         }
     }
 
@@ -188,7 +207,7 @@ public class BrushUtil {
 
         int color = 0xFFFFFF;
         if (victim instanceof Mob mob && mob.getPickedResult(result) != null) {
-            if (mob.getPickedResult(result).getItem() instanceof SpawnEggItem egg) {
+            if (Objects.requireNonNull(mob.getPickedResult(result)).getItem() instanceof SpawnEggItem egg) {
                 color = egg.getColor(0);
             }
         }
@@ -323,11 +342,21 @@ public class BrushUtil {
         return ModList.get().isLoaded(modid) ? () -> BuiltInRegistries.ITEM.get(item) : () -> null;
     }
 
-    private static Supplier<ParticleOptions> getCompatParticle(String fullId) {
+    public static Supplier<ParticleOptions> getCompatParticle(String fullId) {
         String[] parts = fullId.split(":");
         String modid = parts[0];
         String particleID = parts[1];
-        ResourceLocation particle = ResourceLocation.fromNamespaceAndPath(modid, particleID);
-        return ModList.get().isLoaded(modid) ? () -> (ParticleOptions) BuiltInRegistries.PARTICLE_TYPE.get(particle) : () -> null;
+        ResourceLocation particleLoc = ResourceLocation.fromNamespaceAndPath(modid, particleID);
+//        ParticleOptions particle = ModList.get().isLoaded(modid) ? (ParticleOptions) BuiltInRegistries.PARTICLE_TYPE.get(particleLoc) : null;
+        if (parts[0].equals("sage_brush")) {
+            if (parts[1].equals("tinted_feather")) {
+                int color = !parts[2].isEmpty() ? Integer.parseInt(parts[2]) : 0xFFFFFF;
+                return () -> new TintedFeatherParticleOptions(Vec3.fromRGB24(color).toVector3f(), 1.0F);
+            } else if (parts[1].equals("dust")) {
+                int color = !parts[2].isEmpty() ? Integer.parseInt(parts[2]) : 0xFFFFFF;
+                return () -> new BrushDustParticleOptions(Vec3.fromRGB24(color).toVector3f(), 1.0F);
+            }
+        }
+        return ModList.get().isLoaded(modid) ? () -> (ParticleOptions) BuiltInRegistries.PARTICLE_TYPE.get(particleLoc) : () -> null;
     }
 }

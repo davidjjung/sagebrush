@@ -57,7 +57,7 @@ public class SBEvents {
         }
         Holder<EntityType<?>> holder = target.getType().builtInRegistryHolder();
         SBDataMapUtil.BrushData data = holder.getData(BRUSH_RESOURCES);
-        if (data != null && !data.item().equals("null")) {
+        if (data != null && !data.item().equals("null") && !BrushUtil.isBaby(target, data.babyHarvest())) {
             if (target.level().isClientSide && SBConfig.CLIENT.gleam.get()) {
                 Minecraft minecraft = Minecraft.getInstance();
                 Player player = minecraft.player;
@@ -67,8 +67,8 @@ public class SBEvents {
                             (!data.shearable() || target instanceof IShearable shearable &&
                                     (shearable.isShearable(player, player.getItemInHand(InteractionHand.MAIN_HAND), target.level(), target.blockPosition())
                                     || (shearable.isShearable(player, player.getItemInHand(InteractionHand.OFF_HAND), target.level(), target.blockPosition()))))) {
-                        target.level().addParticle(SBParticleTypes.GLEAM.get(), target.getX() + random.nextDouble() - (target.getBbWidth() * 0.5),
-                                target.getEyeY() + (random.nextDouble() * 0.3) - 0.35, target.getZ() + random.nextDouble() - (target.getBbWidth() * 0.5), 0, 0, 0);
+                        target.level().addParticle(SBParticleTypes.GLEAM.get(), target.getX() + random.nextDouble() - (target.getBbWidth() * 0.65),
+                                target.getEyeY() + (random.nextDouble() * 0.3) - 0.35, target.getZ() + random.nextDouble() - (target.getBbWidth() * 0.65), 0, 0, 0);
                     }
                 }
             }

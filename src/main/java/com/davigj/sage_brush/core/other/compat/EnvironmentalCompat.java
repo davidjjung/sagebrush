@@ -1,4 +1,4 @@
-package com.davigj.sage_brush.core.other;
+package com.davigj.sage_brush.core.other.compat;
 
 import com.davigj.sage_brush.core.SBConfig;
 import com.davigj.sage_brush.core.mixin.IMixinYaktelligence;
@@ -12,7 +12,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.neoforged.fml.ModList;
 
-public class SBConstants {
+public class EnvironmentalCompat {
     public static final Item yakHair;
     public static final Item yakPants;
 
@@ -21,10 +21,10 @@ public class SBConstants {
     }
 
     public static void handleYak(LivingEntity yak, LivingEntity perp) {
-        if (SBConstants.isYak(yak)) {
+        if (EnvironmentalCompat.isYak(yak)) {
             yak.playSound(SoundEvents.SHEEP_SHEAR);
             ((Yak)yak).setSheared(true);
-            if (SBConfig.COMMON.aggroReal.get() && perp.getItemBySlot(EquipmentSlot.LEGS).getItem() != SBConstants.yakPants) {
+            if (SBConfig.COMMON.aggroReal.get() && perp.getItemBySlot(EquipmentSlot.LEGS).getItem() != EnvironmentalCompat.yakPants) {
                 IMixinYaktelligence.callRetaliate((Yak) yak, perp);
             }
         }

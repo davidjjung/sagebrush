@@ -9,6 +9,8 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.block.Block;
 import net.neoforged.neoforge.registries.datamaps.DataMapType;
 
+import java.util.List;
+
 public class SBDataMapUtil {
 
     public record BrushData(String item, int itemCount, int seconds, double aggroChance, String particle, boolean babyHarvest, boolean shearable) {
@@ -32,8 +34,25 @@ public class SBDataMapUtil {
         ).apply(instance, BlockBrushResultData::new));
     }
 
+    public record MLVariantMapData(List<MLVariantData> mlVariants) {
+        public static final Codec<MLVariantMapData> CODEC = RecordCodecBuilder.create(instance -> instance.group(
+                Codec.list(MLVariantData.CODEC).fieldOf("variants").forGetter(MLVariantMapData::mlVariants)
+        ).apply(instance, MLVariantMapData::new));
+
+        public record MLVariantData(String texture, String particle) {
+            public static final Codec<MLVariantData> CODEC = RecordCodecBuilder.create(instance -> instance.group(
+                    Codec.STRING.fieldOf("texture").forGetter(MLVariantData::texture),
+                    Codec.STRING.optionalFieldOf("particle", "null").forGetter(MLVariantData::particle)
+            ).apply(instance, MLVariantData::new));
+        }
+    }
+
     public static final DataMapType<EntityType<?>, BrushData> BRUSH_RESOURCES = DataMapType.builder(
             ResourceLocation.fromNamespaceAndPath("sage_brush", "brush_resources"), Registries.ENTITY_TYPE, BrushData.CODEC
+    ).build();
+
+    public static final DataMapType<EntityType<?>, MLVariantMapData> ML_VARIANTS = DataMapType.builder(
+            ResourceLocation.fromNamespaceAndPath("sage_brush", "ml_variants"), Registries.ENTITY_TYPE, MLVariantMapData.CODEC
     ).build();
 
     public static final DataMapType<Block, BlockBrushResultData> BLOCK_BRUSH_RESULTS = DataMapType.builder(

@@ -1,6 +1,7 @@
 package com.davigj.sage_brush.core.registry;
 
 import com.davigj.sage_brush.client.BrushDustParticleOptions;
+import com.davigj.sage_brush.client.TintedFeatherParticleOptions;
 import com.davigj.sage_brush.client.particle.*;
 import com.davigj.sage_brush.core.SageBrush;
 import com.mojang.serialization.MapCodec;
@@ -17,7 +18,7 @@ import net.neoforged.neoforge.client.event.RegisterParticleProvidersEvent;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
-@EventBusSubscriber(modid = SageBrush.MOD_ID, bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
+@EventBusSubscriber(modid = SageBrush.MOD_ID, value = Dist.CLIENT)
 public class SBParticleTypes {
     public static final DeferredRegister<ParticleType<?>> PARTICLE_TYPES = DeferredRegister.create(Registries.PARTICLE_TYPE, SageBrush.MOD_ID);
 
@@ -44,6 +45,18 @@ public class SBParticleTypes {
                     return BrushDustParticleOptions.STREAM_CODEC;
                 }
             });
+    public static final DeferredHolder<ParticleType<?>, ParticleType<TintedFeatherParticleOptions>> TINTED_FEATHER = PARTICLE_TYPES.register("tinted_feather", () ->
+            new ParticleType<>(false) {
+                @Override
+                public MapCodec<TintedFeatherParticleOptions> codec() {
+                    return TintedFeatherParticleOptions.CODEC;
+                }
+
+                @Override
+                public StreamCodec<? super RegistryFriendlyByteBuf, TintedFeatherParticleOptions> streamCodec() {
+                    return TintedFeatherParticleOptions.STREAM_CODEC;
+                }
+            });
 
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public static void registerParticleFactories(RegisterParticleProvidersEvent event) {
@@ -59,5 +72,6 @@ public class SBParticleTypes {
         event.registerSpriteSet(SBParticleTypes.SPORE_BLOSSOM.get(), BlossomParticle.Provider::new);
         event.registerSpriteSet(SBParticleTypes.YELLOW_BLOSSOM.get(), EnlargedBlossomParticle.Provider::new);
         event.registerSpriteSet(SBParticleTypes.DUST.get(), BrushDustParticle.Provider::new);
+        event.registerSpriteSet(SBParticleTypes.TINTED_FEATHER.get(), TintedFeatherParticle.Provider::new);
     }
 }

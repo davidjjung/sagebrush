@@ -48,32 +48,21 @@ dependencies {
     implementation "net.neoforged:neoforge:${project.neoforge}"
     implementation "maven.modrinth:blueprint:YSWV62mG"
 
-    compileOnly "maven.modrinth:citadel:ssXkoBKk"
-    compileOnly "maven.modrinth:alexs-mobs:oaRqJ7uM"
-    compileOnly "maven.modrinth:artsandcrafts:aYBUh5gU"
     compileOnly "maven.modrinth:supplementaries:8fif4M3b"
     compileOnly "maven.modrinth:moonlight:BPcfgWEU"
     compileOnly "maven.modrinth:sullysmod:B9yOFBhf"
-    compileOnly "maven.modrinth:atmospheric:wFKEIHk8"
-    compileOnly "maven.modrinth:autumnity:dNSKgdoR"
     compileOnly "maven.modrinth:environmental:NdDV1AM8"
-    compileOnly "maven.modrinth:visuality-forge:MyhpSYT4"
-    compileOnly "maven.modrinth:species:6ZvnLcTh"
     compileOnly "maven.modrinth:no-mans-land:h56TqJQD"
     compileOnly "maven.modrinth:biolith:byVGeYWw"
+    compileOnly "maven.modrinth:mixed-litter:72d9GXAu"
 
-//    runtimeOnly "maven.modrinth:citadel:ssXkoBKk")
-//    runtimeOnly "maven.modrinth:alexs-mobs:oaRqJ7uM")
-//    runtimeOnly "maven.modrinth:artsandcrafts:aYBUh5gU"
 //    runtimeOnly "maven.modrinth:atmospheric:wFKEIHk8")
-//    runtimeOnly "maven.modrinth:autumnity:dNSKgdoR")
     runtimeOnly "maven.modrinth:environmental:NdDV1AM8"
     runtimeOnly "maven.modrinth:just-dandy:tyeKnppe"
     runtimeOnly "maven.modrinth:no-mans-land:h56TqJQD"
     runtimeOnly "maven.modrinth:biolith:byVGeYWw"
     runtimeOnly "maven.modrinth:moonlight:86D1JAu2"
     runtimeOnly "maven.modrinth:supplementaries:rEEPz2OX"
-//    runtimeOnly "maven.modrinth:sullysmod:B9yOFBhf")
 
     compileOnly("mezz.jei:jei-${project.mc_version}-neoforge-api:${project.jei}")
     runtimeOnly("mezz.jei:jei-${project.mc_version}-neoforge:${project.jei}")

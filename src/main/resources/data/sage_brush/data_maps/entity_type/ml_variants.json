@@ -1,0 +1,419 @@
+{
+  "replace": false,
+  "values": {
+    "minecraft:chicken": {
+      "variants": [
+        {
+          "texture": "nomansland:entity/mob_variants/chicken/chicken_dark",
+          "particle": "sage_brush:tinted_feather:1645861"
+        },
+        {
+          "texture": "nomansland:entity/mob_variants/chicken/chicken_beige",
+          "particle": "sage_brush:tinted_feather:8547914"
+        },
+        {
+          "texture": "nomansland:entity/mob_variants/chicken/chicken_brown",
+          "particle": "sage_brush:tinted_feather:7618594"
+        },
+        {
+          "texture": "nomansland:entity/mob_variants/chicken/chicken_wild",
+          "particle": "sage_brush:tinted_feather:10053438"
+        },
+        {
+          "texture": "nomansland:entity/mob_variants/chicken/chicken_black",
+          "particle": "sage_brush:tinted_feather:2893350"
+        },
+        {
+          "texture": "nomansland:entity/mob_variants/chicken/chicken_white",
+          "particle": "sage_brush:tinted_feather:14341567"
+        },
+        {
+          "texture": "mixed_litter:entity/chicken/chicken",
+          "particle": "sage_brush:tinted_feather:14407359"
+        }
+      ]
+    },
+
+    "nomansland:goose": {
+      "variants": [
+        {
+          "texture": "nomansland:entity/goose/goose_flamingo",
+          "particle": "sage_brush:tinted_feather:14070192"
+        },
+        {
+          "texture": "nomansland:entity/goose/goose_barnacle",
+          "particle": "sage_brush:tinted_feather:3157806"
+        },
+        {
+          "texture": "nomansland:entity/goose/goose_northern",
+          "particle": "sage_brush:tinted_feather:9861209"
+        },
+        {
+          "texture": "nomansland:entity/goose/goose_white",
+          "particle": "sage_brush:tinted_feather:16183524"
+        }
+      ]
+    },
+
+    "minecraft:pig": {
+      "variants": [
+        {
+          "texture": "nomansland:entity/mob_variants/pig/pig_saddleback",
+          "particle": "sage_brush:dust:14141080"
+        },
+        {
+          "texture": "nomansland:entity/mob_variants/pig/pig_tan",
+          "particle": "sage_brush:dust:13480842"
+        },
+        {
+          "texture": "nomansland:entity/mob_variants/pig/pig_wartypig",
+          "particle": "sage_brush:dust:4012597"
+        },
+        {
+          "texture": "nomansland:entity/mob_variants/pig/pig_wild_black",
+          "particle": "sage_brush:dust:4210753"
+        },
+        {
+          "texture": "nomansland:entity/mob_variants/pig/pig_wild_brown",
+          "particle": "sage_brush:dust:6441018"
+        },
+        {
+          "texture": "nomansland:entity/mob_variants/pig/pig_wild_gray",
+          "particle": "sage_brush:dust:5259835"
+        },
+        {
+          "texture": "nomansland:entity/mob_variants/pig/pig_wooly_brown",
+          "particle": "sage_brush:dust:10318168"
+        },
+        {
+          "texture": "nomansland:entity/mob_variants/pig/pig_wooly_dark",
+          "particle": "sage_brush:dust:5589058"
+        },
+        {
+          "texture": "nomansland:entity/mob_variants/pig/pig_wooly_light",
+          "particle": "sage_brush:dust:12294264"
+        },
+        {
+          "texture": "nomansland:entity/mob_variants/pig/pig_riverhog",
+          "particle": "sage_brush:dust:11298874"
+        },
+        {
+          "texture": "nomansland:entity/mob_variants/pig/pig_pink",
+          "particle": "sage_brush:dust:14390670"
+        },
+        {
+          "texture": "nomansland:entity/mob_variants/pig/pig_brown",
+          "particle": "sage_brush:dust:8477512"
+        },
+        {
+          "texture": "nomansland:entity/mob_variants/pig/pig_bushpig",
+          "particle": "sage_brush:dust:9921601"
+        },
+        {
+          "texture": "nomansland:entity/mob_variants/pig/pig_oldspot",
+          "particle": "sage_brush:dust:14325134"
+        },
+        {
+          "texture": "mixed_litter:entity/pig/pig",
+          "particle": "sage_brush:dust:15181989"
+        }
+      ]
+    },
+
+    "minecraft:bee": {
+      "variants": [
+        {
+          "texture": "nomansland:entity/mob_variants/bee/carpenter_bee",
+          "particle": "sage_brush:dust:14926967"
+        },
+        {
+          "texture": "nomansland:entity/mob_variants/bee/bumblebee",
+          "particle": "sage_brush:dust:4344365"
+        }
+      ]
+    },
+
+    "minecraft:rabbit": {
+      "variants": [
+        {
+          "texture": "mixed_litter:entity/rabbit/rabbit_albino",
+          "particle": "sage_brush:dust:12628393"
+        },
+        {
+          "texture": "mixed_litter:entity/rabbit/rabbit_black",
+          "particle": "sage_brush:dust:3289393"
+        },
+        {
+          "texture": "mixed_litter:entity/rabbit/rabbit_black_and_white",
+          "particle": "sage_brush:dust:12299427"
+        },
+        {
+          "texture": "mixed_litter:entity/rabbit/rabbit_brown",
+          "particle": "sage_brush:dust:6377798"
+        },
+        {
+          "texture": "mixed_litter:entity/rabbit/rabbit_gold",
+          "particle": "sage_brush:dust:11642753"
+        },
+        {
+          "texture": "mixed_litter:entity/rabbit/rabbit_killer",
+          "particle": "sage_brush:dust:12365220"
+        },
+        {
+          "texture": "mixed_litter:entity/rabbit/rabbit_salt_and_pepper",
+          "particle": "sage_brush:dust:8415580"
+        },
+        {
+          "texture": "mixed_litter:entity/rabbit/rabbit_toast",
+          "particle": "sage_brush:dust:3223600"
+        }
+      ]
+    },
+
+    "minecraft:goat": {
+      "variants": [
+        {
+          "texture": "nomansland:entity/mob_variants/goat/brown_highland_goat",
+          "particle": "sage_brush:dust:8806471"
+        },
+        {
+          "texture": "nomansland:entity/mob_variants/goat/gray_highland_goat",
+          "particle": "sage_brush:dust:6051413"
+        },
+        {
+          "texture": "nomansland:entity/mob_variants/goat/black_highland_goat",
+          "particle": "sage_brush:dust:3485999"
+        },
+        {
+          "texture": "nomansland:entity/mob_variants/goat/beige_highland_goat",
+          "particle": "sage_brush:dust:9206375"
+        }
+      ]
+    },
+
+    "minecraft:turtle": {
+      "variants": [
+        {
+          "texture": "nomansland:entity/mob_variants/turtle/loggerhead_sea_turtle",
+          "particle": "sage_brush:dust:7888703"
+        }
+      ]
+    },
+
+    "nomansland:deer": {
+      "variants": [
+        {
+          "texture": "nomansland:entity/deer/deer_brown",
+          "particle": "sage_brush:dust:7954251"
+        },
+        {
+          "texture": "nomansland:entity/deer/deer_dark_brown",
+          "particle": "sage_brush:dust:6507837"
+        },
+        {
+          "texture": "nomansland:entity/deer/deer_light_brown",
+          "particle": "sage_brush:dust:8676683"
+        }
+      ]
+    },
+
+    "nomansland:moose": {
+      "variants": [
+        {
+          "texture": "nomansland:entity/moose/moose_black",
+          "particle": "sage_brush:dust:3222312"
+        },
+        {
+          "texture": "nomansland:entity/moose/moose_brown",
+          "particle": "sage_brush:dust:3548960"
+        },
+        {
+          "texture": "nomansland:entity/moose/moose_dark",
+          "particle": "sage_brush:dust:3023645"
+        },
+        {
+          "texture": "nomansland:entity/moose/moose_gray",
+          "particle": "sage_brush:dust:3089696"
+        },
+        {
+          "texture": "nomansland:entity/moose/moose_leucistic",
+          "particle": "sage_brush:dust:10786953"
+        },
+        {
+          "texture": "nomansland:entity/moose/moose_pale",
+          "particle": "sage_brush:dust:5785661"
+        }
+      ]
+    },
+
+    "minecraft:dolphin": {
+      "variants": [
+        {
+          "texture": "nomansland:entity/mob_variants/dolphin/river_dolphin",
+          "particle": "sage_brush:dust:15453398"
+        }
+      ]
+    },
+
+    "nomansland:tortoise": {
+      "variants": [
+        {
+          "texture": "nomansland:entity/tortoise/brown",
+          "particle": "sage_brush:dust:7431681"
+        },
+        {
+          "texture": "nomansland:entity/tortoise/gray",
+          "particle": "sage_brush:dust:5985612"
+        },
+        {
+          "texture": "nomansland:entity/tortoise/green",
+          "particle": "sage_brush:dust:6382146"
+        },
+        {
+          "texture": "nomansland:entity/tortoise/yellow",
+          "particle": "sage_brush:dust:9008983"
+        }
+      ]
+    },
+
+    "minecraft:donkey": {
+      "variants": [
+        {
+          "texture": "nomansland:entity/mob_variants/donkey/zebra",
+          "particle": "sage_brush:dust:6381145"
+        }
+      ]
+    },
+
+    "minecraft:frog": {
+      "variants": [
+        {
+          "texture": "nomansland:entity/mob_variants/frog/mud_frog",
+          "particle": "sage_brush:dust:8084549"
+        }
+      ]
+    },
+
+    "minecraft:zombie": {
+      "variants": [
+        {
+          "texture": "nomansland:entity/mob_variants/zombie/red_husk",
+          "particle": "sage_brush:dust:8016438"
+        },
+        {
+          "texture": "nomansland:entity/mob_variants/zombie/silt_husk",
+          "particle": "sage_brush:dust:6250844"
+        }
+      ]
+    },
+
+    "minecraft:skeleton": {
+      "variants": [
+        {
+          "texture": "nomansland:entity/mob_variants/skeleton/xanthous_skeleton_1",
+          "particle": "sage_brush:dust:14796387"
+        },
+        {
+          "texture": "nomansland:entity/mob_variants/skeleton/xanthous_skeleton_2",
+          "particle": "sage_brush:dust:12232301"
+        },
+        {
+          "texture": "nomansland:entity/mob_variants/skeleton/xanthous_skeleton_3",
+          "particle": "sage_brush:dust:14796644"
+        },
+        {
+          "texture": "nomansland:entity/mob_variants/skeleton/xanthous_skeleton_4",
+          "particle": "sage_brush:dust:14730595"
+        }
+      ]
+    },
+
+    "minecraft:cat": {
+      "variants": [
+        {
+          "texture": "nomansland:entity/mob_variants/cat/bingus",
+          "particle": "sage_brush:dust:14400446"
+        },
+        {
+          "texture": "nomansland:entity/mob_variants/cat/wild",
+          "particle": "sage_brush:dust:5458750"
+        }
+      ]
+    },
+
+    "minecraft:fox": {
+      "variants": [
+        {
+          "texture": "nomansland:entity/mob_variants/fox/forest_fox",
+          "particle": "sage_brush:dust:8739135"
+        },
+        {
+          "texture": "nomansland:entity/mob_variants/fox/cream_fox",
+          "particle": "sage_brush:dust:13613456"
+        }
+      ]
+    },
+
+    "minecraft:cow": {
+      "variants": [
+        {
+          "texture": "nomansland:entity/mob_variants/cow/cow_belted",
+          "particle": "sage_brush:dust:4343887"
+        },
+        {
+          "texture": "nomansland:entity/mob_variants/cow/cow_brown_back",
+          "particle": "sage_brush:dust:9525300"
+        },
+        {
+          "texture": "nomansland:entity/mob_variants/cow/cow_brown_splotches",
+          "particle": "sage_brush:dust:9919286"
+        },
+        {
+          "texture": "nomansland:entity/mob_variants/cow/cow_calico_back",
+          "particle": "sage_brush:dust:3092271"
+        },
+        {
+          "texture": "nomansland:entity/mob_variants/cow/cow_highland",
+          "particle": "sage_brush:dust:10975314"
+        },
+        {
+          "texture": "nomansland:entity/mob_variants/cow/cow_vanilla",
+          "particle": "sage_brush:dust:5128754"
+        },
+        {
+          "texture": "nomansland:entity/mob_variants/cow/cow_white",
+          "particle": "sage_brush:dust:13220526"
+        },
+        {
+          "texture": "nomansland:entity/mob_variants/cow/cow_wild",
+          "particle": "sage_brush:dust:5325109"
+        },
+        {
+          "texture": "mixed_litter:entity/cow/cow",
+          "particle": "sage_brush:dust:4997425"
+        }
+      ]
+    },
+
+    "minecraft:mooshroom": {
+      "variants": [
+        {
+          "texture": "mixed_litter:entity/mooshroom/brown_mooshroom",
+          "particle": "sage_brush:dust:15254697"
+        },
+        {
+          "texture": "mixed_litter:entity/mooshroom/red_mooshroom",
+          "particle": "sage_brush:dust:9908011"
+        },
+        {
+          "texture": "nomansland:entity/mob_variants/mooshroom/mooshroom_field",
+          "particle": "sage_brush:dust:13682602"
+        },
+        {
+          "texture": "nomansland:entity/mob_variants/mooshroom/mooshroom_mycelial",
+          "particle": "sage_brush:dust:6904927"
+        }
+      ]
+    }
+  }
+}

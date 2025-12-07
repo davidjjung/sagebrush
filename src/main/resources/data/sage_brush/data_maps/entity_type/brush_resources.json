@@ -33,10 +33,6 @@
       "item": "minecraft:scute",
       "seconds": 2400
     },
-    "sullysmod:tortoise": {
-      "item": "sullysmod:tortoise_scute",
-      "seconds": 2400
-    },
     "nomansland:tortoise": {
       "item": "nomansland:sturdy_scute",
       "seconds": 2400
@@ -55,12 +51,30 @@
       "shearable": true
     },
 
+    "minecraft:strider": {
+      "item": "minecraft:string",
+      "seconds": 1200
+    },
+    "minecraft:spider": {
+      "item": "minecraft:string",
+      "seconds": 400,
+      "aggroChance": 1
+    },
+    "minecraft:cave_spider": {
+      "item": "minecraft:string",
+      "seconds": 600,
+      "aggroChance": 1
+    },
+
     "minecraft:bee": {
-      "aggroChance": 0.3
+      "aggroChance": 0.15
     },
 
     "minecraft:panda": {
       "aggroChance": 0.1
+    },
+    "minecraft:polar_bear": {
+      "aggroChance": 0.5
     },
 
     "alexsmobs:emu": {
@@ -112,6 +126,11 @@
     },
     "alexsmobs:sunbird": {
       "particle": "alexsmobs:sunbird_feather"
+    },
+
+    "sullysmod:tortoise": {
+      "item": "sullysmod:tortoise_scute",
+      "seconds": 2400
     }
   }
 }

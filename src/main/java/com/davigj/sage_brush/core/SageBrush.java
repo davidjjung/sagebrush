@@ -15,8 +15,7 @@ import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.neoforge.data.event.GatherDataEvent;
 import net.neoforged.neoforge.registries.datamaps.RegisterDataMapTypesEvent;
 
-import static com.davigj.sage_brush.core.other.SBDataMapUtil.BLOCK_BRUSH_RESULTS;
-import static com.davigj.sage_brush.core.other.SBDataMapUtil.BRUSH_RESOURCES;
+import static com.davigj.sage_brush.core.other.SBDataMapUtil.*;
 
 @Mod(SageBrush.MOD_ID)
 public class SageBrush {
@@ -50,6 +49,7 @@ public class SageBrush {
     private void registerDataMapTypes(RegisterDataMapTypesEvent event) {
         event.register(BRUSH_RESOURCES);
         event.register(BLOCK_BRUSH_RESULTS);
+        event.register(ML_VARIANTS);
     }
 
     public static ResourceLocation location(String path) {
