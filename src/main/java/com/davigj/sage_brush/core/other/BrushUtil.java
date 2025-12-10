@@ -13,6 +13,8 @@ import com.davigj.sage_brush.core.registry.SBParticleTypes;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.teamabnormals.blueprint.common.world.storage.tracking.TrackedData;
 import com.teamabnormals.blueprint.common.world.storage.tracking.TrackedDataManager;
+import dev.tazer.mixed_litter.VariantUtil;
+import dev.tazer.mixed_litter.variants.Variant;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Holder;
@@ -26,9 +28,9 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.*;
-import net.minecraft.world.entity.animal.Bee;
-import net.minecraft.world.entity.animal.Panda;
-import net.minecraft.world.entity.animal.Sheep;
+import net.minecraft.world.entity.animal.*;
+import net.minecraft.world.entity.animal.frog.Frog;
+import net.minecraft.world.entity.animal.horse.Horse;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.BrushItem;
 import net.minecraft.world.item.Item;
@@ -54,6 +56,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
+
 import static com.davigj.sage_brush.core.other.SBDataMapUtil.*;
 import static com.davigj.sage_brush.core.other.compat.MixedLitterCompat.MIXED_LITTER;
 import static com.davigj.sage_brush.core.other.tags.SBEntityTypeTags.SLIMY;
@@ -67,7 +70,7 @@ public class BrushUtil {
     public static void onEntityUseTick(Level level, ItemStack stack, Entity victim, LivingEntity player, Vec3 velocity, HumanoidArm arm, HitResult result) {
         Holder<EntityType<?>> holder = victim.getType().builtInRegistryHolder();
         SBDataMapUtil.BrushData data = holder.getData(BRUSH_RESOURCES);
-        boolean dusty = !victim.isInWaterRainOrBubble() && !victim.getType().is(SLIMY) && (level.isClientSide && SBConfig.CLIENT.dustyMobs.get());
+        boolean dusty = !victim.isInWaterOrBubble() && !victim.getType().is(SLIMY) && (level.isClientSide && SBConfig.CLIENT.dustyMobs.get());
         ParticleOptions particle = null;
         if (data != null) {
             if (isBaby(victim, data.babyHarvest())) return;
@@ -106,8 +109,16 @@ public class BrushUtil {
             }
         }
 
+        if (victim instanceof VariantHolder<?> variantHolder) {
+            particle = getVariantParticle(holder.getData(VANILLA_VARIANTS), variantHolder, particle);
+        }
+
         if (MIXED_LITTER) {
             particle = MixedLitterCompat.getParticle(holder.getData(ML_VARIANTS), victim, particle);
+        }
+
+        if (victim.isInWaterOrBubble()) {
+            particle = ParticleTypes.BUBBLE_COLUMN_UP;
         }
 
         if (particle != null) {
@@ -187,6 +198,23 @@ public class BrushUtil {
         }
     }
 
+
+    public static ParticleOptions getVariantParticle(SBDataMapUtil.VariantHolderMapData data, VariantHolder<?> victim, ParticleOptions particle) {
+        LOGGER.debug(victim.getVariant().toString());
+        if (data != null) {
+            for (SBDataMapUtil.VariantHolderMapData.VariantData variantData : data.variants()) {
+                String variantPath = victim.getVariant().toString();
+                if (victim instanceof Wolf wolf) {
+                    variantPath = wolf.getVariant().getRegisteredName();
+                }
+                if (variantPath.equals(variantData.variant())) {
+                    particle = (ParticleOptions) getCompatParticle(variantData.particle()).get();
+                }
+            }
+        }
+        return particle;
+    }
+
     private static void entityParticleFX(Level level, Entity victim, Vec3 vec3, HumanoidArm arm, ParticleOptions particle, int minPar, int maxPar) {
         int i = arm == HumanoidArm.RIGHT ? 1 : -1;
         int j = level.getRandom().nextInt(minPar, maxPar);
@@ -210,6 +238,9 @@ public class BrushUtil {
             if (Objects.requireNonNull(mob.getPickedResult(result)).getItem() instanceof SpawnEggItem egg) {
                 color = egg.getColor(0);
             }
+        }
+        if (victim instanceof Sheep sheep) {
+            color = sheep.getColor().getFireworkColor();
         }
 
         vec3 = vec3.normalize();

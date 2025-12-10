@@ -20,9 +20,9 @@ public class MixedLitterCompat {
             if (variants != null && !variants.isEmpty()) {
                 Variant variant = variants.getFirst() != null ? variants.getFirst() : null;
                 if (variant != null && variant.arguments() != null) {
-                    System.out.println(variant.arguments());
+//                    System.out.println(variant.arguments());
                     if (variant.arguments().get("texture") != null) {
-                        System.out.println("texture: " + variant.arguments().get("texture").getAsString());
+//                        System.out.println("texture: " + variant.arguments().get("texture").getAsString());
                         String texture = variant.arguments().get("texture").getAsString();
                         for (SBDataMapUtil.MLVariantMapData.MLVariantData variantData : mlData.mlVariants()) {
                             if (texture.equals(variantData.texture())) {

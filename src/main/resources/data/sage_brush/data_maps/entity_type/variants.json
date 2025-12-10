@@ -1,0 +1,153 @@
+{
+  "replace": false,
+  "values": {
+    "minecraft:frog": {
+      "variants": [
+        {
+          "variant": "Reference{ResourceKey[minecraft:frog_variant / minecraft:temperate]=FrogVariant[texture=minecraft:textures/entity/frog/temperate_frog.png]}",
+          "particle": "sage_brush:dust:15042647"
+        },
+        {
+          "variant": "Reference{ResourceKey[minecraft:frog_variant / minecraft:cold]=FrogVariant[texture=minecraft:textures/entity/frog/cold_frog.png]}",
+          "particle": "sage_brush:dust:6524974"
+        },
+        {
+          "variant": "Reference{ResourceKey[minecraft:frog_variant / minecraft:warm]=FrogVariant[texture=minecraft:textures/entity/frog/warm_frog.png]}",
+          "particle": "sage_brush:dust:12368290"
+        }
+      ]
+    },
+    "minecraft:mooshroom": {
+      "variants": [
+        {
+          "variant": "RED",
+          "particle": "sage_brush:dust:9908011"
+        },
+        {
+          "variant": "BROWN",
+          "particle": "sage_brush:dust:15254697"
+        }
+      ]
+    },
+    "minecraft:wolf": {
+      "variants": [
+        {
+          "variant": "minecraft:pale",
+          "particle": "sage_brush:dust:13289416"
+        },
+        {
+          "variant": "minecraft:snowy",
+          "particle": "sage_brush:dust:16119275"
+        },
+        {
+          "variant": "minecraft:ashen",
+          "particle": "sage_brush:dust:9735059"
+        },
+        {
+          "variant": "minecraft:black",
+          "particle": "sage_brush:dust:1840921"
+        },
+        {
+          "variant": "minecraft:chestnut",
+          "particle": "sage_brush:dust:12756372"
+        },
+        {
+          "variant": "minecraft:rusty",
+          "particle": "sage_brush:dust:12810306"
+        },
+        {
+          "variant": "minecraft:spotted",
+          "particle": "sage_brush:dust:12482102"
+        },
+        {
+          "variant": "minecraft:striped",
+          "particle": "sage_brush:dust:13415042"
+        },
+        {
+          "variant": "minecraft:woods",
+          "particle": "sage_brush:dust:11107926"
+        },
+        {
+          "variant": "environmental:horizon",
+          "particle": "sage_brush:dust:13086096"
+        },
+        {
+          "variant": "environmental:horizon",
+          "particle": "sage_brush:dust:13086096"
+        },
+        {
+          "variant": "environmental:gray",
+          "particle": "sage_brush:dust:11316400"
+        },
+        {
+          "variant": "environmental:ombre",
+          "particle": "sage_brush:dust:4474954"
+        },
+        {
+          "variant": "environmental:tawny",
+          "particle": "sage_brush:dust:9992288"
+        },
+        {
+          "variant": "environmental:timber",
+          "particle": "sage_brush:dust:8417896"
+        },
+        {
+          "variant": "autumnity:spicy",
+          "particle": "sage_brush:dust:11368780"
+        },
+        {
+          "variant": "atmospheric:bush",
+          "particle": "sage_brush:dust:6309689"
+        },
+        {
+          "variant": "atmospheric:cream",
+          "particle": "sage_brush:dust:14533803"
+        },
+        {
+          "variant": "atmospheric:golden",
+          "particle": "sage_brush:dust:9532495"
+        },
+        {
+          "variant": "atmospheric:maned",
+          "particle": "sage_brush:dust:9529418"
+        },
+        {
+          "variant": "atmospheric:masked",
+          "particle": "sage_brush:dust:5984331"
+        }
+      ]
+    },
+    "minecraft:horse": {
+      "variants": [
+        {
+          "variant": "WHITE",
+          "particle": "sage_brush:dust:14408667"
+        },
+        {
+          "variant": "DARK_BROWN",
+          "particle": "sage_brush:dust:3152400"
+        },
+        {
+          "variant": "BLACK",
+          "particle": "sage_brush:dust:2369070"
+        },
+        {
+          "variant": "CREAMY",
+          "particle": "sage_brush:dust:9725748"
+        },
+        {
+          "variant": "CHESTNUT",
+          "particle": "sage_brush:dust:9127707"
+        },
+        {
+          "variant": "BROWN",
+          "particle": "sage_brush:dust:5120523"
+        },
+        {
+          "variant": "GRAY",
+          "particle": "sage_brush:dust:5263440"
+        }
+      ]
+    }
+  }
+}

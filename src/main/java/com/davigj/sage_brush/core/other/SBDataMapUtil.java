@@ -47,12 +47,29 @@ public class SBDataMapUtil {
         }
     }
 
+    public record VariantHolderMapData(List<VariantData> variants) {
+        public static final Codec<VariantHolderMapData> CODEC = RecordCodecBuilder.create(instance -> instance.group(
+                Codec.list(VariantData.CODEC).fieldOf("variants").forGetter(VariantHolderMapData::variants)
+        ).apply(instance, VariantHolderMapData::new));
+
+        public record VariantData(String variant, String particle) {
+            public static final Codec<VariantData> CODEC = RecordCodecBuilder.create(instance -> instance.group(
+                    Codec.STRING.fieldOf("variant").forGetter(VariantData::variant),
+                    Codec.STRING.optionalFieldOf("particle", "null").forGetter(VariantData::particle)
+            ).apply(instance, VariantData::new));
+        }
+    }
+
     public static final DataMapType<EntityType<?>, BrushData> BRUSH_RESOURCES = DataMapType.builder(
             ResourceLocation.fromNamespaceAndPath("sage_brush", "brush_resources"), Registries.ENTITY_TYPE, BrushData.CODEC
     ).build();
 
     public static final DataMapType<EntityType<?>, MLVariantMapData> ML_VARIANTS = DataMapType.builder(
             ResourceLocation.fromNamespaceAndPath("sage_brush", "ml_variants"), Registries.ENTITY_TYPE, MLVariantMapData.CODEC
+    ).build();
+
+    public static final DataMapType<EntityType<?>, VariantHolderMapData> VANILLA_VARIANTS = DataMapType.builder(
+            ResourceLocation.fromNamespaceAndPath("sage_brush", "variants"), Registries.ENTITY_TYPE, VariantHolderMapData.CODEC
     ).build();
 
     public static final DataMapType<Block, BlockBrushResultData> BLOCK_BRUSH_RESULTS = DataMapType.builder(
