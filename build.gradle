@@ -77,7 +77,7 @@ sourceSets.main.resources {
 
 dependencies {
     minecraft "net.minecraftforge:forge:${project.minecraft}-${project.forge}"
-    implementation fg.deobf("com.teamabnormals:blueprint:${project.minecraft}-${project.blueprint}")
+    implementation fg.deobf("maven.modrinth:blueprint:SnLXbWe9")
     compileOnly fg.deobf("maven.modrinth:alexs-mobs:BgeYEhGG")
     compileOnly fg.deobf("maven.modrinth:supplementaries:UQu29fD5")
     compileOnly fg.deobf("maven.modrinth:sullysmod:CGETuhxH")
@@ -86,7 +86,7 @@ dependencies {
 
     implementation fg.deobf("maven.modrinth:visuality-forge:H3rcn5c0")
     implementation fg.deobf("maven.modrinth:species:lWHLuPSH")
-    implementation fg.deobf("maven.modrinth:raspberry-core:IAoeTY5K")
+    implementation fg.deobf("maven.modrinth:raspberry-core:t1j7ta8U")
     implementation fg.deobf("maven.modrinth:farmers-delight:rFTKVUtq")
     implementation fg.deobf("maven.modrinth:supplementaries:UQu29fD5")
     implementation fg.deobf("maven.modrinth:moonlight:4R7I44b3")

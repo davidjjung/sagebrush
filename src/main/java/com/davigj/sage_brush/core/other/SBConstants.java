@@ -70,6 +70,6 @@ public class SBConstants {
         yakHair = ModList.get().isLoaded("environmental") ? EnvironmentalItems.YAK_HAIR.get() : Items.STRING;
         yakPants = ModList.get().isLoaded("environmental") ? EnvironmentalItems.YAK_PANTS.get() : Items.LEATHER;
         sunbirdParticle = ModList.get().isLoaded("alexsmobs") ? AMParticleRegistry.SUNBIRD_FEATHER.get() : SBParticleTypes.FEATHER.get();
-        snow = ModList.get().isLoaded("raspberry") ? RaspberryBlocks.SNOW_LAYER.getA().get() : Blocks.SNOW;
+        snow = ModList.get().isLoaded("raspberry") ? RaspberryBlocks.SNOW_LAYER.getBlock() : Blocks.SNOW;
     }
 }
