@@ -16,6 +16,8 @@ public class SBConfig {
         public final ModConfigSpec.ConfigValue<Boolean> weakAndSick;
         public final ModConfigSpec.ConfigValue<Boolean> lazyAndPlayful;
         public final ModConfigSpec.ConfigValue<Boolean> removable;
+        public final ModConfigSpec.ConfigValue<Boolean> variantPrint;
+        public final ModConfigSpec.ConfigValue<Boolean> mLVariantPrint;
         public final ModConfigSpec.ConfigValue<Integer> scuteBabyDrops;
         public final ModConfigSpec.ConfigValue<Integer> torScuteBabyDrops;
 
@@ -43,6 +45,10 @@ public class SBConfig {
             builder.pop();
             builder.push("block_interactions");
             removable = builder.comment("Brushes destroy blocks in the removable tag").define("Removable", true);
+            builder.pop();
+            builder.push("debug");
+            variantPrint = builder.comment("Logger prints the variant for a given entity of class VariantHolder when brushed").define("Print variants", false);
+            mLVariantPrint = builder.comment("Logger prints the Mixed Litter variant for an entity with Mixed Litter variants when brushed").define("Print Mixed Litter variants", false);
             builder.pop();
             builder.pop();
         }

@@ -14,12 +14,15 @@ import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.neoforge.data.event.GatherDataEvent;
 import net.neoforged.neoforge.registries.datamaps.RegisterDataMapTypesEvent;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import static com.davigj.sage_brush.core.other.SBDataMapUtil.*;
 
 @Mod(SageBrush.MOD_ID)
 public class SageBrush {
     public static final String MOD_ID = "sage_brush";
+    public static final Logger LOGGER = LogManager.getLogger(SageBrush.MOD_ID.toUpperCase());
     public static final RegistryHelper REGISTRY_HELPER = new RegistryHelper(MOD_ID);
 
     public static final TrackedData<Integer> RESOURCE_TIMER = TrackedData.Builder.create(ByteBufCodecs.INT, () -> -1).enablePersistence().build();

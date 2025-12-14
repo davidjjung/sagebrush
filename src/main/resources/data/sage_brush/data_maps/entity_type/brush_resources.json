@@ -29,6 +29,11 @@
       "aggroChance": 0.2
     },
 
+    "minecraft:armadillo": {
+      "item": "minecraft:armadillo_scute",
+      "seconds": 1200
+    },
+
     "minecraft:turtle": {
       "item": "minecraft:scute",
       "seconds": 2400

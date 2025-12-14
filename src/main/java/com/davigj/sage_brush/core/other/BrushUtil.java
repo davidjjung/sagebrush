@@ -13,8 +13,6 @@ import com.davigj.sage_brush.core.registry.SBParticleTypes;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.teamabnormals.blueprint.common.world.storage.tracking.TrackedData;
 import com.teamabnormals.blueprint.common.world.storage.tracking.TrackedDataManager;
-import dev.tazer.mixed_litter.VariantUtil;
-import dev.tazer.mixed_litter.variants.Variant;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Holder;
@@ -28,9 +26,10 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.*;
-import net.minecraft.world.entity.animal.*;
-import net.minecraft.world.entity.animal.frog.Frog;
-import net.minecraft.world.entity.animal.horse.Horse;
+import net.minecraft.world.entity.animal.Bee;
+import net.minecraft.world.entity.animal.Panda;
+import net.minecraft.world.entity.animal.Sheep;
+import net.minecraft.world.entity.animal.Wolf;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.BrushItem;
 import net.minecraft.world.item.Item;
@@ -57,6 +56,7 @@ import java.util.Objects;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
 
+import static com.davigj.sage_brush.core.SageBrush.LOGGER;
 import static com.davigj.sage_brush.core.other.SBDataMapUtil.*;
 import static com.davigj.sage_brush.core.other.compat.MixedLitterCompat.MIXED_LITTER;
 import static com.davigj.sage_brush.core.other.tags.SBEntityTypeTags.SLIMY;
@@ -65,7 +65,6 @@ import static net.minecraft.world.level.block.state.properties.BlockStatePropert
 
 public class BrushUtil {
     public static final TrackedDataManager manager = TrackedDataManager.INSTANCE;
-    public static final Logger LOGGER = LogManager.getLogger(SageBrush.MOD_ID.toUpperCase());
 
     public static void onEntityUseTick(Level level, ItemStack stack, Entity victim, LivingEntity player, Vec3 velocity, HumanoidArm arm, HitResult result) {
         Holder<EntityType<?>> holder = victim.getType().builtInRegistryHolder();
@@ -82,11 +81,13 @@ public class BrushUtil {
                 boolean canShear = data.shearable() && player instanceof Player player1 && victim instanceof IShearable shearable
                         && shearable.isShearable(player1, stack, level, victim.blockPosition());
                 boolean passesShearFilter = !data.shearable() || canShear;
+                LOGGER.debug("Clientside: " + level.isClientSide() + " shearable: " + canShear);
                 if (passesShearFilter && !data.item().equals("null")) {
                     ItemStack resource = new ItemStack(getCompatItem(data.item()).get(), data.itemCount());
                     victim.spawnAtLocation(resource);
-                    victim.playSound(SoundEvents.ITEM_PICKUP, 0.3F, (float) (1.8F + (victim.getRandom().nextGaussian() * 0.2F)));
+                    victim.playSound(SoundEvents.ARMADILLO_BRUSH, 0.3F, (float) (1.8F + (victim.getRandom().nextGaussian() * 0.2F)));
                     damageItem(stack, player);
+//                    LOGGER.debug("Clientside: " + level.isClientSide());
                     if (SBConfig.COMMON.shearables.get() && canShear && victim instanceof LivingEntity living && aggro) {
                         handleShearables(living, player, stack);
                     }
@@ -158,6 +159,7 @@ public class BrushUtil {
 
     private static void handleShearables(LivingEntity victim, LivingEntity perp, ItemStack stack) {
         if (victim instanceof Sheep sheep) {
+            LOGGER.debug("SHNOOP TRIGGERED.");
             handleSheep(sheep, perp, stack);
         } else if (EnvironmentalCompat.isYak(victim)) {
             EnvironmentalCompat.handleYak(victim, perp);
@@ -165,6 +167,7 @@ public class BrushUtil {
     }
 
     private static void handleSheep(Sheep sheep, LivingEntity perp, ItemStack stack) {
+        LOGGER.debug("We are shoring the shnoop.");
         sheep.setSheared(true);
         sheep.playSound(SoundEvents.SHEEP_SHEAR);
         snagBrush(sheep, perp);
@@ -200,13 +203,15 @@ public class BrushUtil {
 
 
     public static ParticleOptions getVariantParticle(SBDataMapUtil.VariantHolderMapData data, VariantHolder<?> victim, ParticleOptions particle) {
-        LOGGER.debug(victim.getVariant().toString());
+        String variantPath = victim.getVariant().toString();
+        if (victim instanceof Wolf wolf) {
+            variantPath = wolf.getVariant().getRegisteredName();
+        }
+        if (SBConfig.COMMON.variantPrint.get()) {
+            LOGGER.debug("[This is a debug feature. Wolves follow a separate variant naming scheme.] Variant name: " + variantPath);
+        }
         if (data != null) {
             for (SBDataMapUtil.VariantHolderMapData.VariantData variantData : data.variants()) {
-                String variantPath = victim.getVariant().toString();
-                if (victim instanceof Wolf wolf) {
-                    variantPath = wolf.getVariant().getRegisteredName();
-                }
                 if (variantPath.equals(variantData.variant())) {
                     particle = (ParticleOptions) getCompatParticle(variantData.particle()).get();
                 }
