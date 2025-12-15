@@ -4,7 +4,6 @@ import com.davigj.sage_brush.core.SBConfig;
 import com.davigj.sage_brush.core.mixin.IMixinYaktelligence;
 import com.teamabnormals.environmental.common.entity.animal.yak.Yak;
 import com.teamabnormals.environmental.core.registry.EnvironmentalItems;
-import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
