@@ -4,7 +4,6 @@ import com.davigj.sage_brush.core.SBConfig;
 import com.davigj.sage_brush.core.other.SBDataMapUtil;
 import dev.tazer.mixed_litter.VariantUtil;
 import dev.tazer.mixed_litter.variants.Variant;
-import io.netty.util.internal.logging.Log4JLogger;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.world.entity.Entity;
 import net.neoforged.fml.ModList;

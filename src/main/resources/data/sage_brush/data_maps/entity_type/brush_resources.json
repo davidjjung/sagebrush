@@ -31,7 +31,7 @@
 
     "minecraft:armadillo": {
       "item": "minecraft:armadillo_scute",
-      "seconds": 1200
+      "seconds": 600
     },
 
     "minecraft:turtle": {
@@ -46,7 +46,7 @@
     "minecraft:sheep": {
       "item": "minecraft:string",
       "seconds": 3,
-      "aggroChance": 0.025,
+      "aggroChance": 0.075,
       "shearable": true
     },
     "environmental:yak": {

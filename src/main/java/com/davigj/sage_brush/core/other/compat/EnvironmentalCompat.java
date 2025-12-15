@@ -13,7 +13,6 @@ import net.minecraft.world.item.Items;
 import net.neoforged.fml.ModList;
 
 public class EnvironmentalCompat {
-    public static final Item yakHair;
     public static final Item yakPants;
 
     public static boolean isYak(Entity entity) {
@@ -22,7 +21,6 @@ public class EnvironmentalCompat {
 
     public static void handleYak(LivingEntity yak, LivingEntity perp) {
         if (EnvironmentalCompat.isYak(yak)) {
-            yak.playSound(SoundEvents.SHEEP_SHEAR);
             ((Yak)yak).setSheared(true);
             if (SBConfig.COMMON.aggroReal.get() && perp.getItemBySlot(EquipmentSlot.LEGS).getItem() != EnvironmentalCompat.yakPants) {
                 IMixinYaktelligence.callRetaliate((Yak) yak, perp);
@@ -31,7 +29,6 @@ public class EnvironmentalCompat {
     }
 
     static {
-        yakHair = ModList.get().isLoaded("environmental") ? EnvironmentalItems.YAK_HAIR.get() : Items.STRING;
         yakPants = ModList.get().isLoaded("environmental") ? EnvironmentalItems.YAK_PANTS.get() : Items.LEATHER_LEGGINGS;
     }
 

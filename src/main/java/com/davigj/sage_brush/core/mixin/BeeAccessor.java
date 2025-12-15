@@ -10,7 +10,4 @@ import org.spongepowered.asm.mixin.gen.Invoker;
 public interface BeeAccessor {
     @Invoker
     void callSetHasNectar(boolean hasNectar);
-
-    @Invoker
-    void callSpawnFluidParticle(Level level, double startX, double endX, double startZ, double endZ, double posY, ParticleOptions particleOption);
 }

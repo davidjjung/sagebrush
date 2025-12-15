@@ -21,7 +21,9 @@ import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
@@ -47,8 +49,6 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.neoforged.fml.ModList;
 import net.neoforged.neoforge.common.IShearable;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -72,39 +72,41 @@ public class BrushUtil {
         boolean dusty = !victim.isInWaterOrBubble() && !victim.getType().is(SLIMY) && (level.isClientSide && SBConfig.CLIENT.dustyMobs.get());
         ParticleOptions particle = null;
         if (data != null) {
-            if (isBaby(victim, data.babyHarvest())) return;
-            TrackedData<Integer> timer = SageBrush.RESOURCE_TIMER;
-            int timerTicks = manager.getValue(victim, timer);
-            boolean aggro = data.aggroChance() != 0.0 && victim.getRandom().nextDouble() < data.aggroChance();
-            if (timerTicks == 0) {
-                manager.setValue(victim, timer, data.seconds() * 20);
-                boolean canShear = data.shearable() && player instanceof Player player1 && victim instanceof IShearable shearable
-                        && shearable.isShearable(player1, stack, level, victim.blockPosition());
-                boolean passesShearFilter = !data.shearable() || canShear;
-                LOGGER.debug("Clientside: " + level.isClientSide() + " shearable: " + canShear);
-                if (passesShearFilter && !data.item().equals("null")) {
-                    ItemStack resource = new ItemStack(getCompatItem(data.item()).get(), data.itemCount());
-                    victim.spawnAtLocation(resource);
-                    victim.playSound(SoundEvents.ARMADILLO_BRUSH, 0.3F, (float) (1.8F + (victim.getRandom().nextGaussian() * 0.2F)));
-                    damageItem(stack, player);
-//                    LOGGER.debug("Clientside: " + level.isClientSide());
-                    if (SBConfig.COMMON.shearables.get() && canShear && victim instanceof LivingEntity living && aggro) {
-                        handleShearables(living, player, stack);
+            if (!level.isClientSide()) {
+                if (isBaby(victim, data.babyHarvest())) return;
+                TrackedData<Integer> timer = SageBrush.RESOURCE_TIMER;
+                int timerTicks = manager.getValue(victim, timer);
+                boolean aggro = data.aggroChance() != 0.0 && victim.getRandom().nextDouble() < data.aggroChance();
+                if (timerTicks == 0) {
+                    manager.setValue(victim, timer, data.seconds() * 20);
+                    boolean canShear = data.shearable() && player instanceof Player player1 && victim instanceof IShearable shearable
+                            && shearable.isShearable(player1, stack, level, victim.blockPosition());
+                    boolean passesShearFilter = !data.shearable() || canShear;
+
+                    if (passesShearFilter && !data.item().equals("null")) {
+                        ItemStack resource = new ItemStack(getCompatItem(data.item()).get(), data.itemCount());
+                        victim.spawnAtLocation(resource);
+                        victim.playSound(SoundEvents.ITEM_PICKUP, 0.3F, (float) (0.5F + (victim.getRandom().nextGaussian() * 0.2F)));
+                        damageItem(stack, player);
+                        if (SBConfig.COMMON.shearables.get() && canShear && victim instanceof LivingEntity living && aggro) {
+                            handleShearables(living, player, stack);
+                        }
+                    }
+                } else {
+                    if (victim instanceof LivingEntity living && aggro) {
+                        if (victim instanceof Panda panda) {
+                            handlePanda(panda, player, stack);
+                        } else if (victim instanceof Bee bee && SBConfig.COMMON.pollenBrush.get()) {
+                            handleBee(bee, player, stack);
+                        } else {
+                            if (!(victim instanceof IShearable)) {
+                                snagBrush(living, player);
+                            }
+                        }
                     }
                 }
             } else {
-                if (victim instanceof LivingEntity living && aggro) {
-                    if (victim instanceof Panda panda) {
-                        handlePanda(panda, player, stack);
-                    } else if (victim instanceof Bee bee && SBConfig.COMMON.pollenBrush.get()) {
-                        handleBee(bee, player, stack);
-                    } else {
-                        snagBrush(living, player);
-                    }
-                }
-            }
-            if (!data.particle().equals("null")) {
-                if (level.isClientSide) {
+                if (!data.particle().equals("null")) {
                     particle = (ParticleOptions) getCompatParticle(data.particle()).get();
                 }
             }
@@ -141,7 +143,7 @@ public class BrushUtil {
         }
     }
 
-    public static boolean isBaby(Entity victim, boolean babyHarvest){
+    public static boolean isBaby(Entity victim, boolean babyHarvest) {
         return (victim instanceof AgeableMob ageable && ageable.isBaby()) && !babyHarvest;
     }
 
@@ -158,20 +160,18 @@ public class BrushUtil {
     }
 
     private static void handleShearables(LivingEntity victim, LivingEntity perp, ItemStack stack) {
+        victim.playSound(SoundEvents.BRUSH_SAND_COMPLETED);
         if (victim instanceof Sheep sheep) {
-            LOGGER.debug("SHNOOP TRIGGERED.");
-            handleSheep(sheep, perp, stack);
+            handleSheep(sheep, perp);
         } else if (EnvironmentalCompat.isYak(victim)) {
             EnvironmentalCompat.handleYak(victim, perp);
         }
+        damageItem(stack, perp);
     }
 
-    private static void handleSheep(Sheep sheep, LivingEntity perp, ItemStack stack) {
-        LOGGER.debug("We are shoring the shnoop.");
+    private static void handleSheep(Sheep sheep, LivingEntity perp) {
         sheep.setSheared(true);
-        sheep.playSound(SoundEvents.SHEEP_SHEAR);
         snagBrush(sheep, perp);
-        damageItem(stack, perp);
     }
 
     private static void handleBee(Bee bee, LivingEntity perp, ItemStack stack) {
@@ -180,9 +180,13 @@ public class BrushUtil {
             bee.playSound(SoundEvents.BRUSH_SAND_COMPLETED);
             snagBrush(bee, perp);
             damageItem(stack, perp);
-            for (int i = 0; i < bee.getRandom().nextInt(5) + 3; i++) {
-                ((BeeAccessor) bee).callSpawnFluidParticle(bee.level(), bee.getX() - 0.3F, bee.getX() + 0.3F,
-                        bee.getZ() - 0.3F, bee.getZ() + 0.3F, bee.getY(0.5), ParticleTypes.FALLING_NECTAR);
+            if (bee.level() instanceof ServerLevel server) {
+                server.sendParticles(ParticleTypes.FALLING_NECTAR,
+                        Mth.lerp(server.random.nextDouble(), bee.getX() - 0.3F, bee.getX() + 0.3F),
+                        bee.getY(0.5),
+                        Mth.lerp(server.random.nextDouble(), bee.getZ() - 0.3F, bee.getZ() + 0.3F),
+                        bee.getRandom().nextInt(5) + 5,
+                        0.15F, 0, 0.15F, 0.0F);
             }
         }
     }
@@ -208,7 +212,7 @@ public class BrushUtil {
             variantPath = wolf.getVariant().getRegisteredName();
         }
         if (SBConfig.COMMON.variantPrint.get()) {
-            LOGGER.debug("[This is a debug feature. Wolves follow a separate variant naming scheme.] Variant name: " + variantPath);
+            LOGGER.debug("[This is a debug feature, enabled in the config.] Variant name: " + variantPath);
         }
         if (data != null) {
             for (SBDataMapUtil.VariantHolderMapData.VariantData variantData : data.variants()) {
