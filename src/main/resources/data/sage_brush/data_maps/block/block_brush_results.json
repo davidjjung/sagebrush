@@ -14,19 +14,14 @@
       "particle": "sage_brush:feather"
     },
     "supplementaries:soap_block": {
-      "particle": "supplementaries:suds"
+      "particle": "supplementaries:suds",
+      "speed": 0.5
     },
     "atmospheric:tall_aloe_vera": {
       "particle": "sage_brush:yellow_blossom"
     },
     "atmospheric:morado_leaves": {
       "particle": "sage_brush:yellow_blossom"
-    },
-    "just_dandy:fluffy_dandelion": {
-      "particle": "just_dandy:fluff"
-    },
-    "just_dandy:potted_fluffy_dandelion": {
-      "particle": "just_dandy:fluff"
     }
   }
 }

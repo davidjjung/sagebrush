@@ -282,6 +282,7 @@ public class BrushUtil {
         Holder<Block> holder = state.getBlock().builtInRegistryHolder();
         SBDataMapUtil.BlockBrushResultData data = holder.getData(BLOCK_BRUSH_RESULTS);
         if (data != null && !data.particle().equals("null")) {
+            velocity = velocity.scale(data.speed());
             blockParticleFX(level, hitResult, velocity, arm, getCompatParticle(data.particle()).get(), data.minCount(), data.maxCount());
             return;
         }

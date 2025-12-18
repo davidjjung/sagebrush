@@ -25,11 +25,12 @@ public class SBDataMapUtil {
         ).apply(instance, BrushData::new));
     }
 
-    public record BlockBrushResultData(String particle, int minCount, int maxCount, String result) {
+    public record BlockBrushResultData(String particle, int minCount, int maxCount, double speed, String result) {
         public static final Codec<BlockBrushResultData> CODEC = RecordCodecBuilder.create(instance -> instance.group(
                 Codec.STRING.optionalFieldOf("particle", "null").forGetter(BlockBrushResultData::particle),
                 Codec.INT.optionalFieldOf("minCount", 2).forGetter(BlockBrushResultData::minCount),
                 Codec.INT.optionalFieldOf("maxCount", 5).forGetter(BlockBrushResultData::maxCount),
+                Codec.DOUBLE.optionalFieldOf("speed", 1.0D).forGetter(BlockBrushResultData::speed),
                 Codec.STRING.optionalFieldOf("result", "null").forGetter(BlockBrushResultData::result)
         ).apply(instance, BlockBrushResultData::new));
     }
