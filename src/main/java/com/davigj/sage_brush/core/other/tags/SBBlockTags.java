@@ -11,5 +11,6 @@ import static com.teamabnormals.blueprint.core.util.TagUtil.blockTag;
 public class SBBlockTags {
     public static final TagKey<Block> GLEAMING = blockTag(SageBrush.MOD_ID, "gleaming");
     public static final TagKey<Block> REDUCED_DUST = blockTag(SageBrush.MOD_ID,"reduced_dust");
+    public static final TagKey<Block> MINEABLE = blockTag(SageBrush.MOD_ID,"mineable");
     public static final TagKey<Block> REMOVABLE = blockTag(SageBrush.MOD_ID,"removable");
 }

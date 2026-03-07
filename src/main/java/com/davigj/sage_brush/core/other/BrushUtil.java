@@ -37,6 +37,7 @@ import net.minecraft.world.item.BrushItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.SpawnEggItem;
+import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
@@ -61,6 +62,7 @@ import static com.davigj.sage_brush.core.other.SBDataMapUtil.*;
 import static com.davigj.sage_brush.core.other.compat.MixedLitterCompat.MIXED_LITTER;
 import static com.davigj.sage_brush.core.other.tags.SBEntityTypeTags.SLIMY;
 import static net.minecraft.world.entity.projectile.ProjectileUtil.getEntityHitResult;
+import static net.minecraft.world.level.block.Block.dropResources;
 import static net.minecraft.world.level.block.state.properties.BlockStateProperties.LAYERS;
 
 public class BrushUtil {
@@ -274,6 +276,15 @@ public class BrushUtil {
         if (SBConfig.COMMON.removable.get() && state.is(SBBlockTags.REMOVABLE)) {
             blockParticleFX(level, hitResult, velocity, arm, new BlockParticleOption(ParticleTypes.BLOCK, state), 18, 24);
             if (!level.isClientSide) {
+                level.removeBlock(blockPos, false);
+                damageItem(stack, living);
+            }
+            return;
+        }
+        if (SBConfig.COMMON.mineable.get() && state.is(SBBlockTags.MINEABLE)) {
+            blockParticleFX(level, hitResult, velocity, arm, new BlockParticleOption(ParticleTypes.BLOCK, state), 18, 24);
+            if (!level.isClientSide) {
+                dropResources(state, level, blockPos);
                 level.removeBlock(blockPos, false);
                 damageItem(stack, living);
             }

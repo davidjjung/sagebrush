@@ -1,18 +1,12 @@
 {
   "replace": false,
   "values": [
-    "minecraft:cobweb",
     "minecraft:hanging_roots",
     "minecraft:powder_snow",
-    "minecraft:fire",
-    "minecraft:redstone_wire",
+    "#minecraft:fire",
     {
       "required": false,
       "id": "#arts_and_crafts:chalk_dust"
-    },
-    {
-      "required": false,
-      "id": "supplementaries:gunpowder"
     }
   ]
 }

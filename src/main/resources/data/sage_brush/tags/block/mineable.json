@@ -1,0 +1,12 @@
+{
+  "replace": false,
+  "values": [
+    "minecraft:cobweb",
+    "minecraft:redstone_wire",
+    "minecraft:tripwire",
+    {
+      "required": false,
+      "id": "supplementaries:gunpowder"
+    }
+  ]
+}
