@@ -10,6 +10,7 @@
     "BrushItemMixin",
     "IMixinLivingEntity",
     "IMixinYaktelligence",
+    "NMLTortoiseMixin",
     "TortoiseMixin",
     "TurtleMixin"
   ],

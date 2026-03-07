@@ -41,7 +41,7 @@ public class SBConfig {
             builder.pop();
             builder.push("scute_drops");
             scuteBabyDrops = builder.comment("Number of scutes dropped by baby turtles when grown, to compensate for brushing adults").define("Baby turtle scute drops", 3);
-            torScuteBabyDrops = builder.comment("Number of scutes dropped by baby tortoises when grown, to compensate for brushing adults").define("Baby tortoise scute drops", 3);
+            torScuteBabyDrops = builder.comment("Number of sturdy scutes dropped by baby NML tortoises when grown, to compensate for brushing adults").define("Baby tortoise scute drops", 4);
             builder.pop();
             builder.pop();
             builder.push("block_interactions");

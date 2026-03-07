@@ -38,3 +38,24 @@ type = "required"
 versionRange = "[${blueprint},)"
 ordering = "AFTER"
 side = "BOTH"
+
+[[dependencies.sage_brush]]
+modId = "mixed_litter"
+type = "optional"
+versionRange = "[1.0.3,)"
+ordering = "AFTER"
+side = "BOTH"
+
+[[dependencies.sage_brush]]
+modId = "nomansland"
+type = "optional"
+versionRange = "[1.4.5,)"
+ordering = "AFTER"
+side = "BOTH"
+
+[[dependencies.sage_brush]]
+modId = "environmental"
+type = "optional"
+versionRange = "[5.0.1,)"
+ordering = "AFTER"
+side = "BOTH"
