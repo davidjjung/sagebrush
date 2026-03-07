@@ -35,9 +35,11 @@ public class SBDataMapUtil {
         ).apply(instance, BlockBrushResultData::new));
     }
 
-    public record MLVariantMapData(List<MLVariantData> mlVariants) {
+    public record MLVariantMapData(List<MLVariantData> mlVariants, String babyTexture, String babyTextureParticle) {
         public static final Codec<MLVariantMapData> CODEC = RecordCodecBuilder.create(instance -> instance.group(
-                Codec.list(MLVariantData.CODEC).fieldOf("variants").forGetter(MLVariantMapData::mlVariants)
+                Codec.list(MLVariantData.CODEC).fieldOf("variants").forGetter(MLVariantMapData::mlVariants),
+                Codec.STRING.optionalFieldOf("babyTexture", "null").forGetter(MLVariantMapData::babyTexture),
+                Codec.STRING.optionalFieldOf("babyTextureParticle", "null").forGetter(MLVariantMapData::babyTextureParticle)
         ).apply(instance, MLVariantMapData::new));
 
         public record MLVariantData(String texture, String particle) {

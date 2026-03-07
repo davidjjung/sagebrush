@@ -6,6 +6,7 @@ import dev.tazer.mixed_litter.VariantUtil;
 import dev.tazer.mixed_litter.variants.Variant;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.Mob;
 import net.neoforged.fml.ModList;
 
 import java.util.List;
@@ -25,11 +26,19 @@ public class MixedLitterCompat {
                     if (variant.arguments().get("texture") != null) {
                         if (SBConfig.COMMON.mLVariantPrint.get()) {
                             LOGGER.debug("[This is a debug feature.] ML Variant name: " + variant.arguments().get("texture").getAsString());
+                            if (variant.arguments().get("baby_texture") != null) {
+                                LOGGER.debug("[This is a debug feature.] ML babyTexture name: " + variant.arguments().get("baby_texture").getAsString());
+                            }
                         }
                         String texture = variant.arguments().get("texture").getAsString();
                         for (SBDataMapUtil.MLVariantMapData.MLVariantData variantData : mlData.mlVariants()) {
                             if (texture.equals(variantData.texture())) {
                                 particle = (ParticleOptions) getCompatParticle(variantData.particle()).get();
+                            }
+                        }
+                        if (!mlData.babyTexture().equals("null") && victim instanceof Mob mob && mob.isBaby() && variant.arguments().get("baby_texture") != null) {
+                            if (mlData.babyTexture().equals(variant.arguments().get("baby_texture").getAsString())) {
+                                particle = (ParticleOptions) getCompatParticle(mlData.babyTextureParticle()).get();
                             }
                         }
                     }
