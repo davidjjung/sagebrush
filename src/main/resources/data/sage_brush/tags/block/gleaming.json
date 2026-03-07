@@ -2,6 +2,7 @@
   "replace": false,
   "values": [
     "minecraft:beacon",
+    "minecraft:heavy_core",
     "minecraft:raw_gold_block",
     "minecraft:raw_iron_block",
     "minecraft:ancient_debris",
@@ -17,6 +18,9 @@
     "minecraft:budding_amethyst",
     "minecraft:amethyst_block",
     "minecraft:amethyst_cluster",
+    "minecraft:small_amethyst_bud",
+    "minecraft:medium_amethyst_bud",
+    "minecraft:large_amethyst_bud",
     "minecraft:obsidian",
     "minecraft:crying_obsidian",
     "minecraft:lantern",
@@ -24,11 +28,13 @@
     "minecraft:bone_block",
     "minecraft:bell",
     "minecraft:lodestone",
+    "minecraft:gilded_blackstone",
     "minecraft:respawn_anchor",
     "#minecraft:beacon_base_blocks",
     "#c:glass_panes",
     "#c:glass_blocks",
     "#c:ores",
+    "#c:glazed_terracottas",
     {
       "required": false,
       "id": "supplementaries:jar"
@@ -56,6 +62,26 @@
     {
       "required": false,
       "id": "species:bone_spike"
+    },
+    {
+      "required": false,
+      "id": "nomansland:budding_quartzite"
+    },
+    {
+      "required": false,
+      "id": "nomansland:small_quartzite_bud"
+    },
+    {
+      "required": false,
+      "id": "nomansland:medium_quartzite_bud"
+    },
+    {
+      "required": false,
+      "id": "nomansland:large_quartzite_bud"
+    },
+    {
+      "required": false,
+      "id": "nomansland:quartzite_cluster"
     }
   ]
 }
