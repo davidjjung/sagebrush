@@ -35,7 +35,7 @@
     },
 
     "minecraft:turtle": {
-      "item": "minecraft:scute",
+      "item": "minecraft:turtle_scute",
       "seconds": 2400
     },
     "nomansland:tortoise": {
