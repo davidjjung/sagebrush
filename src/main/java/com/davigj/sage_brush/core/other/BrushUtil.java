@@ -38,7 +38,6 @@ import net.minecraft.world.item.BrushItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.SpawnEggItem;
-import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
@@ -173,6 +172,8 @@ public class BrushUtil {
             handleSheep(sheep, perp);
         } else if (EnvironmentalCompat.isYak(victim)) {
             EnvironmentalCompat.handleYak(victim, perp);
+        } else if (NATURALIST) {
+            NaturalistCompat.handleBear(victim, perp);
         }
         damageItem(stack, perp);
     }

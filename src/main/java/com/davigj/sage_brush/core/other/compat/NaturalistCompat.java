@@ -1,10 +1,18 @@
 package com.davigj.sage_brush.core.other.compat;
 
 import com.davigj.sage_brush.core.SBConfig;
+import com.davigj.sage_brush.core.mixin.IMixinYaktelligence;
 import com.davigj.sage_brush.core.other.SBDataMapUtil;
+import com.starfish_studios.naturalist.client.renderer.BearRenderer;
 import com.starfish_studios.naturalist.server.entity.mob.*;
+import com.teamabnormals.environmental.common.entity.animal.yak.Yak;
 import net.minecraft.core.particles.ParticleOptions;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
 import net.neoforged.fml.ModList;
 
 import static com.davigj.sage_brush.core.SageBrush.LOGGER;
@@ -73,5 +81,15 @@ public class NaturalistCompat {
             return snail.getColor().getFireworkColor();
         }
         return color;
+    }
+
+    public static void handleBear(LivingEntity victim, LivingEntity perp) {
+        if (victim instanceof Bear bear) {
+            bear.level().playSound((Player)null, bear, SoundEvents.ITEM_PICKUP, perp != null ? SoundSource.PLAYERS : SoundSource.BLOCKS, 1.0F, 1.0F);
+            bear.setSheared(true);
+            if (SBConfig.COMMON.aggroReal.get() && perp != null) {
+                bear.setPersistentAngerTarget(perp.getUUID());
+            }
+        }
     }
 }

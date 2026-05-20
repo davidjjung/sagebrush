@@ -55,6 +55,12 @@
       "seconds": 2,
       "shearable": true
     },
+    "naturalist:bear": {
+      "item": "naturalist:fur",
+      "aggroChance": 0.1,
+      "seconds": 3,
+      "shearable": true
+    },
 
     "minecraft:strider": {
       "item": "minecraft:string",
