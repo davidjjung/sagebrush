@@ -1,16 +1,12 @@
 package com.davigj.sage_brush.core.other.compat;
 
 import com.davigj.sage_brush.core.SBConfig;
-import com.davigj.sage_brush.core.mixin.IMixinYaktelligence;
 import com.davigj.sage_brush.core.other.SBDataMapUtil;
-import com.starfish_studios.naturalist.client.renderer.BearRenderer;
 import com.starfish_studios.naturalist.server.entity.mob.*;
-import com.teamabnormals.environmental.common.entity.animal.yak.Yak;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.neoforged.fml.ModList;
