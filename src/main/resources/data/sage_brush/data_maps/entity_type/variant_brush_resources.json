@@ -1,0 +1,37 @@
+{
+  "replace": false,
+  "values": {
+    "naturalist:butterfly": {
+      "variants": [
+        {
+          "variant": "monarch",
+          "item": "minecraft:orange_dye"
+        },
+        {
+          "variant": "clouded_yellow",
+          "item": "minecraft:yellow_dye"
+        },
+        {
+          "variant": "swallowtail",
+          "item": "minecraft:green_dye"
+        },
+        {
+          "variant": "blue_morpho",
+          "item": "minecraft:blue_dye"
+        },
+        {
+          "variant": "jade_green_swallowtail",
+          "item": "minecraft:cyan_dye"
+        },
+        {
+          "variant": "purple_emperor",
+          "item": "minecraft:purple_dye"
+        },
+        {
+          "variant": "red_admiral",
+          "item": "minecraft:red_dye"
+        }
+      ]
+    }
+  }
+}

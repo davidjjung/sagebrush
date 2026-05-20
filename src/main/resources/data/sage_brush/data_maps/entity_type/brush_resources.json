@@ -136,6 +136,11 @@
     "sullysmod:tortoise": {
       "item": "sullysmod:tortoise_scute",
       "seconds": 2400
+    },
+
+    "naturalist:butterfly": {
+      "item": "sage_brush:variant_brush_resources",
+      "seconds": 180
     }
   }
 }

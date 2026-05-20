@@ -8,6 +8,7 @@ import com.davigj.sage_brush.core.mixin.BeeAccessor;
 import com.davigj.sage_brush.core.mixin.IMixinLivingEntity;
 import com.davigj.sage_brush.core.other.compat.EnvironmentalCompat;
 import com.davigj.sage_brush.core.other.compat.MixedLitterCompat;
+import com.davigj.sage_brush.core.other.compat.NaturalistCompat;
 import com.davigj.sage_brush.core.other.tags.SBBlockTags;
 import com.davigj.sage_brush.core.registry.SBParticleTypes;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
@@ -60,6 +61,7 @@ import java.util.function.Supplier;
 import static com.davigj.sage_brush.core.SageBrush.LOGGER;
 import static com.davigj.sage_brush.core.other.SBDataMapUtil.*;
 import static com.davigj.sage_brush.core.other.compat.MixedLitterCompat.MIXED_LITTER;
+import static com.davigj.sage_brush.core.other.compat.NaturalistCompat.NATURALIST;
 import static com.davigj.sage_brush.core.other.tags.SBEntityTypeTags.SLIMY;
 import static net.minecraft.world.entity.projectile.ProjectileUtil.getEntityHitResult;
 import static net.minecraft.world.level.block.Block.dropResources;
@@ -86,7 +88,7 @@ public class BrushUtil {
                     boolean passesShearFilter = !data.shearable() || canShear;
 
                     if (passesShearFilter && !data.item().equals("null")) {
-                        ItemStack resource = new ItemStack(getCompatItem(data.item()).get(), data.itemCount());
+                        ItemStack resource = new ItemStack(getCompatItem(data.item(), victim).get(), data.itemCount());
                         victim.spawnAtLocation(resource);
                         victim.playSound(SoundEvents.ITEM_PICKUP, 0.3F, (float) (0.5F + (victim.getRandom().nextGaussian() * 0.2F)));
                         damageItem(stack, player);
@@ -120,6 +122,10 @@ public class BrushUtil {
 
         if (MIXED_LITTER) {
             particle = MixedLitterCompat.getParticle(holder.getData(ML_VARIANTS), victim, particle);
+        }
+
+        if (NATURALIST) {
+            particle = NaturalistCompat.getParticle(holder.getData(NATURALIST_VARIANTS), victim, particle);
         }
 
         if (victim.isInWaterOrBubble()) {
@@ -386,7 +392,20 @@ public class BrushUtil {
         }
     }
 
-    private static Supplier<Item> getCompatItem(String fullId) {
+    private static Supplier<Item> getCompatItem(String fullId, Entity victim) {
+        if (fullId.equals("sage_brush:variant_brush_resources")) {
+            Holder<EntityType<?>> holder = victim.getType().builtInRegistryHolder();
+            SBDataMapUtil.VariantResourceData variantResourceData = holder.getData(VARIANT_BRUSH_RESOURCES);
+            if (variantResourceData != null) {
+                for (SBDataMapUtil.VariantResourceData.VariantItemData variantItemData : variantResourceData.variants()) {
+                    String variantPath = "null";
+                    if (NATURALIST) variantPath = NaturalistCompat.getVariantPath(victim);
+                    if (variantPath.equals(variantItemData.variant()) && !variantItemData.item().equals("null")) {
+                        fullId = variantItemData.item();
+                    }
+                }
+            }
+        }
         String[] parts = fullId.split(":");
         String modid = parts[0];
         String itemID = parts[1];

@@ -53,7 +53,9 @@ public class SageBrush {
         event.register(BRUSH_RESOURCES);
         event.register(BLOCK_BRUSH_RESULTS);
         event.register(ML_VARIANTS);
+        event.register(NATURALIST_VARIANTS);
         event.register(VANILLA_VARIANTS);
+        event.register(VARIANT_BRUSH_RESOURCES);
     }
 
     public static ResourceLocation location(String path) {

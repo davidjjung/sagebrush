@@ -1,0 +1,37 @@
+{
+  "replace": false,
+  "values": {
+    "naturalist:butterfly": {
+      "variants": [
+        {
+          "texture": "monarch",
+          "particle": "sage_brush:dust:14839334"
+        },
+        {
+          "texture": "clouded_yellow",
+          "particle": "sage_brush:dust:15845674"
+        },
+        {
+          "texture": "swallowtail",
+          "particle": "sage_brush:dust:7591802"
+        },
+        {
+          "texture": "blue_morpho",
+          "particle": "sage_brush:dust:5154515"
+        },
+        {
+          "texture": "jade_green_swallowtail",
+          "particle": "sage_brush:dust:6211745"
+        },
+        {
+          "texture": "purple_emperor",
+          "particle": "sage_brush:dust:9131727"
+        },
+        {
+          "texture": "red_admiral",
+          "particle": "sage_brush:dust:13451566"
+        }
+      ]
+    }
+  }
+}

@@ -46,7 +46,7 @@ sourceSets.main.resources {
 
 dependencies {
     implementation "net.neoforged:neoforge:${project.neoforge}"
-    implementation "maven.modrinth:blueprint:YSWV62mG"
+    implementation "maven.modrinth:blueprint:5JOCYuQM"
 
     compileOnly "maven.modrinth:supplementaries:8fif4M3b"
     compileOnly "maven.modrinth:moonlight:BPcfgWEU"
@@ -55,6 +55,8 @@ dependencies {
     compileOnly "maven.modrinth:no-mans-land:h56TqJQD"
     compileOnly "maven.modrinth:biolith:byVGeYWw"
     compileOnly "maven.modrinth:mixed-litter:72d9GXAu"
+    compileOnly "maven.modrinth:naturalist:t5ONaov5"
+    compileOnly "maven.modrinth:geckolib:gFmrC8Ru"
 
 //    runtimeOnly "maven.modrinth:atmospheric:wFKEIHk8")
     runtimeOnly "maven.modrinth:environmental:NdDV1AM8"
@@ -63,6 +65,8 @@ dependencies {
     runtimeOnly "maven.modrinth:biolith:byVGeYWw"
     runtimeOnly "maven.modrinth:moonlight:86D1JAu2"
     runtimeOnly "maven.modrinth:supplementaries:rEEPz2OX"
+    runtimeOnly "maven.modrinth:naturalist:t5ONaov5"
+    runtimeOnly "maven.modrinth:geckolib:gFmrC8Ru"
 
     compileOnly("mezz.jei:jei-${project.mc_version}-neoforge-api:${project.jei}")
     runtimeOnly("mezz.jei:jei-${project.mc_version}-neoforge:${project.jei}")

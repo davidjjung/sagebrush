@@ -50,6 +50,19 @@ public class SBDataMapUtil {
         }
     }
 
+    public record NaturalistVariantMapData(List<NaturalistVariantData> variants) {
+        public static final Codec<NaturalistVariantMapData> CODEC = RecordCodecBuilder.create(instance -> instance.group(
+                Codec.list(NaturalistVariantData.CODEC).fieldOf("variants").forGetter(NaturalistVariantMapData::variants)
+        ).apply(instance, NaturalistVariantMapData::new));
+
+        public record NaturalistVariantData(String texture, String particle) {
+            public static final Codec<NaturalistVariantData> CODEC = RecordCodecBuilder.create(instance -> instance.group(
+                    Codec.STRING.fieldOf("texture").forGetter(NaturalistVariantData::texture),
+                    Codec.STRING.optionalFieldOf("particle", "null").forGetter(NaturalistVariantData::particle)
+            ).apply(instance, NaturalistVariantData::new));
+        }
+    }
+
     public record VariantHolderMapData(List<VariantData> variants) {
         public static final Codec<VariantHolderMapData> CODEC = RecordCodecBuilder.create(instance -> instance.group(
                 Codec.list(VariantData.CODEC).fieldOf("variants").forGetter(VariantHolderMapData::variants)
@@ -63,16 +76,38 @@ public class SBDataMapUtil {
         }
     }
 
+    public record VariantResourceData(List<VariantItemData> variants) {
+        public static final Codec<VariantResourceData> CODEC = RecordCodecBuilder.create(instance -> instance.group(
+                Codec.list(VariantItemData.CODEC).fieldOf("variants").forGetter(VariantResourceData::variants)
+        ).apply(instance, VariantResourceData::new));
+
+        public record VariantItemData(String variant, String item) {
+            public static final Codec<VariantItemData> CODEC = RecordCodecBuilder.create(instance -> instance.group(
+                    Codec.STRING.fieldOf("variant").forGetter(VariantItemData::variant),
+                    Codec.STRING.optionalFieldOf("item", "null").forGetter(VariantItemData::item)
+            ).apply(instance, VariantItemData::new));
+        }
+    }
+
+
     public static final DataMapType<EntityType<?>, BrushData> BRUSH_RESOURCES = DataMapType.builder(
             ResourceLocation.fromNamespaceAndPath("sage_brush", "brush_resources"), Registries.ENTITY_TYPE, BrushData.CODEC
     ).build();
 
     public static final DataMapType<EntityType<?>, MLVariantMapData> ML_VARIANTS = DataMapType.builder(
-            ResourceLocation.fromNamespaceAndPath("sage_brush", "ml_variants"), Registries.ENTITY_TYPE, MLVariantMapData.CODEC
+            ResourceLocation.fromNamespaceAndPath("sage_brush", "ml_particle_variants"), Registries.ENTITY_TYPE, MLVariantMapData.CODEC
+    ).build();
+
+    public static final DataMapType<EntityType<?>, NaturalistVariantMapData> NATURALIST_VARIANTS = DataMapType.builder(
+            ResourceLocation.fromNamespaceAndPath("sage_brush", "naturalist_particle_variants"), Registries.ENTITY_TYPE, NaturalistVariantMapData.CODEC
     ).build();
 
     public static final DataMapType<EntityType<?>, VariantHolderMapData> VANILLA_VARIANTS = DataMapType.builder(
-            ResourceLocation.fromNamespaceAndPath("sage_brush", "variants"), Registries.ENTITY_TYPE, VariantHolderMapData.CODEC
+            ResourceLocation.fromNamespaceAndPath("sage_brush", "vanilla_particle_variants"), Registries.ENTITY_TYPE, VariantHolderMapData.CODEC
+    ).build();
+
+    public static final DataMapType<EntityType<?>, VariantResourceData> VARIANT_BRUSH_RESOURCES = DataMapType.builder(
+            ResourceLocation.fromNamespaceAndPath("sage_brush", "variant_brush_resources"), Registries.ENTITY_TYPE, VariantResourceData.CODEC
     ).build();
 
     public static final DataMapType<Block, BlockBrushResultData> BLOCK_BRUSH_RESULTS = DataMapType.builder(
