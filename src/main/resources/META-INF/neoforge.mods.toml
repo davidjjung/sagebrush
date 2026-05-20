@@ -59,3 +59,10 @@ type = "optional"
 versionRange = "[5.0.1,)"
 ordering = "AFTER"
 side = "BOTH"
+
+[[dependencies.sage_brush]]
+modId = "naturalist"
+type = "optional"
+versionRange = "[1.0.2,)"
+ordering = "AFTER"
+side = "BOTH"
