@@ -259,6 +259,9 @@ public class BrushUtil {
         if (victim instanceof Sheep sheep) {
             color = sheep.getColor().getFireworkColor();
         }
+        if (NATURALIST) {
+            color = NaturalistCompat.getSnailColor(color, victim);
+        }
 
         vec3 = vec3.normalize();
         for (int k = 0; k < j; ++k) {

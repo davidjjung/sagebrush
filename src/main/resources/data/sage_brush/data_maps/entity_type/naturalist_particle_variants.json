@@ -32,6 +32,60 @@
           "particle": "sage_brush:dust:13451566"
         }
       ]
+    },
+
+    "naturalist:dragonfly": {
+      "variants": [
+        {
+          "texture": "0",
+          "particle": "sage_brush:dust:11596241"
+        },
+        {
+          "texture": "1",
+          "particle": "sage_brush:dust:10995014"
+        },
+        {
+          "texture": "2",
+          "particle": "sage_brush:dust:12863300"
+        }
+      ]
+    },
+    "naturalist:tortoise": {
+      "variants": [
+        {
+          "texture": "0",
+          "particle": "sage_brush:dust:7757372"
+        },
+        {
+          "texture": "1",
+          "particle": "sage_brush:dust:7757372"
+        },
+        {
+          "texture": "2",
+          "particle": "sage_brush:dust:3682609"
+        }
+      ]
+    },
+
+    "naturalist:lizard": {
+      "variants": [
+        {
+          "texture": "0",
+          "particle": "sage_brush:dust:8093476"
+        },
+        {
+          "texture": "1",
+          "particle": "sage_brush:dust:7164723"
+        },
+        {
+          "texture": "2",
+          "particle": "sage_brush:dust:12946530"
+        },
+        {
+          "texture": "3",
+          "particle": "sage_brush:dust:15258727"
+        }
+      ]
     }
   }
 }

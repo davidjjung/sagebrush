@@ -141,6 +141,9 @@
     "naturalist:butterfly": {
       "item": "sage_brush:variant_brush_resources",
       "seconds": 180
+    },
+    "naturalist:vulture": {
+      "particle": "sage_brush:feather:6835779"
     }
   }
 }
