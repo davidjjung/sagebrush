@@ -59,8 +59,7 @@ import java.util.function.Supplier;
 
 import static com.davigj.sage_brush.core.SageBrush.LOGGER;
 import static com.davigj.sage_brush.core.other.SBDataMapUtil.*;
-import static com.davigj.sage_brush.core.other.compat.MixedLitterCompat.MIXED_LITTER;
-import static com.davigj.sage_brush.core.other.compat.NaturalistCompat.NATURALIST;
+import static com.davigj.sage_brush.core.other.compat.ModConstants.*;
 import static com.davigj.sage_brush.core.other.tags.SBEntityTypeTags.SLIMY;
 import static net.minecraft.world.entity.projectile.ProjectileUtil.getEntityHitResult;
 import static net.minecraft.world.level.block.Block.dropResources;
@@ -170,8 +169,8 @@ public class BrushUtil {
         victim.playSound(SoundEvents.BRUSH_SAND_COMPLETED);
         if (victim instanceof Sheep sheep) {
             handleSheep(sheep, perp);
-        } else if (EnvironmentalCompat.isYak(victim)) {
-            EnvironmentalCompat.handleYak(victim, perp);
+        } else if (ENVIRONMENTAL) {
+            if (EnvironmentalCompat.isYak(victim)) EnvironmentalCompat.handleYak(victim, perp);
         } else if (NATURALIST) {
             NaturalistCompat.handleBear(victim, perp);
         }

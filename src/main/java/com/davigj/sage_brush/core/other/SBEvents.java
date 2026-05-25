@@ -64,7 +64,7 @@ public class SBEvents {
             if (target.level().isClientSide && SBConfig.CLIENT.gleam.get()) {
                 Minecraft minecraft = Minecraft.getInstance();
                 Player player = minecraft.player;
-                if (player != null && (player.getMainHandItem().is(Items.BRUSH) || player.getOffhandItem().is(Items.BRUSH))) {
+                if (player != null && (player.isHolding(Items.BRUSH))) {
                     RandomSource random = target.level().getRandom();
                     if (target.tickCount % 25 == 0 && player.level() instanceof ClientLevel && manager.getValue(target, SageBrush.RESOURCE_TIMER) == 0 &&
                             (!data.shearable() || target instanceof IShearable shearable &&

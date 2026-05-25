@@ -65,8 +65,8 @@ dependencies {
     runtimeOnly "maven.modrinth:biolith:byVGeYWw"
     runtimeOnly "maven.modrinth:moonlight:86D1JAu2"
     runtimeOnly "maven.modrinth:supplementaries:rEEPz2OX"
-    runtimeOnly "maven.modrinth:naturalist:t5ONaov5"
-    runtimeOnly "maven.modrinth:geckolib:gFmrC8Ru"
+//    runtimeOnly "maven.modrinth:naturalist:t5ONaov5"
+//    runtimeOnly "maven.modrinth:geckolib:gFmrC8Ru"
 
     compileOnly("mezz.jei:jei-${project.mc_version}-neoforge-api:${project.jei}")
     runtimeOnly("mezz.jei:jei-${project.mc_version}-neoforge:${project.jei}")

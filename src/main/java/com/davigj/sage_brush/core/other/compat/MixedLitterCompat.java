@@ -15,7 +15,6 @@ import static com.davigj.sage_brush.core.SageBrush.LOGGER;
 import static com.davigj.sage_brush.core.other.BrushUtil.getCompatParticle;
 
 public class MixedLitterCompat {
-    public static boolean MIXED_LITTER = ModList.get().isLoaded("mixed_litter");
 
     public static ParticleOptions getParticle(SBDataMapUtil.MLVariantMapData mlData, Entity victim, ParticleOptions particle) {
         if (mlData != null) {

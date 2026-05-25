@@ -15,7 +15,6 @@ import static com.davigj.sage_brush.core.SageBrush.LOGGER;
 import static com.davigj.sage_brush.core.other.BrushUtil.getCompatParticle;
 
 public class NaturalistCompat {
-    public static boolean NATURALIST = ModList.get().isLoaded("naturalist");
 
     public static ParticleOptions getParticle(SBDataMapUtil.NaturalistVariantMapData naturalistData, Entity victim, ParticleOptions particle) {
         if (naturalistData == null) return particle;
