@@ -52,11 +52,10 @@ dependencies {
     compileOnly "maven.modrinth:moonlight:BPcfgWEU"
     compileOnly "maven.modrinth:sullysmod:B9yOFBhf"
     compileOnly "maven.modrinth:environmental:NdDV1AM8"
-    compileOnly "maven.modrinth:no-mans-land:h56TqJQD"
-    compileOnly "maven.modrinth:biolith:byVGeYWw"
-    compileOnly "maven.modrinth:mixed-litter:72d9GXAu"
-    compileOnly "maven.modrinth:naturalist:t5ONaov5"
-    compileOnly "maven.modrinth:geckolib:gFmrC8Ru"
+    compileOnly "maven.modrinth:no-mans-land:mAcytpCJ"
+    compileOnly "maven.modrinth:biolith:1ZfKhpFg"
+    compileOnly "maven.modrinth:mixed-litter:nhSSyhbP"
+    compileOnly "maven.modrinth:naturalist:5VOUtmLM"
 
 //    runtimeOnly "maven.modrinth:atmospheric:wFKEIHk8")
     runtimeOnly "maven.modrinth:environmental:NdDV1AM8"
@@ -65,8 +64,7 @@ dependencies {
     runtimeOnly "maven.modrinth:biolith:byVGeYWw"
     runtimeOnly "maven.modrinth:moonlight:86D1JAu2"
     runtimeOnly "maven.modrinth:supplementaries:rEEPz2OX"
-//    runtimeOnly "maven.modrinth:naturalist:t5ONaov5"
-//    runtimeOnly "maven.modrinth:geckolib:gFmrC8Ru"
+    runtimeOnly "maven.modrinth:naturalist:5VOUtmLM"
 
     compileOnly("mezz.jei:jei-${project.mc_version}-neoforge-api:${project.jei}")
     runtimeOnly("mezz.jei:jei-${project.mc_version}-neoforge:${project.jei}")

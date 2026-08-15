@@ -4,31 +4,31 @@
     "naturalist:butterfly": {
       "variants": [
         {
-          "texture": "monarch",
+          "texture": "naturalist:monarch",
           "particle": "sage_brush:dust:14839334"
         },
         {
-          "texture": "clouded_yellow",
+          "texture": "naturalist:clouded_yellow",
           "particle": "sage_brush:dust:15845674"
         },
         {
-          "texture": "swallowtail",
+          "texture": "naturalist:swallowtail",
           "particle": "sage_brush:dust:7591802"
         },
         {
-          "texture": "blue_morpho",
+          "texture": "naturalist:blue_morpho",
           "particle": "sage_brush:dust:5154515"
         },
         {
-          "texture": "jade_green_swallowtail",
+          "texture": "naturalist:jade_green_swallowtail",
           "particle": "sage_brush:dust:6211745"
         },
         {
-          "texture": "purple_emperor",
+          "texture": "naturalist:purple_emperor",
           "particle": "sage_brush:dust:9131727"
         },
         {
-          "texture": "red_admiral",
+          "texture": "naturalist:red_admiral",
           "particle": "sage_brush:dust:13451566"
         }
       ]
@@ -37,15 +37,15 @@
     "naturalist:dragonfly": {
       "variants": [
         {
-          "texture": "0",
+          "texture": "naturalist:blue",
           "particle": "sage_brush:dust:11596241"
         },
         {
-          "texture": "1",
+          "texture": "naturalist:green",
           "particle": "sage_brush:dust:10995014"
         },
         {
-          "texture": "2",
+          "texture": "naturalist:red",
           "particle": "sage_brush:dust:12863300"
         }
       ]
@@ -53,15 +53,15 @@
     "naturalist:tortoise": {
       "variants": [
         {
-          "texture": "0",
+          "texture": "naturalist:brown",
           "particle": "sage_brush:dust:7757372"
         },
         {
-          "texture": "1",
+          "texture": "naturalist:green",
           "particle": "sage_brush:dust:7757372"
         },
         {
-          "texture": "2",
+          "texture": "naturalist:black",
           "particle": "sage_brush:dust:3682609"
         }
       ]
@@ -70,19 +70,19 @@
     "naturalist:lizard": {
       "variants": [
         {
-          "texture": "0",
+          "texture": "naturalist:green",
           "particle": "sage_brush:dust:8093476"
         },
         {
-          "texture": "1",
+          "texture": "naturalist:brown",
           "particle": "sage_brush:dust:7164723"
         },
         {
-          "texture": "2",
+          "texture": "naturalist:beardie",
           "particle": "sage_brush:dust:12946530"
         },
         {
-          "texture": "3",
+          "texture": "naturalist:leopard_gecko",
           "particle": "sage_brush:dust:15258727"
         }
       ]
