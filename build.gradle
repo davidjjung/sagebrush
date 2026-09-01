@@ -65,6 +65,8 @@ dependencies {
     runtimeOnly "maven.modrinth:moonlight:86D1JAu2"
     runtimeOnly "maven.modrinth:supplementaries:rEEPz2OX"
     runtimeOnly "maven.modrinth:naturalist:5VOUtmLM"
+    runtimeOnly "maven.modrinth:spawn-mod:gMPsUePI"
+    runtimeOnly "maven.modrinth:teallib:lZTBRemW"
 
     compileOnly("mezz.jei:jei-${project.mc_version}-neoforge-api:${project.jei}")
     runtimeOnly("mezz.jei:jei-${project.mc_version}-neoforge:${project.jei}")

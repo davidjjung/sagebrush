@@ -77,7 +77,7 @@ public abstract class BrushItemMixin extends Item {
     private void blocks(BrushItem instance, Level level, BlockHitResult hitResult, BlockState state, Vec3 vec3, HumanoidArm arm,
                         Operation<Void> original, Level p_273467_, LivingEntity p_273619_, ItemStack p_273316_,
                         @Local BlockPos blockPos) {
-        if (SBConfig.CLIENT.specializedParticles.get()) {
+        if (level.isClientSide() && SBConfig.CLIENT.specializedParticles.get()) {
             BrushUtil.onBlockBrushTick(level, hitResult, state, vec3, arm, blockPos, original, instance, p_273619_, p_273316_);
         } else {
             original.call(instance, level, hitResult, state, vec3, arm);
@@ -94,7 +94,7 @@ public abstract class BrushItemMixin extends Item {
 
     @Inject(method = "spawnDustParticles", at = @At("HEAD"), cancellable = true)
     private void sparkle(Level level, BlockHitResult hitResult, BlockState state, Vec3 p_278337_, HumanoidArm p_285071_, CallbackInfo ci) {
-        if (SBConfig.CLIENT.gleamingBlocks.get() && state.is(SBBlockTags.GLEAMING)) {
+        if (level.isClientSide() && SBConfig.CLIENT.gleamingBlocks.get() && state.is(SBBlockTags.GLEAMING)) {
             BrushUtil.gleam(level, hitResult, state, level.getRandom().nextInt(1,3));
             if (SBConfig.CLIENT.purePolish.get()) {
                 ci.cancel();

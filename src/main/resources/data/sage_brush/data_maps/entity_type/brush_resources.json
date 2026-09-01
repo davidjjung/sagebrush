@@ -148,8 +148,32 @@
       "item": "sage_brush:variant_brush_resources",
       "seconds": 180
     },
+
     "naturalist:vulture": {
+      "item": "minecraft:feather",
+      "seconds": 600,
       "particle": "sage_brush:feather:6835779"
+    },
+    "naturalist:turkey": {
+      "item": "minecraft:feather",
+      "seconds": 600,
+      "particle": "sage_brush:feather:1839888"
+    },
+    "naturalist:ostrich": {
+      "item": "minecraft:feather",
+      "seconds": 600,
+      "particle": "sage_brush:feather:1315090"
+    },
+
+    "spawn:dodo": {
+      "item": "minecraft:feather",
+      "seconds": 600,
+      "particle": "sage_brush:feather:2512499"
+    },
+    "spawn:booby": {
+      "item": "minecraft:feather",
+      "seconds": 600,
+      "particle": "sage_brush:feather:7960963"
     }
   }
 }
